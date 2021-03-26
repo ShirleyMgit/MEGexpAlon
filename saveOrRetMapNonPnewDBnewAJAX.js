@@ -1,6 +1,6 @@
 function checkExists(Fname,Sname,mapN){
      //var fname="'"+Fname+"_"+Sname+"_map"+mapN+"'";
-	 var fname;=Fname+"_"+Sname+"_map"+mapN;
+	 var fname;
 	 var map;	 
 	 var xhttp;
 	 switch (mapN){
