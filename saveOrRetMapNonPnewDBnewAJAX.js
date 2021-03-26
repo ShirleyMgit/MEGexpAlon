@@ -1,8 +1,22 @@
 function checkExists(Fname,Sname,mapN){
      //var fname="'"+Fname+"_"+Sname+"_map"+mapN+"'";
-	 var fname=Fname+"_"+Sname+"_map"+mapN;
+	 var fname;=Fname+"_"+Sname+"_map"+mapN;
 	 var map;	 
 	 var xhttp;
+	 switch (mapN){
+		 case 1:
+			fname=Fname+"_"+Sname+"_map1";
+			break;
+		case 2:
+			fname=Fname+"_"+Sname+"_map2";
+			break;			
+		case 3:
+			fname=Fname+"_"+Sname+"_map3";
+			break;	
+		case 4:
+			fname=Fname+"_"+Sname+"_map4";
+			break;				 
+	 }
 	 xhttp = new XMLHttpRequest();
 	 //xhttp.open("GET", "checkExistsNewDBmysqli2.php?q="+fname, true);
      //xhttp.send();
