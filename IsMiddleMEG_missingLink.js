@@ -30,7 +30,11 @@ function isItMiddle(nn){// is it in the middle task
    var myPic=allMap[curMp]; 
    ism = Math.floor(Math.random() * (np));
 
-   [ism1p,ism2p ]=detNextPicExA2(ism,ran1,ArMiss);
+    if(curMp>1){
+		[ism1p,ism2p ]=detNextPicExA2(ism,ran1,ArMiss);
+	}else{
+		[ism1p,ism2p ]=detNextPicExA2(ism,ran1,Ar);
+	}
 
    var ismnew=ism;
    var nbism,j,j2,flagNb=0;
@@ -128,13 +132,13 @@ function isItMiddleYN(yn){// check if correct and give feedback
    }
 }
 
-/*function writeResp(){
+function writeResp(){
 	if(nTrialc<9){
 		startTask(2);
 	}else{
 		startQuestion(0);
 	}
-}*/
+}
 
 
 function saveDataDBnotUisMc(nrep,RTm,corA){// save data into sql 
