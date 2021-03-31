@@ -85,8 +85,8 @@ function whichPile(nn){// piles task
     imCsP23.src = FileName+"pic"+ myPic[inPp23].toString() + ".jpg";//the 3 picture 2 pile
     var all1pile = [inPp11,inPp12,inPp13];
 	var all2pile = [inPp21,inPp22,inPp23];
-    imCsP14.src = "whitePic.jpg";
-    imCsP24.src = "whitePic.jpg";
+    imCsP14.src = "/~smark/whitePic.jpg";
+    imCsP24.src = "/~smark/whitePic.jpg";
    
     var ran1 = Math.random();
 	
