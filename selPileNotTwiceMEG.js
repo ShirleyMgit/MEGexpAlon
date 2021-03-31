@@ -191,10 +191,10 @@ function whichPileAns(ansP){// check particpants answer
    isCsP.style.display= "inline";
    if (wP==1){// put the picture in the correct pile
 			imCsP14.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture 1 pile
-			imCsP24.src = "whitePic.jpg";//the 4 picture 1 pile
+			imCsP24.src = "/~smark/whitePic.jpg";;//the 4 picture 1 pile
    }else{
 	   if(wP==2){
-			imCsP14.src = "whitePic.jpg";//the 4 picture 1 pile
+			imCsP14.src = "/~smark/whitePic.jpg";//the 4 picture 1 pile
 			imCsP24.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture 2 pile
 	   }else{
 			imCsP14.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture both pile
