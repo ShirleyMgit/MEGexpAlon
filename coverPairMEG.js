@@ -1,6 +1,14 @@
 
 function coverPairTask(fc){
    
+   /* Load The Picture Array:*/
+    if (nTrialc>0){
+	  curMpLast = curMpV[nTrialc-2];
+    }else{
+	  curMpLast = -1;
+    }
+    curMp = curMpV[nTrialc-1];
+	
     createCoverStaff();// create transition matrixes and define pictures set directory
    
     y = y0;
@@ -43,14 +51,6 @@ function coverPairTask(fc){
    var ran1,cn,isin;
    corR=0;
    var j1,j2,np0;
-
-  /* Load The Picture Array:*/
-    if (nTrialc>0){
-	  curMpLast = curMpV[nTrialc-2];
-    }else{
-	  curMpLast = -1;
-    }
-    curMp = curMpV[nTrialc-1];
  
 	if(nTrialc>(maxT)){
 		isNmapP.style.color="blue";
