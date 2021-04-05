@@ -17,8 +17,6 @@
    <!-- tasks part functions-->
    <script src="defineGraphs.js"></script><!--define maps dimentions and missing links-->
    <script src="CreateAr.js"></script><!--create transition matrices arrays-->
-   <script src="createHexNonPeriodic.js"></script><!--Hex arraay-->
-   <script src="createClusterAinAll2all.js"></script><!--community structure array-->
    <script src="rectGA.js"></script><!--create rectangular transition matrix-->
    <script src="CreateMissLinkArGen.js"></script><!-- miising links array-->
    <script src="otherFunKeyForMEG.js"></script><!--helper functions-->
@@ -198,7 +196,7 @@ var nb;//number of neighbours
 var np;// the number of pictures
 var maxMap = 3;// number of maps
 var curMpV = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2];//defines the map of each block, 0&1 training, 2 - inference
-var npmax=30;// maximal number of pictures in an array (map)
+var npmax=36;// maximal number of pictures in an array (map)
 var vnmis; // mising links nodes
 var vConmis;// the nodes that are connected to the nodes of the missing links nodes
 
@@ -537,7 +535,7 @@ function presPic(){
 var disPic = 0;
 var myPic=allMap[disPic];
 var j,picSrc,isLine,leftP,leftP0,rightP=0;
-var FileName = "set1reg/";
+var FileName = "/home/smark/web/set1reg/";
 var imH = 120;
 var dpL = 20;
 var dpR = 20;
@@ -655,7 +653,7 @@ function chosePart(){// find the task's part in which particpants played with be
 						if(thisT<maxPile){
 							whichPile(0);
 						}else{
-							isItMiddle(0);
+							isItMiddle(1);
 						}
 					}else{// continue phase learning task
 						ncoin=numCoin("TaskTable",FullName);
