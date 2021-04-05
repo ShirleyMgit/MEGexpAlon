@@ -2,12 +2,12 @@
 <!doctype html>
 <html>
   <head>
-    <title>My experiment</title 
+    <title>My experiment</title
     <style>
-    <link rel="stylesheet" type="text/css" href="firstExp9.css"> 
+    <link rel="stylesheet" type="text/css" href="firstExp9.css">
     </style>
   </head>
-   
+
    <body>
    <!--required libraries-->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -26,50 +26,52 @@
    <script src="selPileNotTwiceMEG.js"></script><!--pile task-->
    <script src="TaskfMRItrainNonPeriodHexNewWBclean.js"></script><!--navigation task-->
    <script src="whereToGoMEG.js"></script><!-- distance estimation task-->
-   <script src="saveOrRetMapNonPnewDBnewAJAX.js"></script><!-- save or retrieve maps-->
-   <script src="ajaxFunction.js"></script >
-   
+   <script src="saveOrRetMapNewDBnewAJAXMEG.js"></script><!-- save or retrieve maps-->
+   <script src="ajaxFunctions.js"></script >
+
   <!--start-->
-  
+
   <!--subject details:-->
    <center><div id="startN" style="background-color: powderblue;">
    <p style="font-size: 20px"><b>Wellcome<br> please enter your details.</p>
   First  Name:<br> <input type="text" id="Fname" value="" ><br><br>
-  Second Name:<br> <input type="text" id="Sname" value="" ><br><br>
-  <button onclick="starDisc()" style="background-color:MediumOrchid "><b>Click when ready to start</button>
+  Last Name:<br> <input type="text" id="Sname" value="" ><br><br>
+  // when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
+  // for tables for this subject, and if they don't exist, create them.
+  <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</button>
   <p id = "ms" style="font-size: 20px">The task will start in a few seconds.</p>
   </div> </center>
-  
+
   <!--task description:-->
-  
+
   <div class="global inst">
   <p id="inst1"></p>
    <button type="button" id="startTb"
-   onclick="chosePart()">Start Task</button>
+   onclick="choosePart()">Start Task</button>
   </div>
- 
-  
+
+
    <!-- cover: phase learning task-->
- 
+
    <div id="cover">
-   
+
    <center><div><p class="centerC" id="instructions"> </p>
    <img id="chPicCold"><img id="chPicC1"></div></center>
-  
+
    <center>
    <div style="padding-bottom: 4%;"class="pic" id="pic1";>
    </div></center>
-   
+
    <center><p id = "newM"></p></center>
 
-   <button type="button" id = "qBot" 
-   onclick="endAllTrials(1)">Next Part</button>   
+   <button type="button" id = "qBot"
+   onclick="endAllTrials(1)">Next Part</button>
    </div>
-  
+
    <!--Pair cover: learning from pairs-->
- 
+
    <div id="Pair_cover">
-   
+
    <center><div><p class="centerP" id="instructionsP"> </p>
    <img id="PicPC1"><img id="PicPC2"></div></center>
 
@@ -77,14 +79,14 @@
    <center>
    <div style="padding-bottom: 8%;"class="pic" id="pic1";>
    </div></center>
-   
+
    <center><p id = "newMP"></p></center>
 
   </div>
-  
-   
+
+
    <!--pile task-->
-   
+
    <div class="pile">
    <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
    <img id="wCp" style="position:relative; bottom:50px;  left:685px;">
@@ -102,11 +104,11 @@
    <img id="imCp23" style="position:relative; bottom:80px; left:40px;"><p></p>
    <img id="imCp24" style="position:relative; bottom:120px; left:60px;"><p></p>
    </div>
-   </div></center> 
+   </div></center>
    <!--<p id="EconSp" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continoue</p>-->
    <button type="button" id="nextSp" onclick="writeRresSp()">Next Step</button>
    </div>
-   
+
    <!--is middle task-->
     <div class="isMiddle">
    <center><p style="font-size: 22px">Can the card in the middle appear between the following first and third cards?</br> A card can appear in the middle only if it is associated to the 2 cards<br> Whether the first and third cards are associated to one another or not is not important. <br> <b>press y/n</p></center>
@@ -115,72 +117,72 @@
    <center><p id="im3cor" style="font-size: 18px; color:red"></p></center>
    <center><p id="im3con">Press <b>Enter</b> to continoue</p></center>
    <center><div id="im3d"><p id="im3p"><br>Intermediate Card?</p><img id="im3"></div></center>
-     
+
    <button type="button" id="nextIsM" ;
    onclick="writeResp()">Next Step</button>
    </div>
-   
+
    <!-- Navigation Task:-->
-   
+
   <div class="task">
-  
+
   <!--  define instructions block -->
    <p class="centerC" id="instructionsT"> </p><p id="instructionsT2"> </p>
-   	    
+
    <center><p id="dispPc">press ENTER to continue</button></br></center>
    <center><p id="skip">press ENTER to skip</p></center>
    <center><div id="tarPid"><p id="targetPic"></p><img id="tarPt"></div></center>
    <center><div id="cPic"><p id="startPic"></p><img id="currPt"></div></center>
    <center><div id="picT">
-     
+
     <img id="chPic1"/></br>
    <img id="chPic2"/>
-   
+
    </div> </center>
-	
-     
-   <center> <div class="endTask"><p id="endExpReachT"></p>  
+
+
+   <center> <div class="endTask"><p id="endExpReachT"></p>
    <button type="button" id = "conBot"
    onclick="contT(1)">
    click here to continoue for next session</button>
-   <button type="button" id = "endBot" 
+   <button type="button" id = "endBot"
    onclick="endAllTrialsT(1)">
    click to Finish</button>
    </div></center>
-   
-   
+
+
    </div>
    <!--the coins-->
    <canvas id="myCanvas" width="450" height="450" >
    </canvas>
    <p id="nCoinP" style="position:fixed; bottom:10px; right:180px;color:blue"></p>
-   
-   <center><p id="endThanksT"></p></center> 
+
+   <center><p id="endThanksT"></p></center>
     <div id="LbotT" ></div> <div id="RbotT"></div>
-	
+
   <!-- Where to Go: distnce estimation task-->
-   
+
   <div class="Question">
-  
+
   <!--  define instructions block -->
    <p class="centerC" id="instructionsQ"> </p>
-   	    
+
    <center><div id="tarPidQ"><p id="targetPicQ"></p><img id="tarPQ"></div></center>
-   
+
    <center><div id="im1Q"><p>CARD 1</p><img id="Q1"></div>
    <div id="im2Q"><p>CARD 2</p><img id="Q2"></div></center>
-   
+
    <center><p id="iqcor" style="font-size: 20px; color:red"></p></center>
    <center><p id="iqcon">Press <b>Enter</b> to continoue</p></center>
-   
+
    </div>
-   
+
    <center><div class="Question_feedback">
    <p id="Qfeedback"></p>
    <button type="button" id="nextBlock"
    onclick="chooseCover(0)">Continue</button>
    </div></center>
-   
+
 <script>
 /* the task is orgenized such that there are 8 learning trials of 2 maps and 7 inference trials of a third map*/
 iniRun();
@@ -228,7 +230,6 @@ var maxCovP = 150;// learning from pairs
 var maxIsM=15;//10;
 var maxPile = 15;
 
-var nallP = 120;
 var pileAr;
 var dS;//the initial distance in the navigation task
 /*File Name*/
@@ -396,7 +397,7 @@ be.disabled=true;
    skTR.disabled=true;
    nxIsM.disabled=true;
    nxSp.disabled=true;
-} 
+}
 /*trial variable*/
 var totalStep = 0;
 var in1R,in1L,inP,tar1,nSt,rowT,colT;
@@ -426,12 +427,11 @@ var vnpic=[];
 var vran34=[];
 var Ntran=34;*/
 
-function starDisc(){// the first function to be called
+function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
 /* subject first name*/
    var fname0 = document.getElementById("Fname").value;
    var lenf = fname0.length;
    var j;
-   var nallP = 120;
    if(fname0.endsWith("\n")||fname0.endsWith(" ")){
       fname = fname0.slice(0,lenf-1);
    }else{
@@ -447,76 +447,81 @@ function starDisc(){// the first function to be called
    }
    FullName = fname+"_"+sname;
    Pname = fname+"_"+sname+"_";
-   
+
   /*create/retrive MAPS and save in sql table*/
-   var TableName = "mapTable"; 
+   var TableName = "mapTable";
    var nm,j1,j2,myPic,j3;
    var nameM,ArName,mapN;
    var mapN0 = "map";
-   var ArName0 = "pic";  
+   var ArName0 = "pic";
    var nmmax,jn;
    nmmax = maxMap;
-   var nn,vn=[];
-   var vn01=[],vn02=[],vn03=[]; 
+   var nn,vn=[]; // vn: vector of numbers
+   var vn01=[],vn02=[],vn03=[];
    var vn1=[],vn2=[];
    for (j3=0;j3<nall;j3++){
-       vn01.push(j3);
+     vn01.push(j3);
 	   vn02.push(j3);
 	   vn03.push(j3);
    }
-   
+
    nn = nall;// nall is the number of pictures in the directory
-   for (j3=0;j3<=npmax;j3++){// I dont know why it is needed it may be there from historcial reasons
+   // Create vn1 and vn2: vectors of random numbers that don't repeat (sampling without replacement)
+
+   // ***Shirley needs to change this to just sample randomely once instead of all this complicated stuff***
+
+   for (j3=0;j3<=npmax;j3++){ // npmax is the length of the largest map of the experiment
        np0 = Math.floor(Math.random() * (nn));
 	   vn1.push(vn01[np0]);
 	   vn01.splice(np0, 1);
 	   np0 = Math.floor(Math.random() * (nn));
 	   vn2.push(vn02[np0]);
 	   vn02.splice(np0, 1);
-	   nn = nn-1;   
+	   nn = nn-1;
    }
-   myPic1 = [];//training size
-   myPic2 = [];//inference size
+   myPic1 = []; // training size
+   myPic2 = []; // inference size
     for (nm=1;nm<=nmmax;nm++){// go over the maps
-		nn = npmax;
-		if (rem(nm,2)==1){
-		   for (j1=0; j1<npmax;j1++){
-               vn.push(vn1[j1]);
-			   }
-		   }
-		   else{
-		   	for (j1=0; j1<npmax;j1++){
-               vn.push(vn2[j1]);
-			   }
-		   }	   
-		allMap[nm-1].push( new Array(npmax));
-		mapN =mapN0+nm;
-		myPic = checkExists(fname,sname,nm);
-		if (myPic[0]==-1){//map does not exists
-			flagNew = 1;
-			nameM = Pname+"map"+nm;
-			myPic=[];
-			for (j1=0; j1<npmax;j1++){  
-				np0 = Math.floor(Math.random() * (nn));
-				myPic.push(vn[np0]);
-				nn = nn-1;
-				jn = j1+1;
-				ArName = ArName0+jn;
-				saveDataDB(nameM,vn[np0],ArName,TableName);
-				vn.splice(np0, 1);
-			}
-		}else{
-			flagNew = 0;
-		}
-		allMap[nm-1]=myPic;
-		if(nm<nmmax){
-		  allMap.push([]);
-		}
-		if (vn.length>0){
-			clear1dArr(vn);
-		}
+  		nn = npmax;
+  		if (rem(nm,2)==1){
+  		   for (j1=0; j1<npmax;j1++){
+                 vn.push(vn1[j1]);
+  			   }
+  		   }
+  		   else{
+  		   	for (j1=0; j1<npmax;j1++){
+                 vn.push(vn2[j1]);
+  			   }
+  		   }
+
+  		allMap[nm-1].push( new Array(npmax));
+  		mapN =mapN0+nm;
+      //  check if the map nm already exists. If it does, return it in an array (the emission matrix).
+      // If it doesn't, return -1
+  		myPic = checkExists(fname,sname,nm);
+  		if (myPic[0]==-1){ //map does not exists
+  			nameM = Pname+"map"+nm; // Pname = Fname + _ + Sname
+  			myPic=[];
+  			for (j1=0; j1<npmax;j1++){
+          // Shirley needs to change this - no need for double randomisation when initialising the map.
+  				np0 = Math.floor(Math.random() * (nn));
+  				myPic.push(vn[np0]);
+  				nn = nn-1;
+  				jn = j1+1;
+  				ArName = ArName0+jn;
+  				saveDataDB(nameM,vn[np0],ArName,TableName);
+  				vn.splice(np0, 1);
+  			}
+  		}
+  		allMap[nm-1]=myPic;
+  		if(nm<nmmax){
+  		  allMap.push([]);
+  		}
+  		if (vn.length>0){
+  			clear1dArr(vn);
+  		}
    }
- 
+
    /* change display */
    startDiv.style.display="none";
    gInst[0].style.display="inline";
@@ -527,7 +532,7 @@ function starDisc(){// the first function to be called
    ins1.innerHTML="<b>Task description<b>:<br> We are playing a card memory game. Each picture is a card. <br> The task is divided into rounds, on each rounds there are 5 parts. <br> Today you will learn two pictures sets. <br> The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br> If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br> In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>Follow the instruction on each part of the game.";//<br>During the first part you will have to determine whether the picture is tilt or not,<br>pay attention to the pictures on the cards and the order in which they are presented, as it will help you in the following  tasks.";
    document.getElementById("targetPic").innerHTML="your target is:<br> ";
 
-   //presPic();// for debugging
+   //presPic();// for debugging, present all images
 }
 
 function presPic(){
@@ -559,12 +564,12 @@ var dpR = 20;
 
 
 
-function chosePart(){// find the task's part in which particpants played with before he took the break
+function choosePart(){// find the task's part in which particpants played with before he took the break
   //find trial number and task part:
   var n;
    var nTrialcV=[];
    var nTrialcVs=[];
-   nTrialcV[0] = TrialNum("coverTable",FullName);
+   nTrialcV[0] = TrialNum("coverTable",FullName); // function TrialNum is in ajaxFunctions.js
    nTrialcV[1] = TrialNum("isMiddleTable",FullName);
    nTrialcV[2] = TrialNum("isPileTable",FullName);
    nTrialcV[3] = TrialNum("TaskTable",FullName);
@@ -583,7 +588,7 @@ function chosePart(){// find the task's part in which particpants played with be
    ncoinT = 0;
    if(nTrialcV[0]==0){// learning phase
 		nTrialc  = 1;
-		coverTask(0);		
+		coverTask(0);
    }else{
         nTrialc = maxTc;
 		curMp = curMpV[nTrialc-1];
@@ -605,10 +610,10 @@ function chosePart(){// find the task's part in which particpants played with be
 						coverPairTask(0);// learning from pairs
 					}else{
 						coverTask(0);// learning from random walk
-					}											
+					}
 				}
 		}else{
-		
+
 			if (nTrialcV[3]==maxTc){
 				createCoverStaff();
 			    if(nTrialc<9){
@@ -636,7 +641,7 @@ function chosePart(){// find the task's part in which particpants played with be
 					ncoin=numCoin("isMiddleTable",FullName);
 					createCoverStaff();
 					if(nrep<maxIsM){
-						isItMiddle(0);		
+						isItMiddle(0);
 					}else{
 					if(nTrialc<9){
 						startTask(2);
@@ -663,11 +668,11 @@ function chosePart(){// find the task's part in which particpants played with be
 						}else{
 						    thisTC = inThisT("coverTable",FullName);
 							coverTask(thisTC);//learning from random walk
-							}				
+							}
 					}
 				}
 			}
-		}	
+		}
 	}
 
 }
@@ -684,17 +689,17 @@ if (nTrialc>8){
 	var cds;
       $.ajax({
       type:'POST',
-      url: 'find_dS.php', 
+      url: 'find_dS.php',
       data: {tableN:'TaskTable',Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
+	  success: function(data,iss) {
          len = data.length;
 		 if (len>0){
-            cds = Number(data[len-1].dS);	
+            cds = Number(data[len-1].dS);
 		 }else{
             cds=0;
-		 }			
+		 }
        }
 	});
 	return cds;
@@ -749,7 +754,7 @@ flag =0;
 				b = b+1;
 			}
 		}
-		
+
    }
    if(a<np-1){
 		Armiss.push([]);
@@ -820,7 +825,7 @@ function creat2MissLinkAr(Ar){
 				}
 			}
 		}
-	  
+
 	   if(a<np-1){
 		  Armiss.push([]);
 		 }
@@ -896,11 +901,11 @@ function creatMissArCluster2(Ar){
 					}
 				}
 		}
-		
+
 		ArmissC.push([]);
-			
+
 	}
-	
+
 	for(a=nMiss;a<nc*ninc;a++){
 		if (a==nMiss){
 			b=0;
@@ -932,7 +937,7 @@ function creatMissArCluster2(Ar){
 			ArmissC.push([]);
 			}
 	}
-	
+
 	return ArmissC;
 }
 </script>

@@ -2,20 +2,20 @@ function inThisTold(tableName,name){
 	var cds,T,cT,countT;
       $.ajax({
       type:'Get',
-      url: 'rowNumNewWB.php', 
+      url: 'rowNumNewWB.php',
       data: {tableN:tableName,Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
+	  success: function(data,iss) {
          len = data.length;
 		 T = Number(data[len-1].Trial);
 		 cT = T;
 		 countT = 0;
 		 while (cT==T&&(len-countT)>1){
 			countT = countT+1;
-            cT = Number(data[len-countT-1].Trial);	
-		 }			
-      }   
+            cT = Number(data[len-countT-1].Trial);
+		 }
+      }
    });
    return countT;
 }
@@ -23,7 +23,7 @@ function inThisTold(tableName,name){
 //xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford", true);
 
 function inThisT(tableName,name){
-	 var cds,T,cT,countT=0;	 
+	 var cds,T,cT,countT=0;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
 	 xhttp.onreadystatechange = function() {
@@ -35,9 +35,9 @@ function inThisT(tableName,name){
 		 countT = 0;
 		 while (cT==T&&(len-countT)>1){
 			countT = countT+1;
-            cT = Number(myData[len-countT-1].Trial);	
-		 }		
-        } 
+            cT = Number(myData[len-countT-1].Trial);
+		 }
+        }
      };
 	 xhttp.open("GET", "rowNumNewWB.php?tableN="+tableName+"&Fname="+name, false);
      xhttp.send();
@@ -48,24 +48,24 @@ function TrialNumOld(TableName,name){
 	var num;
       $.ajax({
       type:'POST',
-      url: 'rowNumNewWB.php', 
+      url: 'rowNumNewWB.php',
       data: {tableN:TableName,Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
+	  success: function(data,iss) {
          len = data.length;
 		 if (len>0){
-            num = Number(data[len-1].Trial);	
+            num = Number(data[len-1].Trial);
 		 }else{
             num=0;
-		 }			
-      }   
+		 }
+      }
    });
    return num;
 }
 
 function TrialNum(tableName,name){
-	 var num;	 
+	 var num;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
 	 xhttp.onreadystatechange = function() {
@@ -73,11 +73,11 @@ function TrialNum(tableName,name){
 	     var myData = JSON.parse(this.responseText);
          var len = myData.length;
 		 if (len>0){
-            num = Number(myData[len-1].Trial);	
+            num = Number(myData[len-1].Trial);
 		 }else{
             num=0;
-		 }		
-        } 
+		 }
+        }
      };
 	 xhttp.open("GET", "rowNumNewWB.php?tableN="+tableName+"&Fname="+name, false);
      xhttp.send();
@@ -88,25 +88,25 @@ function isReachTold(name){
 	var cds,T,cT,rch=-1;
       $.ajax({
       type:'POST',
-      url: 'reachTnewWB.php', 
+      url: 'reachTnewWB.php',
       data: {tableN:'TaskTable',Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
-         rch = data;		
-      }   
+	  success: function(data,iss) {
+         rch = data;
+      }
    });
    return rch;
 }
 
 function isReachT(name){
-	 var rch=-1; 
+	 var rch=-1;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
 	 xhttp.onreadystatechange = function() {
 	 if (this.readyState == 4 && this.status == 200) {
-	     rch = JSON.parse(this.responseText);	 
-        } 
+	     rch = JSON.parse(this.responseText);
+        }
      };
 	 xhttp.open("GET", "reachTnewWB.php?tableN='TaskTable'&Fname="+name, false);
      xhttp.send();
@@ -118,24 +118,24 @@ function numCoinOld(TableName,name){
 	var ncoin;
       $.ajax({
       type:'GET',
-      url: 'numCoinFnewWB.php', 
+      url: 'numCoinFnewWB.php',
       data: {tableN:TableName,Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
+	  success: function(data,iss) {
          len = data.length;
 		 if (len>0){
-            ncoin = Number(data[len-1].ncoin);	
+            ncoin = Number(data[len-1].ncoin);
 		 }else{
             ncoin=0;
-		 }			
-      }   
+		 }
+      }
    });
    return ncoin;
 }
 
 function numCoin(tableName,name){
-	 var num;	 
+	 var num;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
 	 xhttp.onreadystatechange = function() {
@@ -143,11 +143,11 @@ function numCoin(tableName,name){
 	     var myData = JSON.parse(this.responseText);
          var len = myData.length;
 		 if (len>0){
-            ncoin = Number(myData[len-1].ncoin);	
+            ncoin = Number(myData[len-1].ncoin);
 		 }else{
             ncoin=0;
-		 }		
-        } 
+		 }
+        }
      };
 	 xhttp.open("GET", "numCoinFnewWB.php?tableN="+tableName+"&Fname="+name, false);
      xhttp.send();
@@ -156,7 +156,7 @@ function numCoin(tableName,name){
 
 function calCorQ(tableName,name){
 	var sumCor=0;
-	var j;	
+	var j;
 	var xhttp;
 	xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
@@ -165,10 +165,10 @@ function calCorQ(tableName,name){
         var len = myData.length;
 		if (len>0){
 			for(j=0;j<len;j++){
-				sumCor+=Number(myData[j].isCorr);	
+				sumCor+=Number(myData[j].isCorr);
 			}
-		}		
-       } 
+		}
+       }
     };
 	xhttp.open("GET", "findIscor.php?tableN="+tableName+"&Fname="+name+"&Trial="+nTrialc, false);
     xhttp.send();
@@ -179,17 +179,17 @@ function TaskdSold(name){
 	var cds;
       $.ajax({
       type:'POST',
-      url: 'find_dSnewWB.php', 
+      url: 'find_dSnewWB.php',
       data: {tableN:'TaskTable',Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
+	  success: function(data,iss) {
          len = data.length;
 		 if (len>0){
-            cds = Number(data[len-1].dS);	
+            cds = Number(data[len-1].dS);
 		 }else{
             cds=0;
-		 }			
+		 }
        }
 	});
 	return cds;
@@ -204,11 +204,11 @@ function TaskdS(name){
 	     var myData = JSON.parse(this.responseText);
          var len = myData.length;
 		 if (len>0){
-            cds = Number(myData[len-1].dS);	
+            cds = Number(myData[len-1].dS);
 		 }else{
             cds=0;
-		 }		
-        } 
+		 }
+        }
      };
 	 xhttp.open("GET", "find_dSnewWB.php?tableN='TaskTable'&Fname="+name, false);
      xhttp.send();
@@ -217,10 +217,10 @@ function TaskdS(name){
 }
 
 /*save variable into sql table*/
-function saveDataDB(fname,num,ArName,TableName){//for the maps only
+function saveDataDB(fname,num,ArName,TableName){ // for intialising the maps only
       $.ajax({
       type:'POST',
-      url: 'save2tableNumINSERT_UPDATE_UNIQUEnewWB.php', 
+      url: 'save2tableNumINSERT_UPDATE_UNIQUEnewWB.php',
       data: {Fname: fname, Num: num,Nar:ArName,tableN:TableName},
 	  async: false,
 	  dataType:'json'
@@ -237,12 +237,12 @@ function saveDataDBnotUold(fname,Tnum,npic,ch,rt,c,TableName){
 	var ans=-1;
       $.ajax({
       type:'POST',
-      url: 'save2CoverTableNewWB.php', 
+      url: 'save2CoverTableNewWB.php',
       data: {name: fname, Trial: Tnum,map:curMp,picN:npic,choice:ch,RTv:rt,tableN:TableName,picT:c},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
    return ans;
 }
@@ -251,12 +251,12 @@ function saveDataDBnotU(fname,Tnum,npic,ch,rt,c,TableName){
 	var ans=-1;
       $.ajax({
       type:'POST',
-      url: 'save2CoverTableNewWB.php', 
+      url: 'save2CoverTableNewWB.php',
       data: {name: fname, Trial: Tnum,map:curMp,picN:npic,choice:ch,RTv:rt,tableN:TableName,picT:c},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
    return ans;
 }
@@ -270,12 +270,12 @@ function saveStartTime(coins,name){
 	var t = h*60+min;
 	$.ajax({
       type:'POST',
-      url: 'saveTimeC.php', 
+      url: 'saveTimeC.php',
       data: {Fname:name,Trial: nTrialc,tc:t,dc:dd,mc:m,con:coins},
 	  async: false,
 	  dataType:'json',
-	  success: function() { 	
-      }   
+	  success: function() {
+      }
    });
 
 }
@@ -283,70 +283,70 @@ function saveStartTime(coins,name){
 /*function saveDataDBnotUtaskInD(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInD.php',//save2taskTable.php', 
+      url: 'save2taskAsUriInD.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,RT:RTt},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }*/
 function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInDbNewWB.php',//save2taskTable.php', 
+      url: 'save2taskAsUriInDbNewWB.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }
 
 function saveDataDBques(cq,iq1,iq2,corQ,RTq){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2questionNewWB.php',//save2taskTable.php', 
+      url: 'save2questionNewWB.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,target:tarQ,choice:cq,im1:iq1,im2:iq2,isCorrect:corQ,RT:RTq,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }
 
 function saveDataDBnotUisMc(nrep,RTm,corA){
       $.ajax({
       type:'POST',
-      url: 'save2isMiddleNewWB.php',//'save2isMTable.php', 
+      url: 'save2isMiddleNewWB.php',//'save2isMTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }
 
 function saveDataDBnotUpileAll(corP,RTp){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2pileAsUriAllNewWB.php',//'save2pileTable.php', 
+      url: 'save2pileAsUriAllNewWB.php',//'save2pileTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }
 /*function saveDataDBnotUtask(Tchoice,fnGood,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUri.php',//save2taskTable.php', 
+      url: 'save2taskAsUri.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,isCorrect:corTask,nCor:fnGood,curDS:LastnSt,RT:RTt},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }*/
 
