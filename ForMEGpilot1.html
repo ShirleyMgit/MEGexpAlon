@@ -422,8 +422,6 @@ var FullName;
 var Pname;
 /*array pictures objects - maps*/
 var nmap=1;
-//var allMap=[[]];
-//var vnpic=[];
 
 function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
 /* subject first name*/
@@ -461,9 +459,6 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
    }
 
    nn = nall;// nall is the number of pictures in the directory
-   // Create vn1 and vn2: vectors of random numbers that don't repeat (sampling without replacement)
-
-   // ***Shirley needs to change this to just sample randomely once instead of all this complicated stuff***
 
     for (j3=0;j3<=npmax;j3++){ // npmax is the length of the largest map of the experiment
        np0 = Math.floor(Math.random() * (nn));
@@ -538,7 +533,7 @@ function choosePart(){// find the task's part in which particpants played with b
   var n;
    var nTrialcV=[];
    var nTrialcVs=[];
-   nTrialcV[0] = TrialNum("coverTable",FullName); // function TrialNum is in ajaxFunctions.js
+   nTrialcV[0] = TrialNum("coverTable",FullName); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
    nTrialcV[1] = TrialNum("isMiddleTable",FullName);
    nTrialcV[2] = TrialNum("isPileTable",FullName);
    nTrialcV[3] = TrialNum("TaskTable",FullName);

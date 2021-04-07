@@ -152,7 +152,7 @@ function saveDataDBnotUpair(fname,Tnum,npic1,npic2,rt,c,TableName){
    return ans;
 }
 
-function TrialNum(TableName,name){
+/* function TrialNum(TableName,name){
 	var num;
       $.ajax({
       type:'POST',
@@ -170,7 +170,7 @@ function TrialNum(TableName,name){
       }   
    });
    return num;
-}
+} */
 
 function saveStartTime(coins,name){
 	var d1 = new Date();

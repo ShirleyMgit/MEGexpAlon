@@ -29,7 +29,7 @@ function startQuestion(nQ){//distance estimation
    Et[0].style.display="none";
    endErT.style.display="none";
    allQ[0].style.display="inline";
-   c=1;
+   //c=1;
 
   /*print instructions:"*/
   document.getElementById("instructionsQ").innerHTML="<b><br> The Target Card appears below, choose the card which requires less steps to reach the target card.";

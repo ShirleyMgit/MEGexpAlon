@@ -1,4 +1,4 @@
-function inThisTold(tableName,name){
+/* function inThisTold(tableName,name){
 	var cds,T,cT,countT;
       $.ajax({
       type:'Get',
@@ -18,7 +18,7 @@ function inThisTold(tableName,name){
       }
    });
    return countT;
-}
+} */
 
 //xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford", true);
 
@@ -44,7 +44,7 @@ function inThisT(tableName,name){
      return countT;
 }
 
-function TrialNumOld(TableName,name){
+/* function TrialNumOld(TableName,name){
 	var num;
       $.ajax({
       type:'POST',
@@ -63,7 +63,7 @@ function TrialNumOld(TableName,name){
    });
    return num;
 }
-
+ */
 function TrialNum(tableName,name){
 	 var num;
 	 var xhttp;
