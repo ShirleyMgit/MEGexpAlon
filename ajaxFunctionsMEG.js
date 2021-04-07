@@ -1,28 +1,6 @@
-/* function inThisTold(tableName,name){
-	var cds,T,cT,countT;
-      $.ajax({
-      type:'Get',
-      url: 'rowNumNewWB.php',
-      data: {tableN:tableName,Fname:name},
-	  async: false,
-	  dataType:'json',
-	  success: function(data,iss) {
-         len = data.length;
-		 T = Number(data[len-1].Trial);
-		 cT = T;
-		 countT = 0;
-		 while (cT==T&&(len-countT)>1){
-			countT = countT+1;
-            cT = Number(data[len-countT-1].Trial);
-		 }
-      }
-   });
-   return countT;
-} */
 
-//xhttp.open("GET", "demo_get2.asp?fname=Henry&lname=Ford", true);
 
-function inThisT(tableName,name){
+function inThisT(tableName,name){// counts the number of repeatitions in the task part that was played before 
 	 var cds,T,cT,countT=0;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
@@ -44,27 +22,8 @@ function inThisT(tableName,name){
      return countT;
 }
 
-/* function TrialNumOld(TableName,name){
-	var num;
-      $.ajax({
-      type:'POST',
-      url: 'rowNumNewWB.php',
-      data: {tableN:TableName,Fname:name},
-	  async: false,
-	  dataType:'json',
-	  success: function(data,iss) {
-         len = data.length;
-		 if (len>0){
-            num = Number(data[len-1].Trial);
-		 }else{
-            num=0;
-		 }
-      }
-   });
-   return num;
-}
- */
-function TrialNum(tableName,name){
+
+function TrialNum(tableName,name){// check the last trial number (or, in a different name, block number) that was played until know, in the task part that is saves in the table 'TableName'
 	 var num;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
@@ -84,20 +43,6 @@ function TrialNum(tableName,name){
      return num;
 }
 
-function isReachTold(name){
-	var cds,T,cT,rch=-1;
-      $.ajax({
-      type:'POST',
-      url: 'reachTnewWB.php',
-      data: {tableN:'TaskTable',Fname:name},
-	  async: false,
-	  dataType:'json',
-	  success: function(data,iss) {
-         rch = data;
-      }
-   });
-   return rch;
-}
 
 function isReachT(name){
 	 var rch=-1;
@@ -114,27 +59,8 @@ function isReachT(name){
     return rch;
 }
 
-function numCoinOld(TableName,name){
-	var ncoin;
-      $.ajax({
-      type:'GET',
-      url: 'numCoinFnewWB.php',
-      data: {tableN:TableName,Fname:name},
-	  async: false,
-	  dataType:'json',
-	  success: function(data,iss) {
-         len = data.length;
-		 if (len>0){
-            ncoin = Number(data[len-1].ncoin);
-		 }else{
-            ncoin=0;
-		 }
-      }
-   });
-   return ncoin;
-}
 
-function numCoin(tableName,name){
+function numCoin(tableName,name){// check the number of coins that was earned until now
 	 var num;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
@@ -154,7 +80,7 @@ function numCoin(tableName,name){
      return ncoin;
 }
 
-function calCorQ(tableName,name){
+function calCorQ(tableName,name){// sum over the number of correct answers as save in the column 'isCorr'
 	var sumCor=0;
 	var j;
 	var xhttp;
@@ -175,27 +101,8 @@ function calCorQ(tableName,name){
     return sumCor;
 }
 
-function TaskdSold(name){
-	var cds;
-      $.ajax({
-      type:'POST',
-      url: 'find_dSnewWB.php',
-      data: {tableN:'TaskTable',Fname:name},
-	  async: false,
-	  dataType:'json',
-	  success: function(data,iss) {
-         len = data.length;
-		 if (len>0){
-            cds = Number(data[len-1].dS);
-		 }else{
-            cds=0;
-		 }
-       }
-	});
-	return cds;
-}
 
-function TaskdS(name){
+function TaskdS(name){// check what was the initial distance between initial picture and target in the last time participant played the navigation task
 	var cds;
       var xhttp;
 	 xhttp = new XMLHttpRequest();
@@ -233,19 +140,6 @@ function saveDataDBnew(fname,num,ArName,TableName){
      xhttp.send();
 }
 
-function saveDataDBnotUold(fname,Tnum,npic,ch,rt,c,TableName){
-	var ans=-1;
-      $.ajax({
-      type:'POST',
-      url: 'save2CoverTableNewWB.php',
-      data: {name: fname, Trial: Tnum,map:curMp,picN:npic,choice:ch,RTv:rt,tableN:TableName,picT:c},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {
-      }
-   });
-   return ans;
-}
 
 function saveDataDBnotU(fname,Tnum,npic,ch,rt,c,TableName){
 	var ans=-1;

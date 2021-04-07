@@ -563,7 +563,7 @@ function choosePart(){// find the task's part in which particpants played with b
 		}
 		if(nTrialcV[4]==maxTc){
 			numQ = inThisT("qTable",FullName);//read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-			ncoin=numCoin("qTable",FullName);
+			ncoin=numCoin("qTable",FullName);// check the number of coines that was earned until now
 			if (numQ<qend){// continue distance estimation task
 				numCorrect = calCorQ("qTable",FullName);// number of correct answers
 				createCoverStaff();

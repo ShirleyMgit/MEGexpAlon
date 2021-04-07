@@ -75,13 +75,14 @@ function coverTask(fc){// learning phase
 	isNmap.innerHTML="Same pictures set, same game - new trial";
 	isFround=0;
  
-   if(curMp!=curMpLast&&curMpLast!=-1){
-	   isFround=1;
+   //if(curMp!=curMpLast&&curMpLast!=-1){
+	if(curMp!=curMpLast){
+	    isFround=1;
 			
-	  isNmap.style.color="red";
-	  isNmap.innerHTML="new pictures set <br> take few minutes to rest";
+	    isNmap.style.color="red";
+	    isNmap.innerHTML="new pictures set <br> take few minutes to rest";
 	  
-	  switch(nTrialc){// display new/same picture sets message
+	    switch(nTrialc){// display new/same picture sets message
 			case 9:
 		  	  isNmap.style.color="Blue";
 			  isNmap.innerHTML="new pictures set <br> End Day 1";
@@ -101,18 +102,18 @@ function coverTask(fc){// learning phase
 			default:
 				isNmap.style.color="red";
 				isNmap.innerHTML="new pictures set <br> take few minutes to rest";		  
-	  }
-  }else{
-	  isNmap.style.color="green";
-	  isNmap.innerHTML="Same pictures set, same game - new trial";
-  }
-  if(nTrialc==1){
+	    }
+    }else{
+	    isNmap.style.color="green";
+	    isNmap.innerHTML="Same pictures set, same game - new trial";
+    }
+    if(nTrialc==1){
 	  isFround=1;
-  }
+    }
 
-  if(curMp>maxMap||curMp<0){
-	  alert(" there is a problem with the map index- stop experiment!");
-  }
+    if(curMp>maxMap||curMp<0){
+	   alert(" there is a problem with the map index- stop experiment!");
+    }
 
   in1P = Math.floor(Math.random() * (np-1));//first picture index
   imC.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// first picture
