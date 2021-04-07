@@ -27,7 +27,6 @@ function isItMiddle(nn){// is it in the middle task
    PileDiv[0].style.display="none";
    allTask[0].style.display="none";
    isMc[0].style.display="inline";
-   var myPic=allMap[curMp]; 
    ism = Math.floor(Math.random() * (np));
 
     if(curMp>1){

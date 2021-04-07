@@ -45,7 +45,6 @@ function startQuestion(nQ){//distance estimation
   }
   evT = calRem(nTrialc,2);
   /*stimulus blocks*/
-  var myPic=allMap[curMp]; // current picture sets
   var j1,j2,wCl,flagTs,dis2;
   imq2=-1;
   corAs = 0;
@@ -128,7 +127,6 @@ function startQuestion(nQ){//distance estimation
 
 function conExpQ(cq){// check subject response
 	
-  var myPic=allMap[curMp]; 
   var  thisTime=new Date();
   var RTq = calResponseTime(thisTime,timeLast);
 	flagQ = 1;

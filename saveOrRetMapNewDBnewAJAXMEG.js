@@ -1,18 +1,7 @@
-function checkExists(Fname,Sname,mapN){
-	 var fname; // file name
+function checkExists(Fname,Sname){
+	 var fname=Fname+"_"+Sname; // file name
 	 var map;
 	 var xhttp;
-	 switch (mapN){
-		 case 1:
-			fname=Fname+"_"+Sname+"_map1";
-			break;
-		case 2:
-			fname=Fname+"_"+Sname+"_map2";
-			break;
-		case 3:
-			fname=Fname+"_"+Sname+"_map3";
-			break;
-	 }
 	 xhttp = new XMLHttpRequest();
 	 xhttp.onreadystatechange = function() {
 	 if (this.readyState == 4 && this.status == 200) {
@@ -20,7 +9,7 @@ function checkExists(Fname,Sname,mapN){
 		 map = getORuseMap(myData);
         }
      };
-	 xhttp.open("GET", "checkExistsNewDBmysqli2.php?q="+fname, false);
+	 xhttp.open("GET", "checkExistsNewDBmysqliMEG.php?q="+fname, false);
      xhttp.send();
      return map;
 }

@@ -76,8 +76,6 @@ function coverPairTask(fc){
     if(curMp>maxMap||curMp<0){
 	   alert(" there is a problem with the map index- stop experiment!");
     }
- 
-    myPic=allMap[curMp];
   
     ran1 = Math.random();
     timeLast = new Date();
@@ -90,7 +88,6 @@ function conExpPair(cpic){
 	imC2.style.display="none"
 	contCP.style.display="none"
     var tlap=1500;
-    var myPic=allMap[curMp];
     var thisTime = new Date();
     var cor;
     thisTCp =thisTCp+1;

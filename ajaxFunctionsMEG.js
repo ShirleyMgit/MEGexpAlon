@@ -220,7 +220,7 @@ function TaskdS(name){
 function saveDataDB(fname,num,ArName,TableName){ // for intialising the maps only
       $.ajax({
       type:'POST',
-      url: 'save2tableNumINSERT_UPDATE_UNIQUEnewWB.php',
+      url: 'save2tableNumINSERT_UPDATE_UNIQUEnewWB_MEG.php',
       data: {Fname: fname, Num: num,Nar:ArName,tableN:TableName},
 	  async: false,
 	  dataType:'json'

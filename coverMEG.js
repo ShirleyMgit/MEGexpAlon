@@ -6,7 +6,7 @@ function coverTask(fc){// learning phase
     }
    
      /* which map:*/
-    if (nTrialc>0){
+    if (nTrialc>1){
 	   curMpLast = curMpV[nTrialc-2];
     }else{
 	   curMpLast = -1;
@@ -115,7 +115,6 @@ function coverTask(fc){// learning phase
   }
 
   in1P = Math.floor(Math.random() * (np-1));//first picture index
-  myPic=allMap[curMp];// pictures array
   imC.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// first picture
   covRpArr.push(in1P);
   ran1 = Math.random();
@@ -125,7 +124,6 @@ function coverTask(fc){// learning phase
 function conExp(cpic){// check subject response time
 	document.getElementById("endThanksT").innerHTML = "";
    var tlap=1500;
-   var myPic=allMap[curMp];
    var thisTime = new Date();
    var cor;
    c = c+1;

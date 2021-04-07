@@ -240,7 +240,6 @@ function isAneighbor(in1,in2,Ar1){//fixed for corrected Ar
    return isN;
 }
 function NextPic12(immp,inn,npx,p2){
-	  var myPic=allMap[curMp]; 
 	  var ran1 = Math.random();
       imm = detNextPicGenAnoP2(ran1,inn,p2);
 	  immp.src = FileName+"pic"+ myPic[imm].toString() + ".jpg";
@@ -250,7 +249,6 @@ function NextPic12(immp,inn,npx,p2){
 }
 
 function NextPic12Gen(immp,in1,in0){
-	  var myPic=allMap[curMp]; 
 	  var ran1 = Math.random();
       var imm = detNextPicGenAnoP2Gen(ran1,in1,in0);
 	  immp.src = FileName+"pic"+ myPic[imm].toString() + ".jpg";
@@ -258,7 +256,6 @@ function NextPic12Gen(immp,in1,in0){
 }
 
 function NextPic12GenBoth(immp,in1,in0,Ar1){
-	  var myPic=allMap[curMp]; 
 	  var ran1 = Math.random();
 	  var j0,j1;
       var imm = detNextPicGenAnoP2(ran1,in1,in0,Ar1);// get a neighbor of in1 which is not in0//detNextPicGenAnoP2Gen(ran1,in1,in0);

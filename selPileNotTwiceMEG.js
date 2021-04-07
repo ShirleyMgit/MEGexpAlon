@@ -34,8 +34,6 @@ function whichPile(nn){// piles task
 	  
     }
 	thisT = thisT+1;// count trials
-
-   var myPic=allMap[curMp];// current picture array
   
    /* choose sequences (piles) pictures*/
   	inPp11 = Math.floor(Math.random() * (np)); 
@@ -147,7 +145,6 @@ function whichPile(nn){// piles task
 }
 
 function whichPileAns(ansP){// check particpants answer
-	var myPic=allMap[curMp]; 	
 	var corP;
 	var  thisTime=new Date(); 
 	var RTp=calResponseTime(thisTime,thisLast);
