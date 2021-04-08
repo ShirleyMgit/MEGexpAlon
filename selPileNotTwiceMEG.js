@@ -211,32 +211,5 @@ function writeRresSp(){// move to is it in the middle part
   isItMiddle(1);
 }
 
-function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fixed for corrected Ar
-/*This function finds the next forth picture in Hamiltonian path - good for all structures*/
-   var in23 = allPile2[2];
-   var in22 = allPile2[1];
-   var in21 = allPile2[0];
-   var in13 = allPile1[2];
-   var in12 = allPile1[1];
-   var in11 = allPile1[0];
-   var nbI = Ar1[in13].length;
-   var j,nbInew=[];
-   for(j=0;j<nbI;j++){
-	   if(Ar1[in13][j]!=in12&&Ar1[in13][j]!=in11&&Ar1[in13][j]!=in21&&Ar1[in13][j]!=in22&&Ar1[in13][j]!=in23&&DistFull[Ar1[in13][j]][in23]>1){// the last inequality makes sure that the pictures is not connected to the other pile with a missing link
-		   nbInew.push(Ar1[in13][j]);
-	   }
-   }
-   var nbInL = nbInew.length;
-   var nin = Math.floor((nbInL)*ran1);
-   if(nin==nbInL){//for the very rare case that ran1==1, 2D array: the second dimention starts from 1...
-    nin=nbInL-1;
-   }
-   var nxp;
-   if (nbInew.length>0){
-       nxp=nbInew[nin];
-   }else{
-	   nxp=-1;
-   }
-   return nxp;
-}
+
 
