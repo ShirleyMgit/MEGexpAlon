@@ -127,16 +127,16 @@ function startQuestion(nQ){//distance estimation
 
 function conExpQ(cq){// check subject response
 	
-  var  thisTime=new Date();
-  var RTq = calResponseTime(thisTime,timeLast);
+	var  thisTime=new Date();
+	var RTq = calResponseTime(thisTime,timeLast);
 	flagQ = 1;
-  qcor.style.display="none";
-  /*  correct / non-correct*/
-   if(corAs==cq||corAs==0){
+	qcor.style.display="none";
+	/*  correct / non-correct*/
+	if(corAs==cq||corAs==0){
 		numCorrect = numCorrect+1;
 		corQ = 1;		
 	}else{
-	     corQ = 0;
+	    corQ = 0;
 	}
 	ncoinPv.style.display="none";
 	TheCanvas.style.display="none"
@@ -176,14 +176,4 @@ function conQ(){// next question or next block
    }
 }
 
-function saveDataDBques(cq,iq1,iq2,corQ,RTq){// save data into sql table
-      $.ajax({
-      type:'POST',
-      url: 'save2question.php',//save2taskTable.php', 
-      data: {name: FullName, Trial: nTrialc,map:curMp,target:tarQ,choice:cq,im1:iq1,im2:iq2,isCorrect:corQ,RT:RTq,ncoin:ncoin},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {   
-      }   
-   });
-}
+

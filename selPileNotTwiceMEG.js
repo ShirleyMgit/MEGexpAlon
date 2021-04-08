@@ -288,14 +288,3 @@ function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fix
    return nxp;
 }
 
-function saveDataDBnotUpileAll(corP,RTp){//inMv12,cim1,cim2,prC
-      $.ajax({
-      type:'POST',
-      url: 'save2pileAsUriAll.php',//'save2pileTable.php', 
-      data: {name: FullName, Trial: nTrialc,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {   
-      }   
-   });
-}

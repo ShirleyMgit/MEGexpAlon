@@ -145,7 +145,7 @@ function conExpT(cpic){// check subject choices
     /*checking reaching to target or too many trials*/
   if ((inP==tar1)||nthis>=maxTask){
 	flagSs=2;
-	saveDataDBnotUtaskInDb(Tchoice,nGood,nGoodInD,corTask,RTt);
+	saveDataDBnotUtaskInDb(Tchoice,nGood,nGoodInD,corTask,RTt);// save to sql table
     Et[0].style.display="inline";
 	cPC.style.display="none";
 	trp.style.display="none";
@@ -260,37 +260,4 @@ function endAllTrialsT(endB){// end navigation task function
   allTask[0].style.display="none";
   allTask[0].remove; 
  }
-}
-function saveDataDBnotUtaskInD(Tchoice,fnGood,fnGoodInD,corTask,RTt){//save into sql table
-      $.ajax({
-      type:'POST',
-      url: 'save2taskAsUriInD.php',//save2taskTable.php', 
-      data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,RT:RTt},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {   
-      }   
-   });
-}
-function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC
-      $.ajax({
-      type:'POST',
-      url: 'save2taskAsUriInDb.php',//save2taskTable.php', 
-      data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {   
-      }   
-   });
-}
-function saveDataDBnotUtask(Tchoice,fnGood,corTask,RTt){//inMv12,cim1,cim2,prC
-      $.ajax({
-      type:'POST',
-      url: 'save2taskAsUri.php',//save2taskTable.php', 
-      data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,isCorrect:corTask,nCor:fnGood,curDS:LastnSt,RT:RTt},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {   
-      }   
-   });
 }

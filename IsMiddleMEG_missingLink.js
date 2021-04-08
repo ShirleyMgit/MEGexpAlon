@@ -139,15 +139,3 @@ function writeResp(){
 	}
 }
 
-
-function saveDataDBnotUisMc(nrep,RTm,corA){// save data into sql 
-      $.ajax({
-      type:'POST',
-      url: 'save2isMiddleAsUrib.php',//'save2isMTable.php', 
-      data: {name: FullName, Trial: nTrialc,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
-	  async: false,
-	  dataType:'json',
-	  success: function(ans) {   
-      }   
-   });
-}
