@@ -49,6 +49,13 @@ function creatBot(textB,onclikF,myDIV,botID) {
 	document.getElementById(myDIV).appendChild(btn); 
 }
 
+function rem(N,di){
+	var m,r;
+	m = Math.floor(N/di);
+	r = N-m*di;
+	return r;
+}
+
 /*calculate response time*/
 function calResponseTime(thisTimef,lastTime){
    var dmin=thisTimef.getMinutes()-lastTime.getMinutes();

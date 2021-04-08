@@ -133,9 +133,3 @@ function defBorderA(im,tar,n11,n0){
 }
 
 
-function rem(N,di){
-	var m,r;
-	m = Math.floor(N/di);
-	r = N-m*di;
-	return r;
-}

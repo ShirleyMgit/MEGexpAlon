@@ -640,40 +640,13 @@ function choosePart(){// find the task's part in which particpants played with b
 
 }
 function chooseCover(){
-if (nTrialc>8){
-	coverPairTask(0);
-}else{
-	coverTask(0);
+	if (nTrialc>8){
+		coverPairTask(0);
+	}else{
+		coverTask(0);
 }
 }
 
-
-/*function TaskdS(name){// read last initial distance from sql table - navigation task
-	var cds;
-      $.ajax({
-      type:'POST',
-      url: 'find_dS.php',
-      data: {tableN:'TaskTable',Fname:name},
-	  async: false,
-	  dataType:'json',
-	  success: function(data,iss) {
-         len = data.length;
-		 if (len>0){
-            cds = Number(data[len-1].dS);
-		 }else{
-            cds=0;
-		 }
-       }
-	});
-	return cds;
-}*/
-
-function newStart(){
-
-
-}
-var misTaskV =[[9,20,14,8],[31,35,0,30],[27,13,26,21],[23,5,28,29],[15,13,21,14],[24,5,30,29],[1,20,8,7],[7,35,6,0]];
-var repTmax = misTaskV.length-1;
 
 function creatMissArHexPair(Ar){
 vnmis=[1,2,8,9,13,14,19,20,26,27,31,32];//[2,3,8,9,13,14,20,21,26,27,32,33];
