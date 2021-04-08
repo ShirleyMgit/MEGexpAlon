@@ -131,7 +131,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
    }
 }
 
-function writeResp(){
+function writeResp(){// go to next task
 	if(nTrialc<9){
 		startTask(2);
 	}else{

@@ -211,54 +211,6 @@ function writeRresSp(){// move to is it in the middle part
   isItMiddle(1);
 }
 
-function detNextPicGenAnoP2P3(ran1,Ar1,in1,p2,notP){//fixed for corrected Ar
-	/*This function should give the forth picture/node in Hamiltonian path - it is not good for graphs that have traingles*/
-   var nbI = Ar1[in1].length;
-   var j,nbInew=[];
-   for(j=0;j<nbI;j++){
-	   if(Ar1[in1][j]!=p2&&Ar1[in1][j]!=notP){
-		   nbInew.push(Ar1[in1][j]);
-	   }
-   }
-   var nbInL = nbInew.length;
-   var nin = Math.floor((nbInL)*ran1);
-   if(nin==nbInL){//for the very rare case that ran1==1, 2D array: the second dimention starts from 1...
-    nin=nbInL-1;
-   }
-   var nxp;
-   if (nbInew.length>0){
-       nxp=nbInew[nin];
-   }else{
-	   nxp=-1;
-   }
-   return nxp;
-}
-function detNextPicGenAnoP2P3hex(ran1,Ar1,allPile,notP){//fixed for corrected Ar
-/*This function finds the next forth picture in Hamiltonian path - good for all structures*/
-   var in3 = allPile[2];
-   var in2 = allPile[1];
-   var in1 = allPile[0];
-   var nbI = Ar1[in3].length;
-   var j,nbInew=[];
-   for(j=0;j<nbI;j++){
-	   if(Ar1[in3][j]!=in2&&Ar1[in3][j]!=in1&&Ar1[in3][j]!=notP){
-		   nbInew.push(Ar1[in3][j]);
-	   }
-   }
-   var nbInL = nbInew.length;
-   var nin = Math.floor((nbInL)*ran1);
-   if(nin==nbInL){//for the very rare case that ran1==1, 2D array: the second dimention starts from 1...
-    nin=nbInL-1;
-   }
-   var nxp;
-   if (nbInew.length>0){
-       nxp=nbInew[nin];
-   }else{
-	   nxp=-1;
-   }
-   return nxp;
-}
-
 function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fixed for corrected Ar
 /*This function finds the next forth picture in Hamiltonian path - good for all structures*/
    var in23 = allPile2[2];
