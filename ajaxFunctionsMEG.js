@@ -1,6 +1,6 @@
 // functions to read and write from sql tables
 
-function inThisT(tableName,name){// counts the number of repeatitions in the task part that was played before 
+function inThisT(tableName,name){// counts the number of repeatitions in the task part that was played before
 	 var cds,T,cT,countT=0;
 	 var xhttp;
 	 xhttp = new XMLHttpRequest();
@@ -123,7 +123,7 @@ function saveDataDBnotU(fname,Tnum,npic,ch,rt,c,TableName){// save to cover tabl
 	var ans=-1;
       $.ajax({
       type:'POST',
-      url: 'save2CoverTableNewWB.php',
+      url: 'save2learnConsecPairsNewWB.php',
       data: {name: fname, Trial: Tnum,map:curMp,picN:npic,choice:ch,RTv:rt,tableN:TableName,picT:c},
 	  async: false,
 	  dataType:'json',
@@ -205,12 +205,12 @@ function saveDataDBnotUpair(fname,Tnum,npic1,npic2,rt,c,TableName){
 	var ans=-1;
       $.ajax({
       type:'POST',
-      url: 'save2CoverPairTable.php', 
+      url: 'save2learnRandomPairs.php',
       data: {name: fname, Trial: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
    return ans;
 }

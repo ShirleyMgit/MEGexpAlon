@@ -1,6 +1,6 @@
 
-function coverPairTask(fc){
-   
+function learnRandomPairsTask(fc){
+
    y = y0;
    clearCanvas(crE,300,450);
    ncoinT=0;
@@ -12,7 +12,7 @@ function coverPairTask(fc){
    flagSp=2
    flagQ = -1;
    thisTCp = fc;
-   
+
    saveStartTime(ncoin,FullName);
    allQ[0].style.display="none";
    allrand[0].style.display="none";
@@ -35,7 +35,7 @@ function coverPairTask(fc){
   /* response object*/
    var resCover={choice:[],rTime:[]};
    resCArr.push(resCover);
- 
+
   /*create a 1D array of pictures (start with regular grid):*/
    var a=1;
    var ran1,cn,isin;
@@ -49,7 +49,7 @@ function coverPairTask(fc){
 	  curMpLast = -1;
     }
     curMp = curMpV[nTrialc-1];
- 
+
 	if(nTrialc>(maxT)){
 		isNmapP.style.color="blue";
 		isNmapP.innerHTML="new pictures set <br> experiment ended - thanks!";
@@ -58,7 +58,7 @@ function coverPairTask(fc){
 	isNmapP.style.color="green";
 	isNmapP.innerHTML="Same pictures set, same game - new trial";
 	isFround=0;
- 
+
     if(curMp!=curMpLast&&curMpLast!=-1){
 	   isFround=1;
 	   isNmapP.style.color="red";
@@ -80,27 +80,27 @@ function coverPairTask(fc){
     np = n1*n1;
     Ar=createHexPer(n1);//Ar =createA2Acluster(np,nc);//createAcluster(np,nc);
     DistM = calDistAdjMat(Ar);
-  
+
     switch(curMp){
 	  case 0:
-		FileName = "set1reg/"; 
+		FileName = "set1reg/";
 		break;
 	  case 1:
-		FileName = "set2reg/"; 
-		break;	
+		FileName = "set2reg/";
+		break;
 	  case 4:
-		FileName = "set3reg/"; 
+		FileName = "set3reg/";
 		ArMiss = creatMissArHexPair(Ar);
 		DistMiss = calDistAdjMat(ArMiss);
-		break;		
+		break;
     }
 
 
     ArMiss = creatMissArHexPair(Ar);
     A2 = calAn(2);
- 
+
     myPic=allMap[curMp];
-  
+
     ran1 = Math.random();
     timeLast = new Date();
     conExpPair(0);
@@ -119,7 +119,7 @@ function conExpPair(cpic){
 
    /*save responses to an Array*/
     var RT = calResponseTime(thisTime,timeLast);
-  
+
     in1P = Math.floor(Math.random() * (np-1));
     ran1 = Math.random();
     if (nTrialc<9){
@@ -130,31 +130,31 @@ function conExpPair(cpic){
 	/* the 2 pictures*/
     imC1.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";
     imC2.src = FileName+"pic"+ myPic[in2P].toString() + ".jpg";
-   
+
    	if (thisTCp>0){
 		 contCP.style.display="inline";
 		 setTimeout(function(){ contCP.style.display="none";},500);
 		 setTimeout(function(){imC1.style.display="inline"; imC2.style.display="inline";},500);
 		 isNmapP.style.display="none";
 	} else{
-		imC1.style.display="inline"; 
+		imC1.style.display="inline";
 		imC2.style.display="inline";
-	} 
+	}
    covRpArr.push(in1P);
-      
+
    ran1 = Math.random();
    timeLast = new Date();
    if(thisTCp>maxCovP){
 	   thisTCp=-1;
-	   endAllTrialsPair(0);
-   }  
-   
+	   endAllTrials_learnRandomPairs(0);
+   }
+
    saveDataDBnotUpair(FullName,nTrialc,in1P,in2P,RT,thisTCp,"coverPairTable");
 }
 
 
 /* end cover task part*/
-function endAllTrialsPair(endB){
+function endAllTrials_learnRandomPairs(endB){
 
   corR=0;
   thisTCp = 0;
@@ -167,12 +167,12 @@ function saveDataDBnotUpair(fname,Tnum,npic1,npic2,rt,c,TableName){
 	var ans=-1;
       $.ajax({
       type:'POST',
-      url: 'save2CoverPairTable.php', 
+      url: 'save2CoverPairTable.php',
       data: {name: fname, Trial: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
    return ans;
 }
@@ -181,18 +181,18 @@ function TrialNum(TableName,name){
 	var num;
       $.ajax({
       type:'POST',
-      url: 'rowNum.php', 
+      url: 'rowNum.php',
       data: {tableN:TableName,Fname:name},
 	  async: false,
 	  dataType:'json',
-	  success: function(data,iss) { 
+	  success: function(data,iss) {
          len = data.length;
 		 if (len>0){
-            num = Number(data[len-1].Trial);	
+            num = Number(data[len-1].Trial);
 		 }else{
             num=0;
-		 }			
-      }   
+		 }
+      }
    });
    return num;
 }
@@ -206,12 +206,12 @@ function saveStartTime(coins,name){
 	var t = h*60+min;
 	$.ajax({
       type:'POST',
-      url: 'saveTimeC.php', 
+      url: 'saveTimeC.php',
       data: {Fname:name,Trial: nTrialc,tc:t,dc:dd,mc:m,con:coins},
 	  async: false,
 	  dataType:'json',
-	  success: function() { 	
-      }   
+	  success: function() {
+      }
    });
 
 }

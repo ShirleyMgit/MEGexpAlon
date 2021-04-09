@@ -1,10 +1,10 @@
 
-function coverTask(fc){// learning phase
+function learnRandomWalkTask(fc){// learning phase
     if(fc==30){
 	   nTrialc=nTrialc+1;// number of trials in this block
 	   fc=10;
     }
-   
+
      /* which map:*/
     if (nTrialc>1){
 	   curMpLast = curMpV[nTrialc-2];
@@ -12,9 +12,9 @@ function coverTask(fc){// learning phase
 	   curMpLast = -1;
     }
     curMp = curMpV[nTrialc-1];
-  
-    createCoverStaff();// create transition matrixes and define pictures set directory
-   
+
+    defineGraph();// create transition matrixes and define pictures set directory
+
     ncoinSc = ncoin;
     y = y0;
     imCold.src = [];
@@ -27,9 +27,9 @@ function coverTask(fc){// learning phase
     flagSs=2;
     flagSp=2
     flagQ = -1;
-   
+
     saveStartTime(ncoin,FullName);
- 
+
 	/* Print instructions*/
     inst.innerHTML="Try to remember the associations between the pictures that appears one after the other.<br> A picture can be associated to more than one/two pictures. <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
     /* manage dispaly*/
@@ -47,12 +47,12 @@ function coverTask(fc){// learning phase
 	iniRun();//initilzation of random generator
     /*array of all presentation*/
     covRpArr = [];
-    allCOVER.style.display="inline";
-  
+    allLearnRandomWalk.style.display="inline";
+
     /* response object*/
     var resCover={choice:[],rTime:[]};
     resCArr.push(resCover);
- 
+
     /*create a 1D array of pictures (start with regular grid):*/
     var a=1;
     var ran1,cn,isin;
@@ -64,8 +64,8 @@ function coverTask(fc){// learning phase
 	    c = thisTC;
     }
     var j1,j2,np0;
- 
- 
+
+
 	if(nTrialc>(maxT)){
 		isNmap.style.color="blue";
 	    isNmap.innerHTML="new pictures set <br> experiment ended - thanks!";
@@ -74,14 +74,14 @@ function coverTask(fc){// learning phase
 	isNmap.style.color="green";
 	isNmap.innerHTML="Same pictures set, same game - new trial";
 	isFround=0;
- 
+
    //if(curMp!=curMpLast&&curMpLast!=-1){
 	if(curMp!=curMpLast){
 	    isFround=1;
-			
+
 	    isNmap.style.color="red";
 	    isNmap.innerHTML="new pictures set <br> take few minutes to rest";
-	  
+
 	    switch(nTrialc){// display new/same picture sets message
 			case 9:
 		  	  isNmap.style.color="Blue";
@@ -101,7 +101,7 @@ function coverTask(fc){// learning phase
 			  break;
 			default:
 				isNmap.style.color="red";
-				isNmap.innerHTML="new pictures set <br> take few minutes to rest";		  
+				isNmap.innerHTML="new pictures set <br> take few minutes to rest";
 	    }
     }else{
 	    isNmap.style.color="green";
@@ -131,13 +131,13 @@ function conExp(cpic){// check subject response time
    if(cpic==flip){
 	   cor=1;
    }
-	   else{ 
+	   else{
 	   cor=0;
 	   }
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
    var ans = saveDataDBnotU(FullName,nTrialc,in1P,cor,RT,c,"coverTable");// save data into table in sql
-   
+
    if(cpic==flip){
       corR = corR+1;
 	  ncoin = ncoin+1;
@@ -149,11 +149,11 @@ function conExp(cpic){// check subject response time
 			   y = y+dy;
 			   ncoinT = ncoinT-1;
 		   }
-	   
+
 	   ncoin = ncoin-1;
 	   }
    }
-   
+
    ncoinPv.style.display="inline";
    ncoinPv.innerHTML=ncoin+" coins";
    if(y<=0){
@@ -171,23 +171,22 @@ function conExp(cpic){// check subject response time
    in1P=detNextPicGenA(ran1,Ar,in1P);// next picture index
 
    covRpArr.push(in1P);
-      
+
    imC.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// next picture
    ran1 = Math.random();
    timeLast = new Date();
    if(c>maxCov){// stop learning phase after maxCov observations
 	   thisTC=-1;
 	   endAllTrials(0);
-   }  
+   }
 }
 
 
-/* end cover task part*/
-function endAllTrials(endB){
+/* end learnRandomWalk task part*/
+function endAllTrials_learnRandomWalk(endB){
 
   corR=0;
-  allCOVER.style.display="none";
+  allLearnRandomWalk.style.display="none";
    whichPile(1);
 
 }
-

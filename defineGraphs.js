@@ -1,4 +1,4 @@
-function createCoverStaff(){// create transition structures and define pictures set
+function defineGraph(){// create transition structures and define pictures set
 	switch(curMp){//structure
         case(0):
 		   FileName = "/~smark/set1reg/"; // pictures directory
@@ -22,7 +22,7 @@ function createCoverStaff(){// create transition structures and define pictures 
 		   FileName = "/~smark/set3reg/"; // pictures directory
 		   /* missing links staff*/
 		   vnmis = [1,5,7,11,9,10]; // mising links nodes
-		   vConmis = [[5],[1],[11],[7],[10],[9]]; 
+		   vConmis = [[5],[1],[11],[7],[10],[9]];
 		   break;
 	}
 	createAr();// create the transition matrix in 'typeAr' structural form

@@ -21,8 +21,8 @@ function startTask(dS){
    nTrialt = nTrialt+1;
    isMc[0].style.display="none";
    PileDiv[0].style.display="none";
-   skT.style.display="inline";  
-   trp.style.display="inline"; 
+   skT.style.display="inline";
+   trp.style.display="inline";
    cPC.style.display="inline";
    imCu.style.display="inline";
    LBt.style.display="inline";
@@ -47,13 +47,13 @@ function startTask(dS){
   }
 
   /*stimulus blocks*/
-  var myPic=allMap[curMp]; 
+  var myPic=allMap[curMp];
   var j1,j2;
   inP = Math.floor(Math.random() * (np));//current picture index
   tar1 = findTargGen(dS,inP,DistM);//target picture index
   nSt = DistM[tar1][inP];
 
- 
+
   if (curMp!=curMpLast){
 	isFround = 1;
   }else{
@@ -64,27 +64,27 @@ function startTask(dS){
 	 }else{
 	 sPC.innerHTML="Your current card:<br>";
 	 }
-	 
+
   /*taret picture*/
   imelt.src = FileName+"pic"+ myPic[tar1].toString() + ".jpg";
   imelt.style.display="inline";
-  
+
   /*current picture*/
   imCu.src=FileName+"pic"+ myPic[inP].toString() + ".jpg";
-  
+
   /* indexes cards/pictures to choose from*/
   do{
 	ran1 = Math.random();
 	in1L=detNextPicGenA(ran1,Ar,inP);
   }
   while(in1L==tar1)
- 
+
   do{
 	ran1 = Math.random();
 	in1R=detNextPicGenA(ran1,Ar,inP);
   }
   while((in1L==in1R)||(in1R==tar1))
-	  
+
   inLlast = in1L;
   inRlast = in1R;
   /* pictures to choose from*/
@@ -93,7 +93,7 @@ function startTask(dS){
 
   imel.src = FileName+"pic"+ myPic[in1R].toString() + ".jpg";
   imel.style.display="inline";
-   
+
   PICclass.style.display="inline";
 
   timeLast = new Date();
@@ -104,7 +104,7 @@ function conExpT(cpic){// check subject choices
 	nthis= nthis+1;// number of current trial steps
 	var Tchoice,nGood,nGoodInD,corTask;
   Et[0].style.display="none";
-  var myPic=allMap[curMp]; 
+  var myPic=allMap[curMp];
   var  thisTime=new Date();
   flagSs=1;
   inPlast = inP;
@@ -125,7 +125,7 @@ function conExpT(cpic){// check subject choices
   /*checking how many good choices exists*/
  	nStL = DistM[tar1][in1L];// number of steps from 1 choice
 	nStR = DistM[tar1][in1R];// number of steps from the second choice
-  
+
   LastnSt = nSt;
   if((nStR>LastnSt&&nStL>LastnSt)||(nStR<LastnSt&&nStL>=LastnSt)||(nStR>=LastnSt&&nStL<LastnSt)){
 	  nGood=1;
@@ -136,9 +136,9 @@ function conExpT(cpic){// check subject choices
 		  nGood=2;
 	  }
   }
-  
+
 	ran1 = Math.random();
-	nSt = DistM[tar1][inP];	
+	nSt = DistM[tar1][inP];
    /*change things that are displayed on the screen*/
     skT.style.display="none";
     sPcB.style.display="inline";
@@ -167,8 +167,8 @@ function conExpT(cpic){// check subject choices
     //be.disabled=false;
     totalStep = totalStep +c;
     return;
-  } 
-  
+  }
+
    inLlast = in1L;
    inRlast = in1R;
 	[in1L,in1R]=detNextPicExAnoR(inP,ran1,Ar,inRlast,inLlast);//find next indexes for options
@@ -186,7 +186,7 @@ function conExpT(cpic){// check subject choices
 	    }
 	    y = y-dy;
 		}
-		
+
 	}else{
 		if (ncoinT>0){
 			   y = y+dy;
@@ -202,14 +202,14 @@ function conExpT(cpic){// check subject choices
 		TheCanvas.style.display="inline"
 		ncoinPv.innerHTML=ncoin+" coins";
 	   }else{
-		  ncoinPv.style.display="none"; 
-		  TheCanvas.style.display="none"; 
+		  ncoinPv.style.display="none";
+		  TheCanvas.style.display="none";
 	   }
 	if(y<=0){
 	   x = x+dx;
 	   y = y0;
    }
-   if(y>y0&&ncolCrc>1){   
+   if(y>y0&&ncolCrc>1){
 	   x = x-dx;
 	   y = 0;
    }
@@ -217,8 +217,8 @@ function conExpT(cpic){// check subject choices
   c = c+1;
 
   var tlap = Math.floor((Math.random() * 1000) + 750);
-  setTimeout(myTimeout, tlap,3); 
-  
+  setTimeout(myTimeout, tlap,3);
+
    imel.style.display="none";
    imel1.style.display="none";
    imel.src = FileName+"pic"+ myPic[in1R].toString() + ".jpg";
@@ -229,9 +229,9 @@ function conExpT(cpic){// check subject choices
 	 sPC.innerHTML="Your current card:<br>";
 	}
    flagTr=1;
-  
+
   timeLast = new Date();
-  
+
 }
 function dispPic(){
 	imel.style.display="inline";
@@ -245,54 +245,54 @@ function contT(docon){
   sPcB.style.display="none";
   skT.style.display="none";
 
-	   if (ndS<maxdS){	   
+	   if (ndS<maxdS){
        startTask(ndS+1);
-	  }else{	  
+	  }else{
 		  allTask[0].style.display="none";
 		  bc.disabled=false;
-		  startQuestion(0); 
+		  startQuestion(0);
 	  }
  }
 }
 
-function endAllTrialsT(endB){// end navigation task function
+function endAllTrials_navig(endB){// end navigation task function
  if(endB==1){
 	 var j;
   var avlose = totalStep/nTrialt;
   allTask[0].style.display="none";
-  allTask[0].remove; 
+  allTask[0].remove;
  }
 }
 function saveDataDBnotUtaskInD(Tchoice,fnGood,fnGoodInD,corTask,RTt){//save into sql table
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInD.php',//save2taskTable.php', 
+      url: 'save2taskAsUriInD.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,RT:RTt},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }
 function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInDb.php',//save2taskTable.php', 
+      url: 'save2taskAsUriInDb.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }
 function saveDataDBnotUtask(Tchoice,fnGood,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUri.php',//save2taskTable.php', 
+      url: 'save2taskAsUri.php',//save2taskTable.php',
       data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,isCorrect:corTask,nCor:fnGood,curDS:LastnSt,RT:RTt},
 	  async: false,
 	  dataType:'json',
-	  success: function(ans) {   
-      }   
+	  success: function(ans) {
+      }
    });
 }

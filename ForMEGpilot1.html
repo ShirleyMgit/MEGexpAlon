@@ -1,4 +1,4 @@
-
+Consec
 <!doctype html>
 <html>
   <head>
@@ -18,22 +18,22 @@
    <script src="defineGraphs.js"></script><!--define maps dimentions and missing links-->
    <script src="CreateAr.js"></script><!--create transition matrices arrays-->
    <script src="rectGA.js"></script><!--create rectangular transition matrix-->
-   <script src="CreateMissLinkArGen.js"></script><!-- miising links array-->
+   <script src="createMissLinkArGen.js"></script><!-- miising links array-->
    <script src="otherFunKeyForMEG.js"></script><!--helper functions-->
-   <script src="coverMEG.js"></script><!--learning phase - learn from random walk-->
-   <script src="coverPairMEG.js"></script><!--learning from pairs phase-->
-   <script src="IsMiddleMEG_missingLink.js"></script><!--is it in the middle task-->
+   <script src="learnRandomWalkMEG.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called coverMEG-->
+   <script src="learnRandomPairsMEG.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPairMEG-->
+   <script src="isMiddleMEG_missingLink.js"></script><!--is it in the middle task-->
    <script src="selPileNotTwiceMEG.js"></script><!--pile task-->
-   <script src="TaskfMRI_MEG.js"></script><!--navigation task-->
+   <script src="taskNavig.js"></script><!--navigation task-->
    <script src="whereToGoMEG.js"></script><!-- distance estimation task-->
    <script src="saveOrRetMapNewDBnewAJAXMEG.js"></script><!-- save or retrieve maps-->
-   <script src="ajaxFunctionsMEG.js"></script >
+   <script src="ajaxFunctionsMEG.js"></script>
 
   <!--start-->
 
   <!--subject details:-->
    <center><div id="startN" style="background-color: powderblue;">
-   <p style="font-size: 20px"><b>Wellcome<br> please enter your details.</p>
+   <p style="font-size: 20px"><b>Welcome<br> please enter your details.</p>
   First  Name:<br> <input type="text" id="Fname" value="" ><br><br>
   Last Name:<br> <input type="text" id="Sname" value="" ><br><br>
   <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
@@ -51,9 +51,9 @@
   </div>
 
 
-   <!-- cover: phase learning task-->
+   <!-- Passive learning from consecutive pairs of stimuli (random walk) -->
 
-   <div id="cover">
+   <div id="learnRandomWalk">
 
    <center><div><p class="centerC" id="instructions"> </p>
    <img id="chPicCold"><img id="chPicC1"></div></center>
@@ -65,12 +65,12 @@
    <center><p id = "newM"></p></center>
 
    <button type="button" id = "qBot"
-   onclick="endAllTrials(1)">Next Part</button>
+   onclick="endAllTrials_learnRandomWalk(1)">Next Part</button>
    </div>
 
-   <!--Pair cover: learning from pairs-->
+   <!--Passive learning from random (non-consecutive) pairs of stimuli-->
 
-   <div id="Pair_cover">
+   <div id="learnRandomPairs">
 
    <center><div><p class="centerP" id="instructionsP"> </p>
    <img id="PicPC1"><img id="PicPC2"></div></center>
@@ -144,9 +144,9 @@
    <center> <div class="endTask"><p id="endExpReachT"></p>
    <button type="button" id = "conBot"
    onclick="contT(1)">
-   click here to continoue for next session</button>
+   click here to continue to next session</button>
    <button type="button" id = "endBot"
-   onclick="endAllTrialsT(1)">
+   onclick="endAllTrials_navig(1)">
    click to Finish</button>
    </div></center>
 
@@ -162,7 +162,7 @@
 
   <!-- Where to Go: distnce estimation task-->
 
-  <div class="Question">
+  <div class="whichIsCloser">
 
   <!--  define instructions block -->
    <p class="centerC" id="instructionsQ"> </p>
@@ -177,10 +177,10 @@
 
    </div>
 
-   <center><div class="Question_feedback">
+   <center><div class="whichIsCloser_feedback">
    <p id="Qfeedback"></p>
    <button type="button" id="nextBlock"
-   onclick="chooseCover(0)">Continue</button>
+   onclick="chooseLearning_consecOrRandom(0)">Continue</button>
    </div></center>
 
 <script>
@@ -191,7 +191,7 @@ var isNestDis=0;//disable the next button if equal 1
 /*training structural form*/
 var typeAr="recA";//"HexA";//"clA";//
 /*vriables that are specific to the adjacency matrix:*/
-/* graph dimensions are defined in the function createCoverStaff below*/
+/* graph dimensions are defined in the function defineGraph below*/
 var nRow;
 var nCol;
 var nb;//number of neighbours
@@ -288,8 +288,8 @@ var m3con= document.getElementById("im3con");
 var NmB = document.getElementById("Nm");
 var YmB = document.getElementById("Ym");
 var crE = document.getElementById("myCanvas");
-var allCOVER=document.getElementById("cover");
-var allCOVERpair=document.getElementById("Pair_cover");
+var allLearnRandomWalk=document.getElementById("learnRandomWalk");
+var allLearnRandomPair=document.getElementById("learnRandomPairs");
 var instP=document.getElementById("instructionsP");
 var imC1= document.getElementById("PicPC1");
 var imC2= document.getElementById("PicPC2");
@@ -300,7 +300,7 @@ var allTask=document.getElementsByClassName("task");
 var stB = document.getElementById("startTb");
 var gInst=document.getElementsByClassName("global inst");
 var endTresult=document.getElementById("endTid");
-var endC=document.getElementById("endCover");
+var endLearnRandomWalk=document.getElementById("endLearnRandomWalk");
 var inst=document.getElementById("instructions");
 var instB=document.getElementById("instructionsB");
 var wellel=document.getElementById("wellc");
@@ -342,8 +342,8 @@ var q2 = document.getElementById("Q2");
 var instQ=document.getElementById("instructionsQ");
 var imelQ = document.getElementById("tarPQ");
 var tarPelQ=document.getElementById("targetPicQ");
-var allQ=document.getElementsByClassName("Question");
-var QFclass =document.getElementsByClassName("Question_feedback");
+var allQ=document.getElementsByClassName("whichIsCloser");
+var QFclass =document.getElementsByClassName("whichIsCloser_feedback");
 var feedbackQ=document.getElementById("Qfeedback");
 var qcor= document.getElementById("iqcor");
 var qcon= document.getElementById("iqcon");
@@ -408,8 +408,8 @@ trp.style.display="none";
 allQ[0].style.display="none";
 allTask[0].style.display="none";
 gInst[0].style.display="none";
-allCOVER.style.display="none";
-allCOVERpair.style.display="none";
+allLearnRandomWalk.style.display="none";
+allLearnRandomPair.style.display="none";
 isMc[0].style.display="none";
 PileDiv[0].style.display="none";
 QFclass[0].style.display="none";
@@ -418,8 +418,7 @@ feedbackQ.style.display="none";
 var ndis = 1;
 var fname;
 var sname;
-var FullName;
-var Pname;
+var fullName;
 /*array pictures objects - maps*/
 var nmap=1;
 
@@ -441,8 +440,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
    }else{
     sname = sname0;
    }
-   FullName = fname+"_"+sname;
-   Pname = fname+"_"+sname; // participant's name
+   fullName = fname+"_"+sname;
 
   /*create/retrive MAPS and save in sql table*/
    var TableName = "picturesNumberMEG";
@@ -455,20 +453,21 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
    var vn01=[];
    var vn1=[];
    for (j3=1;j3<=nall;j3++){
-     vn01.push(j3);
+     vn01.push(j3); // vn01 is a vector 1:nall
    }
-
    nn = nall;// nall is the number of pictures in the directory
 
-    for (j3=0;j3<=npmax;j3++){ // npmax is the length of the largest map of the experiment
-       np0 = Math.floor(Math.random() * (nn));
-	   vn1.push(vn01[np0]);
-	   vn01.splice(np0, 1);
-	   nn = nn-1;
-    }
- 
+   // sample without replacement indeces for pictures, store in vn1
+   for (j3=0;j3<=npmax;j3++){ // npmax is the length of the largest map of the experiment
+     np0 = Math.floor(Math.random() * (nn));
+     vn1.push(vn01[np0]);
+     vn01.splice(np0, 1);
+     nn = nn-1;
+   }
+
   	nn = npmax;
-    // check if the pictures array already exists. If it does, return it in an array (the emission matrix - we need one for all maps).
+
+    // check if the pictures array already exists. If it does, return it in an array .
     // If it doesn't, return -1
   	myPic = checkExists(fname,sname);
   	if (myPic[0]==-1){ //map does not exists
@@ -478,14 +477,14 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   			nn = nn-1;
   			jn = j1+1;
   			ArName = ArName0+jn;
-  			saveDataDB(Pname,vn1[j1],ArName,TableName);
+  			saveDataDB(fullName,vn1[j1],ArName,TableName);
   			vn.splice(np0, 1);
   		}
   	}
   	if (vn.length>0){
   		clear1dArr(vn);
   	}
-   
+
 
    /* change display */
    startDiv.style.display="none";
@@ -527,17 +526,16 @@ var dpR = 20;
 }
 
 
-
 function choosePart(){// find the task's part in which particpants played with before he took the break
   //find trial number and task part:
   var n;
    var nTrialcV=[];
    var nTrialcVs=[];
-   nTrialcV[0] = TrialNum("coverTable",FullName); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
-   nTrialcV[1] = TrialNum("isMiddleTable",FullName);
-   nTrialcV[2] = TrialNum("isPileTable",FullName);
-   nTrialcV[3] = TrialNum("TaskTable",FullName);
-   nTrialcV[4] = TrialNum("qTable",FullName);
+   nTrialcV[0] = TrialNum("learnRandomWalkTable",fullName); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
+   nTrialcV[1] = TrialNum("isMiddleTable",fullName);
+   nTrialcV[2] = TrialNum("isPileTable",fullName);
+   nTrialcV[3] = TrialNum("TaskTable",fullName);
+   nTrialcV[4] = TrialNum("qTable",fullName);
    for(n=0;n<nTrialcV.length;n++){
 		nTrialcVs[n]=nTrialcV[n];
 		if(n<nTrialcV.length-1){
@@ -550,9 +548,9 @@ function choosePart(){// find the task's part in which particpants played with b
    allTask[0].style.display="none";
    gInst[0].style.display="none";
    ncoinT = 0;
-   if(nTrialcV[0]==0){// learning phase
+   if(nTrialcV[0]==0){ // learning phase
 		nTrialc  = 1;
-		coverTask(0);
+		learnRandomWalkTask(0);
    }else{
         nTrialc = maxTc;
 		curMp = curMpV[nTrialc-1];
@@ -562,75 +560,75 @@ function choosePart(){// find the task's part in which particpants played with b
 				curMpLast = -1;
 		}
 		if(nTrialcV[4]==maxTc){
-			numQ = inThisT("qTable",FullName);//read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-			ncoin=numCoin("qTable",FullName);// check the number of coines that was earned until now
+			numQ = inThisT("qTable",fullName); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+			ncoin=numCoin("qTable",fullName); // check the number of coines that was earned until now
 			if (numQ<qend){// continue distance estimation task
-				numCorrect = calCorQ("qTable",FullName);// number of correct answers
-				createCoverStaff();
-				startQuestion(numQ);
+				numCorrect = calCorQ("qTable",fullName);// number of correct answers
+				defineGraph();
+				startWhichIsCloser(numQ);
 				}else{// start learning phase of the next block
 					nTrialc = nTrialc+1;
 					if(nTrialc>8){// 8 learning trials on day 1, then start inference part
-						coverPairTask(0);// learning from pairs
+						learnRandomPairsTask(0);// learning from pairs
 					}else{
-						coverTask(0);// learning from random walk
+						learnRandomWalkTask(0);// learning from random walk
 					}
 				}
 		}else{
 
 			if (nTrialcV[3]==maxTc){
-				createCoverStaff();
+				defineGraph();
 			    if(nTrialc<9){
-					cds = TaskdS(FullName);
+					cds = TaskdS(fullName);
 					if (cds == maxdS){// start distance estimation questions
 					//curMp = curMpV[nTrialc-1];
-					//createCoverStaff();
+					//defineGraph();
 					numQ=0;
-					startQuestion(numQ);
+					startWhichIsCloser(numQ);
 					}else{// continue with navigation task
 						//curMp = curMpV[nTrialc-1];
-						ncoin=numCoin("TaskTable",FullName);
-						//createCoverStaff();
-						var ntn = inThisT("TaskTable",FullName);
+						ncoin=numCoin("TaskTable",fullName);
+						//defineGraph();
+						var ntn = inThisT("TaskTable",fullName);
 						repTmis = Math.floor(ntn/numdS);
-						startTask(cds+1);
+						startNavigTask(cds+1);
 					}
 				}else{
-					startQuestion(0);
+					startWhichIsCloser(0);
 				}
 			}else{
 				if(nTrialcV[1]==maxTc){// go to is it in the middle part
-					nrep=inThisT("isMiddleTable",FullName);
-					ncoin=numCoin("isMiddleTable",FullName);
-					createCoverStaff();
+					nrep=inThisT("isMiddleTable",fullName);
+					ncoin=numCoin("isMiddleTable",fullName);
+					defineGraph();
 					if(nrep<maxIsM){
 						isItMiddle(0);
 					}else{
 					if(nTrialc<9){
-						startTask(2);
+						startNavigTask(2);
 					}else{
-						startQuestion(0);
+						startWhichIsCloser(0);
 					}
 					}
 
 				}else{
 					if(nTrialcV[2]==maxTc){// go to which pile part
-						thisT = inThisT("isPileTable",FullName);// read the number of trials that the subject have allready played in this block from the sql table
-						ncoin=numCoin("isPileTable",FullName);
-						createCoverStaff();
+						thisT = inThisT("isPileTable",fullName);// read the number of trials that the subject have allready played in this block from the sql table
+						ncoin=numCoin("isPileTable",fullName);
+						defineGraph();
 						if(thisT<maxPile){
 							whichPile(0);
 						}else{
 							isItMiddle(1);
 						}
 					}else{// continue phase learning task
-						ncoin=numCoin("TaskTable",FullName);
+						ncoin=numCoin("TaskTable",fullName);
 						if (maxTc>8){
-							thisTC = inThisT("coverPairTable",FullName);
-							coverPairTask(thisTC);// learning from pairs
+							thisTC = inThisT("learnRandomPairsTable",fullName);
+							learnRandomPairsTask(thisTC);// learning from pairs
 						}else{
-						    thisTC = inThisT("coverTable",FullName);
-							coverTask(thisTC);//learning from random walk
+						    thisTC = inThisT("learnRandomWalkTable",fullName);
+							learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
 							}
 					}
 				}
@@ -639,11 +637,11 @@ function choosePart(){// find the task's part in which particpants played with b
 	}
 
 }
-function chooseCover(){
+function chooseLearning_consecOrRandom(){ // formerly called chooseCoverStaff
 	if (nTrialc>8){
-		coverPairTask(0);
+		learnRandomPairsTask(0);
 	}else{
-		coverTask(0);
+		learnRandomWalkTask(0);
 }
 }
 
