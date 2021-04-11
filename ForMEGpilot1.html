@@ -532,7 +532,7 @@ function choosePart(){// find the task's part in which particpants played with b
    var nTrialcVs=[];
    nTrialcV[0] = TrialNum("learnRandomWalkTable",fullName); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
    nTrialcV[1] = TrialNum("isMiddleTable",fullName);
-   nTrialcV[2] = TrialNum("isPileTable",fullName);
+   nTrialcV[2] = TrialNum("isInPileTable",fullName);
    nTrialcV[3] = TrialNum("navigTable",fullName);
    nTrialcV[4] = TrialNum("whichIsCloserTable",fullName);
    for(n=0;n<nTrialcV.length;n++){
@@ -612,8 +612,8 @@ function choosePart(){// find the task's part in which particpants played with b
 
 				}else{
 					if(nTrialcV[2]==maxTc){// go to which pile part
-						thisT = inThisT("isPileTable",fullName);// read the number of trials that the subject have allready played in this block from the sql table
-						ncoin=numCoin("isPileTable",fullName);
+						thisT = inThisT("isInPileTable",fullName);// read the number of trials that the subject have allready played in this block from the sql table
+						ncoin=numCoin("isInPileTable",fullName);
 						defineGraph();
 						if(thisT<maxPile){
 							whichPile(0);
@@ -700,7 +700,7 @@ return Armiss;
 
 function creat2MissLinkAr(Ar){
 	var missNN = [14,30];
-	 misPileA = [[5,0,31,30],[20,21,15,14],[30,29,35,5],[14,8,13,20],[0,30,24,19],[21,14,9,3]];
+	 misInPileA = [[5,0,31,30],[20,21,15,14],[30,29,35,5],[14,8,13,20],[0,30,24,19],[21,14,9,3]];
 	 var j,nnb,b;
 	 var MISSnnV = [20,13,5,35];
 	 var lenMsV = MISSnnV.length;

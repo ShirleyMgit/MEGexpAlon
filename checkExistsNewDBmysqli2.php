@@ -19,7 +19,7 @@ $name1 = $_GET['q'];
 //$sql = "SELECT * FROM mapTable WHERE Name = 'Shir_pair_map1'";//worked
 $sql = "SELECT * FROM mapTable WHERE Name = '$name1'";
 //$sql = "SELECT pic1 FROM mapTable";
-//$sql = "SELECT Trial FROM isPileTable";
+//$sql = "SELECT Trial FROM isInPileTable";
 //echo $sql;
 $result = mysqli_query($conn,$sql);
 //$result = $conn->query($sql);
