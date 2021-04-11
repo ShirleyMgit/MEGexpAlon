@@ -155,7 +155,7 @@ function saveStartTime(coins,name){// save the times of when participants did th
 function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC: save things into task table
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInDbNewWB.php',//save2navigTable.php',
+      url: 'save2navigTableAsUriInDbNewWB.php',//save2navigTable.php',
       data: {name: fullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
