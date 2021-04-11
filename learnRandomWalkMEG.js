@@ -28,7 +28,7 @@ function learnRandomWalkTask(fc){// learning phase
     flagSp=2
     flagQ = -1;
 
-    saveStartTime(ncoin,FullName);
+    saveStartTime(ncoin,fullName);
 
 	/* Print instructions*/
     inst.innerHTML="Try to remember the associations between the pictures that appears one after the other.<br> A picture can be associated to more than one/two pictures. <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
@@ -136,7 +136,7 @@ function conExp(cpic){// check subject response time
 	   }
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
-   var ans = saveDataDBnotU(FullName,nTrialc,in1P,cor,RT,c,"coverTable");// save data into table in sql
+   var ans = saveDataDBnotU(fullName,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable");// save data into table in sql
 
    if(cpic==flip){
       corR = corR+1;

@@ -1,7 +1,7 @@
 /*navigation task functions*/
 
 
-function startNavigTask(dS){
+function startNavigTask(dS){ // formerly called startTask
    setTimeout(function(){flagT=1}, 500);
    inLlast = -1;
    inRlast = -1;
@@ -244,11 +244,11 @@ function contT(docon){
   skT.style.display="none";
 
 	   if (ndS<maxdS){
-       startTask(ndS+1);
+       startNavigTask(ndS+1);
 	  }else{
-		  allTask[0].style.display="none";
-		  bc.disabled=false;
-		  startQuestion(0);
+		   allTask[0].style.display="none";
+		   bc.disabled=false;
+       startWhichIsCloser(0);
 	  }
  }
 }

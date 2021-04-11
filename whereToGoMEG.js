@@ -1,6 +1,6 @@
 /*task functions*/
 // the missing links questions are for recangular only - need to be checked for other structures!!!
-function startWhichIsCloser(nQ){//distance estimation
+function startWhichIsCloser(nQ){//distance estimation, formerly called startQustions
    setTimeout(function(){flagT=1}, 500);
    qcor.style.display="none";
    qcon.style.display="none";

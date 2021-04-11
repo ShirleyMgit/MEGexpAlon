@@ -21,7 +21,7 @@ $TableN = $_GET['tableN'];
 
 // Perform Query
 $sql = "SELECT Trial FROM $TableN WHERE Name='$name1'";
-//$sql = "SELECT Trial FROM coverTable WHERE Name='$name1'";
+//$sql = "SELECT Trial FROM learnRandomWalkTable WHERE Name='$name1'";
 //echo($sql);
 $result = mysqli_query($conn,$sql);
 

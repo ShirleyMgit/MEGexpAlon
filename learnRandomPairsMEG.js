@@ -9,7 +9,7 @@ function learnRandomPairsTask(fc){
     }
     curMp = curMpV[nTrialc-1];
 
-    chooseLearning_consecOrRandom();// create transition matrixes and define pictures set directory
+    chooseLearning_walkOrPairs();// create transition matrixes and define pictures set directory
 
     y = y0;
     clearCanvas(crE,300,450);
@@ -24,7 +24,7 @@ function learnRandomPairsTask(fc){
     flagQ = -1;
     thisTCp = fc;
 
-    saveStartTime(ncoin,FullName);
+    saveStartTime(ncoin,fullName);
     allQ[0].style.display="none";
     QFclass[0].style.display="none";
     feedbackQ.style.display="none";
@@ -124,7 +124,7 @@ function conExpPair(cpic){
 	   endAllTrials_learnRandomPairs(0);
    }
 
-   saveDataDBnotUpair(FullName,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+   saveDataDBnotUpair(fullName,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 

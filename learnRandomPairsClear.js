@@ -13,7 +13,7 @@ function learnRandomPairsTask(fc){
    flagQ = -1;
    thisTCp = fc;
 
-   saveStartTime(ncoin,FullName);
+   saveStartTime(ncoin,fullName);
    allQ[0].style.display="none";
    allrand[0].style.display="none";
 	/* Print instructions*/
@@ -30,7 +30,7 @@ function learnRandomPairsTask(fc){
     /*array of all presentation*/
     covRpArr = [];
     allTask[0].style.display="none";
-    allCOVERpair.style.display="inline";
+    allLearnRandomPairs.style.display="inline";
 
   /* response object*/
    var resCover={choice:[],rTime:[]};
@@ -149,7 +149,7 @@ function conExpPair(cpic){
 	   endAllTrials_learnRandomPairs(0);
    }
 
-   saveDataDBnotUpair(FullName,nTrialc,in1P,in2P,RT,thisTCp,"coverPairTable");
+   saveDataDBnotUpair(fullName,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 
@@ -158,7 +158,7 @@ function endAllTrials_learnRandomPairs(endB){
 
   corR=0;
   thisTCp = 0;
-  allCOVERpair.style.display="none";
+  allLearnRandomPairs.style.display="none";
    whichPile(1);
 
 }
@@ -167,7 +167,7 @@ function saveDataDBnotUpair(fname,Tnum,npic1,npic2,rt,c,TableName){
 	var ans=-1;
       $.ajax({
       type:'POST',
-      url: 'save2CoverPairTable.php',
+      url: 'save2learnRandomPairsTable.php',
       data: {name: fname, Trial: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
 	  async: false,
 	  dataType:'json',

@@ -1,4 +1,3 @@
-Consec
 <!doctype html>
 <html>
   <head>
@@ -18,7 +17,7 @@ Consec
    <script src="defineGraphs.js"></script><!--define maps dimentions and missing links-->
    <script src="CreateAr.js"></script><!--create transition matrices arrays-->
    <script src="rectGA.js"></script><!--create rectangular transition matrix-->
-   <script src="createMissLinkArGen.js"></script><!-- miising links array-->
+   <script src="createMissLinkArGen.js"></script><!-- missing links array-->
    <script src="otherFunKeyForMEG.js"></script><!--helper functions-->
    <script src="learnRandomWalkMEG.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called coverMEG-->
    <script src="learnRandomPairsMEG.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPairMEG-->
@@ -124,7 +123,7 @@ Consec
 
    <!-- Navigation Task:-->
 
-  <div class="task">
+  <div class="navig">
 
   <!--  define instructions block -->
    <p class="centerC" id="instructionsT"> </p><p id="instructionsT2"> </p>
@@ -180,7 +179,7 @@ Consec
    <center><div class="whichIsCloser_feedback">
    <p id="Qfeedback"></p>
    <button type="button" id="nextBlock"
-   onclick="chooseLearning_consecOrRandom(0)">Continue</button>
+   onclick="chooseLearning_walkOrPairs(0)">Continue</button>
    </div></center>
 
 <script>
@@ -289,14 +288,14 @@ var NmB = document.getElementById("Nm");
 var YmB = document.getElementById("Ym");
 var crE = document.getElementById("myCanvas");
 var allLearnRandomWalk=document.getElementById("learnRandomWalk");
-var allLearnRandomPair=document.getElementById("learnRandomPairs");
+var allLearnRandomPairs=document.getElementById("learnRandomPairs");
 var instP=document.getElementById("instructionsP");
 var imC1= document.getElementById("PicPC1");
 var imC2= document.getElementById("PicPC2");
 var contCP= document.getElementById("conCP");
 var startDiv=document.getElementById("startN");
 var picC=document.getElementById("pic1");
-var allTask=document.getElementsByClassName("task");
+var allTask=document.getElementsByClassName("navig");
 var stB = document.getElementById("startTb");
 var gInst=document.getElementsByClassName("global inst");
 var endTresult=document.getElementById("endTid");
@@ -534,8 +533,8 @@ function choosePart(){// find the task's part in which particpants played with b
    nTrialcV[0] = TrialNum("learnRandomWalkTable",fullName); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
    nTrialcV[1] = TrialNum("isMiddleTable",fullName);
    nTrialcV[2] = TrialNum("isPileTable",fullName);
-   nTrialcV[3] = TrialNum("TaskTable",fullName);
-   nTrialcV[4] = TrialNum("qTable",fullName);
+   nTrialcV[3] = TrialNum("navigTable",fullName);
+   nTrialcV[4] = TrialNum("whichIsCloserTable",fullName);
    for(n=0;n<nTrialcV.length;n++){
 		nTrialcVs[n]=nTrialcV[n];
 		if(n<nTrialcV.length-1){
@@ -560,10 +559,10 @@ function choosePart(){// find the task's part in which particpants played with b
 				curMpLast = -1;
 		}
 		if(nTrialcV[4]==maxTc){
-			numQ = inThisT("qTable",fullName); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-			ncoin=numCoin("qTable",fullName); // check the number of coines that was earned until now
+			numQ = inThisT("whichIsCloserTable",fullName); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+			ncoin=numCoin("whichIsCloserTable",fullName); // check the number of coines that was earned until now
 			if (numQ<qend){// continue distance estimation task
-				numCorrect = calCorQ("qTable",fullName);// number of correct answers
+				numCorrect = calCorQ("whichIsCloserTable",fullName);// number of correct answers
 				defineGraph();
 				startWhichIsCloser(numQ);
 				}else{// start learning phase of the next block
@@ -587,9 +586,9 @@ function choosePart(){// find the task's part in which particpants played with b
 					startWhichIsCloser(numQ);
 					}else{// continue with navigation task
 						//curMp = curMpV[nTrialc-1];
-						ncoin=numCoin("TaskTable",fullName);
+						ncoin=numCoin("navigTable",fullName);
 						//defineGraph();
-						var ntn = inThisT("TaskTable",fullName);
+						var ntn = inThisT("navigTable",fullName);
 						repTmis = Math.floor(ntn/numdS);
 						startNavigTask(cds+1);
 					}
@@ -622,7 +621,7 @@ function choosePart(){// find the task's part in which particpants played with b
 							isItMiddle(1);
 						}
 					}else{// continue phase learning task
-						ncoin=numCoin("TaskTable",fullName);
+						ncoin=numCoin("navigTable",fullName);
 						if (maxTc>8){
 							thisTC = inThisT("learnRandomPairsTable",fullName);
 							learnRandomPairsTask(thisTC);// learning from pairs
@@ -637,7 +636,7 @@ function choosePart(){// find the task's part in which particpants played with b
 	}
 
 }
-function chooseLearning_consecOrRandom(){ // formerly called chooseCoverStaff
+function chooseLearning_walkOrPairs(){ // formerly called chooseCoverStaff
 	if (nTrialc>8){
 		learnRandomPairsTask(0);
 	}else{

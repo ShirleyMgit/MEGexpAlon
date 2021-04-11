@@ -1,7 +1,7 @@
 /*navigation task functions*/
 
 
-function startTask(dS){
+function startNavigTask(dS){ // formerly called startTask
    setTimeout(function(){flagT=1}, 500);
    inLlast = -1;
    inRlast = -1;
@@ -246,7 +246,7 @@ function contT(docon){
   skT.style.display="none";
 
 	   if (ndS<maxdS){
-       startTask(ndS+1);
+       startNavigTask(ndS+1);
 	  }else{
 		  allTask[0].style.display="none";
 		  bc.disabled=false;
@@ -266,8 +266,8 @@ function endAllTrials_navig(endB){// end navigation task function
 function saveDataDBnotUtaskInD(Tchoice,fnGood,fnGoodInD,corTask,RTt){//save into sql table
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInD.php',//save2taskTable.php',
-      data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,RT:RTt},
+      url: 'save2taskAsUriInD.php',//save2navigTable.php',
+      data: {name: fullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,RT:RTt},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -277,8 +277,8 @@ function saveDataDBnotUtaskInD(Tchoice,fnGood,fnGoodInD,corTask,RTt){//save into
 function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUriInDb.php',//save2taskTable.php',
-      data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
+      url: 'save2taskAsUriInDb.php',//save2navigTable.php',
+      data: {name: fullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -288,8 +288,8 @@ function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,c
 function saveDataDBnotUtask(Tchoice,fnGood,corTask,RTt){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2taskAsUri.php',//save2taskTable.php',
-      data: {name: FullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,isCorrect:corTask,nCor:fnGood,curDS:LastnSt,RT:RTt},
+      url: 'save2taskAsUri.php',//save2navigTable.php',
+      data: {name: fullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,isCorrect:corTask,nCor:fnGood,curDS:LastnSt,RT:RTt},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
