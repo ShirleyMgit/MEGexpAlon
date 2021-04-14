@@ -124,7 +124,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
    saveDataDBnotUisMc(nrep,RTm,corA);// save data into sql table
    if (nrep>maxIsM){// if number of trials exceeded maxIsM start navigation task with intial distance 2 between current picture and target picture
 		if(nTrialc<9){
-			startTask(2);
+			startNavigTask(2);
 		}else{
 			startWhichIsCloser(0);
 		}
@@ -133,7 +133,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
 
 function writeResp(){// go to next task
 	if(nTrialc<9){
-		startTask(2);
+		startNavigTask(2);
 	}else{
 		startWhichIsCloser(0);
 	}

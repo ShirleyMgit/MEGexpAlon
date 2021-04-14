@@ -27,7 +27,7 @@ $result = mysqli_query($conn,$sql);
 if($result){
 	$resArr = array();
     $rn=0;
-   while($info = mysqli_fetch_array( $result )) {
+   while($info = mysqli_fetch_array( $result,MYSQLI_NUM)) {
 	   $resArr[$rn] =$info;
 	   $rn=$rn+1;
    }
