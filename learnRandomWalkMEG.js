@@ -130,38 +130,10 @@ function conExp(cpic){// check subject response time
    c = c+1;// counting the number of pictures that was displayed until now
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
-   var ans = saveDataDBnotU(fullName,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql
+   //var ans = saveDataDBnotU(fullName,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql
+	var ans = saveDataDBnotU(fullName,nTrialc,in1P,0,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
-// I dont think we need coins here - so I have deleted it
-  /*  if(cpic==flip){
-      corR = corR+1;
-	  ncoin = ncoin+1;
-	  ncoinT = ncoinT+1;
-	  y = y-dy;
-   }else{
-	   if (corR>1){
-		if (ncoinT>0){
-			   y = y+dy;
-			   ncoinT = ncoinT-1;
-		   }
-
-	   ncoin = ncoin-1;
-	   }
-   }
-
-   ncoinPv.style.display="inline";
-   ncoinPv.innerHTML=ncoin+" coins";
-   if(y<=0){
-	   ncolCrc = ncolCrc+1;
-	   x = x+dx;
-	   y = y0;
-   }
-   if(y>y0&&ncolCrc>1){
-	   ncolCrc = ncolCrc-1;
-	   x = x-dx;
-	   y = 0;
-   }
-   imCold.src = Fil */eName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
+   imCold.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
    ran1 = Math.random();
    in1P=detNextPicGenA(ran1,Ar,in1P);// next picture index
 
