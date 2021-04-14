@@ -163,6 +163,7 @@ function conQ(){// next question or next block
 	    if(nTrialc<maxT){
 		    nTrialc = nTrialc+1;
 			numQ = 0;
+			flagQ = 2;// so there wont be any response to subject pressing any key (enter/1/2)
 			allQ[0].style.display="none";
 			QFclass[0].style.display="inline";
 			feedbackQ.style.display="inline";
