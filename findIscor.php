@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 //echo "Connected successfully ";
 
-mysqli_select_db($conn,"smark");
+mysqli_select_db($conn,"alonbara_meg");
 
 $name1 = $_GET['Fname'];
 $TableN = $_GET['tableN'];

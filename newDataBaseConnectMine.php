@@ -1,8 +1,8 @@
 <?php
-  $servername = "intranet.fil.ion.ucl.ac.uk";
+  $servername = "localhost";
   $port = 3306;
-  $username = "smark";
-  $password = "djh7ArGu3IWgKznH";
-  $dbname = "smark";
+  $username = "alonbara_alon";
+  $password = "Yohghovaih1!";
+  $dbname = "alonbara_meg";
  // $table = "mvaghi_newtable";
 ?>

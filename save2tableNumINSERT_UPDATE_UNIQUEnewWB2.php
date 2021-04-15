@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 //echo "Connected successfully ";
 
-mysqli_select_db($conn,"smark");
+mysqli_select_db($conn,"alonbara_meg");
 
 // Perform Query
 
@@ -27,4 +27,3 @@ $sql2 = mysqli_query($conn,"INSERT IGNORE INTO $TableN (Name, $parS) VALUES ('$F
 
 $conn->close();
 ?>
-

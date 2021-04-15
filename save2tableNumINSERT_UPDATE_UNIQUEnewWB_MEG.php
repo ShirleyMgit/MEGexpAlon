@@ -12,14 +12,14 @@ if ($conn->connect_error) {
 }
 //echo "Connected successfully ";
 
-mysqli_select_db($conn,"smark");
+mysqli_select_db($conn,"alonbara_meg");
 
 // Perform Query
 
 $Fname = stripslashes(htmlspecialchars($_POST['Fname']));
 $num = stripslashes(htmlspecialchars($_POST['Num']));
 $parS = stripslashes(htmlspecialchars($_POST['Nar']));
-$TableN= stripslashes(htmlspecialchars($_POST['tableN']));   
+$TableN= stripslashes(htmlspecialchars($_POST['tableN']));
 
 echo strcmp($parS,"pic1");
 if (strcmp($parS,"pic1")==0){//insert new row with participant's name
@@ -30,4 +30,3 @@ $sql2 = mysqli_query ($conn,"UPDATE $TableN SET $parS = $num WHERE Name='$Fname'
 
 $conn->close();
 ?>
-

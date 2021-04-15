@@ -12,10 +12,10 @@ if ($conn->connect_error) {
 }
 //echo "Connected successfully ";
 
-mysqli_select_db($conn,"smark");
+mysqli_select_db($conn,"alonbara_meg");
 
 $name1 = stripslashes(htmlspecialchars($_POST['Fname']));
-$TableN= stripslashes(htmlspecialchars($_POST['tableN']));  
+$TableN= stripslashes(htmlspecialchars($_POST['tableN']));
 
 
 // Perform Query

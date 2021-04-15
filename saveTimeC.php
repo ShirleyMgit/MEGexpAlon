@@ -1,8 +1,8 @@
 <?php
-$database="smark";
-$host="193.62.66.60";
-$user="smark";
-$password="djh7ArGu3IWgKznH";
+$database="alonbara_meg";
+$host="localhost";
+$user="alonbara_alon";
+$password="Yohghovaih1!";
 
 $db = new mysqli($host, $user, $password, $database);
 if (mysqli_connect_errno()) {

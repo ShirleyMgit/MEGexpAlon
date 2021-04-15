@@ -83,8 +83,8 @@ function whichPile(nn){// piles task
     imCsP23.src = FileName+"pic"+ myPic[inPp23].toString() + ".jpg";//the 3 picture 2 pile
     var all1pile = [inPp11,inPp12,inPp13];
 	var all2pile = [inPp21,inPp22,inPp23];
-    imCsP14.src = "/~smark/whitePic.jpg";
-    imCsP24.src = "/~smark/whitePic.jpg";
+    imCsP14.src = "/MEG/images/whitePic.jpg";
+    imCsP24.src = "/MEG/images/whitePic.jpg";
    
     var ran1 = Math.random();
 	
@@ -188,10 +188,10 @@ function whichPileAns(ansP){// check particpants answer
    isCsP.style.display= "inline";
    if (wP==1){// put the picture in the correct pile
 			imCsP14.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture 1 pile
-			imCsP24.src = "/~smark/whitePic.jpg";;//the 4 picture 1 pile
+			imCsP24.src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
    }else{
 	   if(wP==2){
-			imCsP14.src = "/~smark/whitePic.jpg";//the 4 picture 1 pile
+			imCsP14.src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
 			imCsP24.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture 2 pile
 	   }else{
 			imCsP14.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture both pile
