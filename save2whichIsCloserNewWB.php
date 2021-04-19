@@ -1,6 +1,6 @@
 <?php
 // this path should point to your configuration file:
-include('newDataBaseConnectMine.php');
+include('dbConnectConfig.php');
 
 $db = new mysqli($servername, $username, $password,$dbname);
 if (mysqli_connect_errno()) {

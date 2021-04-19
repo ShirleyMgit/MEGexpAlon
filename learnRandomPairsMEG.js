@@ -24,7 +24,7 @@ function learnRandomPairsTask(fc){
     flagQ = -1;
     thisTCp = fc;
 
-    saveStartTime(ncoin,fullName);
+    saveStartTime(ncoin,subjectId);
     allQ[0].style.display="none";
     QFclass[0].style.display="none";
     feedbackQ.style.display="none";
@@ -124,7 +124,7 @@ function conExpPair(cpic){
 	   endAllTrials_learnRandomPairs(0);
    }
 
-   saveDataDBnotUpair(fullName,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+   saveDataDBnotUpair(subjectId,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 

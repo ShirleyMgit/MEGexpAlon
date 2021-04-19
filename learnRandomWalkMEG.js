@@ -20,7 +20,7 @@ function learnRandomWalkTask(fc){// learning phase
     imCold.src = [];
     clearCanvas(crE,300,450);
     ncoinT=0;
-	// all the followings are flags that signal the current part 
+	// all the followings are flags that signal the current part
     flagC=0;
     flagT=0;
     flagIsM=-1;//signal that it is not IsM part. it is important for the function that collect subject respones
@@ -28,8 +28,6 @@ function learnRandomWalkTask(fc){// learning phase
     flagSs=2;
     flagSp=2
     flagQ = -1;
-
-    saveStartTime(ncoin,fullName);
 
 	/* Print instructions*/
     inst.innerHTML="Try to remember the associations between the pictures that appears one after the other.<br> A picture can be associated to more than one/two pictures. <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
@@ -130,8 +128,8 @@ function conExp(cpic){// check subject response time
    c = c+1;// counting the number of pictures that was displayed until now
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
-   //var ans = saveDataDBnotU(fullName,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql
-	var ans = saveDataDBnotU(fullName,nTrialc,in1P,0,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+   //var ans = saveDataDBnotU(subjectId,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql
+	var ans = saveDataDBnotU(subjectId,nTrialc,in1P,0,RT,c,"learnRandomWalkTable_MEG");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
    imCold.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
    ran1 = Math.random();

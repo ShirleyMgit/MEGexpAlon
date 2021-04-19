@@ -1,5 +1,5 @@
 <?php
-include('newDataBaseConnectMine.php');
+include('dbConnectConfig.php');
 
 //this script sends number to sql table one by one
 $dbc = mysql_connect($servername, $username, $password);

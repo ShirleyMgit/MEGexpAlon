@@ -38,7 +38,7 @@ function TrialNum(tableName,name){// check the last trial number (or, in a diffe
 		 }
         }
      };
-	 xhttp.open("GET", "rowNumNewWB.php?tableN="+tableName+"&Fname="+name, false);
+	 xhttp.open("GET", "rowNumNewWB.php?tableN="+tableName+"&Fname="+name, true);
      xhttp.send();
      return num;
 }
@@ -109,23 +109,23 @@ function TaskdS(name){// check what was the initial distance between initial pic
 }
 
 /*save variable into sql table*/
-function saveDataDB(fname,num,ArName,TableName){ // save in sql table
+function save2db_imagesFilesTable(subjectId,filenameNumber,nodeNumber,tableName){ // save in sql table
       $.ajax({
       type:'POST',
-      url: 'save2tableNumINSERT_UPDATE_UNIQUEnewWB_MEG.php',
-      data: {Fname: fname, Num: num,Nar:ArName,tableN:TableName},
-	  async: false,
+      url: 'save2db_imagesFilesTable.php',
+      data: {subjectId: subjectId, filenameNumber: filenameNumber, nodeNumber:nodeNumber, tableName:tableName},
+	  async: true,
 	  dataType:'json'
    });
 }
 
 
-function saveDataDBnotU(fname,Tnum,npic,ch,rt,c,TableName){// save to cover table
+function saveDataDBnotU(subjectId,Tnum,npic,ch,rt,c,TableName){// save to cover table
 	var ans=-1;
       $.ajax({
       type:'POST',
       url: 'save2learnRandomWalkNewWB.php',
-      data: {name: fname, Trial: Tnum,map:curMp,picN:npic,choice:ch,RTv:rt,tableN:TableName,picT:c},
+      data: {name: subjectId, Trial: Tnum,map:curMp,picN:npic,choice:ch,RTv:rt,tableN:TableName,picT:c},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -134,7 +134,7 @@ function saveDataDBnotU(fname,Tnum,npic,ch,rt,c,TableName){// save to cover tabl
    return ans;
 }
 
-function saveStartTime(coins,name){// save the times of when participants did the learning phase - saved in covertime table
+function save2db_subjectDetailsAndStartTimeTable(subjectId){//
 	var d1 = new Date();
 	var m = d1.getMonth()+1;
 	var dd = d1.getDate();//it was getDat()+1 until12/4/17 and was chaged to getDate
@@ -143,9 +143,9 @@ function saveStartTime(coins,name){// save the times of when participants did th
 	var t = h*60+min;
 	$.ajax({
       type:'POST',
-      url: 'saveTimeC.php',
-      data: {Fname:name,Trial: nTrialc,tc:t,dc:dd,mc:m,con:coins},
-	  async: false,
+      url: 'save2subjectDetailsAndStartTimeTable.php',
+      data: {subjectId:subjectId,tc:t,dc:dd,mc:m},
+	  async: true,
 	  dataType:'json',
 	  success: function() {
       }
@@ -157,7 +157,7 @@ function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,c
       $.ajax({
       type:'POST',
       url: 'save2navigTableNewWB_MEG.php',//save2navigTable.php',
-      data: {name: fullName, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
+      data: {name: subjectId, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -169,7 +169,7 @@ function saveDataDBques(cq,iq1,iq2,corQ,RTq){//inMv12,cim1,cim2,prC, save to dis
       $.ajax({
       type:'POST',
       url: 'save2whichIsCloserNewWB.php',
-      data: {name: fullName, Trial: nTrialc,map:curMp,target:tarQ,choice:cq,im1:iq1,im2:iq2,isCorrect:corQ,RT:RTq,ncoin:ncoin},
+      data: {name: subjectId, Trial: nTrialc,map:curMp,target:tarQ,choice:cq,im1:iq1,im2:iq2,isCorrect:corQ,RT:RTq,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -181,7 +181,7 @@ function saveDataDBnotUisMc(nrep,RTm,corA){
       $.ajax({
       type:'POST',
       url: 'save2isMiddleNewWB_MEG.php',
-      data: {name: fullName, Trial: nTrialc,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
+      data: {name: subjectId, Trial: nTrialc,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -193,7 +193,7 @@ function saveDataDBnotUpileAll(corP,RTp){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
       url: 'save2pileAllNewWB_MEG.php',//'save2pileTable.php',
-      data: {name: fullName, Trial: nTrialc,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
+      data: {name: subjectId, Trial: nTrialc,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -202,12 +202,12 @@ function saveDataDBnotUpileAll(corP,RTp){//inMv12,cim1,cim2,prC
 }
 
 
-function saveDataDBnotUpair(fname,Tnum,npic1,npic2,rt,c,TableName){
+function saveDataDBnotUpair(subjectId,Tnum,npic1,npic2,rt,c,TableName){
 	var ans=-1;
       $.ajax({
       type:'POST',
       url: 'save2learnRandomPairs.php',
-      data: {name: fname, Trial: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
+      data: {name: subjectId, Trial: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {

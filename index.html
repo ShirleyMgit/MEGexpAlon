@@ -15,7 +15,7 @@
 
    <!-- tasks part functions-->
    <script src="defineGraphs.js"></script><!--define maps dimentions and missing links-->
-   <script src="CreateAr.js"></script><!--create transition matrices arrays-->
+   <script src="createAr.js"></script><!--create transition matrices arrays-->
    <script src="rectGA.js"></script><!--create rectangular transition matrix-->
    <script src="createMissLinkArGen.js"></script><!-- missing links array-->
    <script src="otherFunKeyForMEG.js"></script><!--helper functions-->
@@ -25,7 +25,6 @@
    <script src="selPileNotTwiceMEG.js"></script><!--pile task-->
    <script src="taskNavig.js"></script><!--navigation task-->
    <script src="whereToGoMEG.js"></script><!-- distance estimation task-->
-   <script src="saveOrRetMapNewDBnewAJAXMEG.js"></script><!-- save or retrieve maps-->
    <script src="ajaxFunctionsMEG.js"></script>
 
   <!--start-->
@@ -33,8 +32,7 @@
   <!--subject details:-->
    <center><div id="startN" style="background-color: powderblue;">
    <p style="font-size: 20px"><b>Welcome<br> please enter your details.</p>
-  First  Name:<br> <input type="text" id="Fname" value="" ><br><br>
-  Last Name:<br> <input type="text" id="Sname" value="" ><br><br>
+  Prolific subject ID (or your full name if you don't have a subject ID):<br> <input type="text" id="subjectId" value="" ><br><br>
   <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
  for tables for this subject, and if they don't exist, create them.-->
   <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</button>
@@ -415,42 +413,30 @@ QFclass[0].style.display="none";
 feedbackQ.style.display="none";
 
 var ndis = 1;
-var fname;
-var sname;
-var fullName;
+var subjectId;
 /*array pictures objects - maps*/
 var nmap=1;
 
 function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
 /* subject first name*/
-   var fname0 = document.getElementById("Fname").value;
-   var lenf = fname0.length;
+   var subjectId0 = document.getElementById("subjectId").value;
+   var lenf = subjectId0.length;
    var j;
-   if(fname0.endsWith("\n")||fname0.endsWith(" ")){
-      fname = fname0.slice(0,lenf-1);
+   if(subjectId0.endsWith("\n")||subjectId0.endsWith(" ")){
+      subjectId = subjectId0.slice(0,lenf-1);
    }else{
-        fname = fname0;
+        subjectId = subjectId0;
    }
-   /*subject second day*/
-   var sname0 = document.getElementById("Sname").value;
-   var lens = sname0.length;
-   if(sname0.endsWith("\n")||sname0.endsWith(" ")){
-      sname = sname0.slice(0,lens-1);;
-   }else{
-    sname = sname0;
-   }
-   fullName = fname+"_"+sname;
 
   /*create/retrive MAPS and save in sql table*/
-   var TableName = "picturesNumberMEG";
    var j1,j2,j3;
-   var ArName;
-   var ArName0 = "pic";
+   var nodeNumber; // these will be the names of the columns in SQL table, storing the file names of images in their order in he current graph
+   var nodeNumber0 = "node";
    var nmmax,jn;
    nmmax = maxMap;
-   var nn,vn=[]; // vn: vector of numbers
+   var nn,vn=[]; // vn: vector of numbers.
    var vn01=[];
-   var vn1=[];
+   var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg)
    for (j3=1;j3<=nall;j3++){
      vn01.push(j3); // vn01 is a vector 1:nall
    }
@@ -466,24 +452,26 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
   	nn = npmax;
 
-    // check if the pictures array already exists. If it does, return it in an array .
+    // check if the images array already exists. If it does, return it in an array .
     // If it doesn't, return -1
-  	myPic = checkExists(fname,sname);
-  	if (myPic[0]==-1){ //map does not exists
+  	myPic = checkIfSubjectMapExists(subjectId);
+    // If images array does not exist, create it (randomely assign images files to graph nodes - i.e. the emissions matrix)
+  	if (myPic[0]==-1){ // does not exists
   		myPic=[];
   		for (j1=0; j1<npmax;j1++){
   			myPic.push(vn1[j1]);
   			nn = nn-1;
   			jn = j1+1;
-  			ArName = ArName0+jn;
-  			saveDataDB(fullName,vn1[j1],ArName,TableName); // in ajaxFunctions.js
+  			nodeNumber = nodeNumber0+jn;
+  			save2db_imagesFilesTable(subjectId,vn1[j1],nodeNumber,"imagesFilesTable"); // in ajaxFunctions.js
   			vn.splice(np0, 1);
   		}
   	}
-  	if (vn.length>0){
+  	if (vn.length>0){ // Alon: I don't really understand why you need to do this - you don't use vn again.
   		clear1dArr(vn);
   	}
 
+    save2db_subjectDetailsAndStartTimeTable(subjectId);
 
    /* change display */
    startDiv.style.display="none";
@@ -524,17 +512,39 @@ var dpR = 20;
 
 }
 
+function checkIfSubjectMapExists(){
+	var map=[]; // map is an array mapping image files to node numbers
+	var j;
+	var xhttp;
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			// if map exists, it is returned in a JSON str. if not, an empty str is returned.
+			var data = JSON.parse(this.responseText);
+			if(data.length==0){ //if map does not exist
+				map[0]=-1;
+			}else{ // if exists, build map array
+				for(j=1;j<=npmax;j++){
+					map[j-1]=data[0][j];
+				}
+			}
+		}
+	};
+	xhttp.open("GET", "checkIfSubjectMapExists.php?q="+subjectId, true);
+	xhttp.send();
+	return map;
+}
 
 function choosePart(){// find the task's part in which particpants played with before he took the break
   //find trial number and task part:
   var n;
    var nTrialcV=[];
    var nTrialcVs=[];
-   nTrialcV[0] = TrialNum("learnRandomWalkTable_MEG",fullName); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
-   nTrialcV[1] = TrialNum("isMiddleTable_MEG",fullName);
-   nTrialcV[2] = TrialNum("isInPileTable_MEG",fullName);
-   nTrialcV[3] = TrialNum("navigTable_MEG",fullName);
-   nTrialcV[4] = TrialNum("whichIsCloserTable_MEG",fullName);
+   nTrialcV[0] = TrialNum("learnRandomWalkTable_MEG",subjectId); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
+   nTrialcV[1] = TrialNum("isMiddleTable_MEG",subjectId);
+   nTrialcV[2] = TrialNum("isInPileTable_MEG",subjectId);
+   nTrialcV[3] = TrialNum("navigTable_MEG",subjectId);
+   nTrialcV[4] = TrialNum("whichIsCloserTable_MEG",subjectId);
    for(n=0;n<nTrialcV.length;n++){
 		nTrialcVs[n]=nTrialcV[n];
 		if(n<nTrialcV.length-1){
@@ -559,10 +569,10 @@ function choosePart(){// find the task's part in which particpants played with b
 				curMpLast = -1;
 		}
 		if(nTrialcV[4]==maxTc){
-			numQ = inThisT("whichIsCloserTable_MEG",fullName); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-			ncoin=numCoin("whichIsCloserTable_MEG",fullName); // check the number of coines that was earned until now
+			numQ = inThisT("whichIsCloserTable_MEG",subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+			ncoin=numCoin("whichIsCloserTable_MEG",subjectId); // check the number of coines that was earned until now
 			if (numQ<qend){// continue distance estimation task
-				numCorrect = calCorQ("whichIsCloserTable_MEG",fullName);// number of correct answers
+				numCorrect = calCorQ("whichIsCloserTable_MEG",subjectId);// number of correct answers
 				defineGraph();
 				startWhichIsCloser(numQ);
 				}else{// start learning phase of the next block
@@ -578,13 +588,13 @@ function choosePart(){// find the task's part in which particpants played with b
 			if (nTrialcV[3]==maxTc){
 				defineGraph();
 			    if(nTrialc<9){
-					cds = TaskdS(fullName);
+					cds = TaskdS(subjectId);
 					if (cds == maxdS){// start distance estimation questions
 						numQ=0;
 						startWhichIsCloser(numQ);
 					}else{// continue with navigation task
-						ncoin=numCoin("navigTable_MEG",fullName);
-						var ntn = inThisT("navigTable_MEG",fullName);
+						ncoin=numCoin("navigTable_MEG",subjectId);
+						var ntn = inThisT("navigTable_MEG",subjectId);
 						repTmis = Math.floor(ntn/numdS);
 						startNavigTask(cds+1);
 					}
@@ -593,8 +603,8 @@ function choosePart(){// find the task's part in which particpants played with b
 				}
 			}else{
 				if(nTrialcV[1]==maxTc){// go to is it in the middle part
-					nrep=inThisT("isMiddleTable_MEG",fullName);
-					ncoin=numCoin("isMiddleTable_MEG",fullName);
+					nrep=inThisT("isMiddleTable_MEG",subjectId);
+					ncoin=numCoin("isMiddleTable_MEG",subjectId);
 					defineGraph();
 					if(nrep<maxIsM){
 						isItMiddle(0);
@@ -608,8 +618,8 @@ function choosePart(){// find the task's part in which particpants played with b
 
 				}else{
 					if(nTrialcV[2]==maxTc){// go to which pile part
-						thisT = inThisT("isInPileTable_MEG",fullName);// read the number of trials that the subject have allready played in this block from the sql table
-						ncoin=numCoin("isInPileTable_MEG",fullName);
+						thisT = inThisT("isInPileTable_MEG",subjectId);// read the number of trials that the subject have allready played in this block from the sql table
+						ncoin=numCoin("isInPileTable_MEG",subjectId);
 						defineGraph();
 						if(thisT<maxPile){
 							whichPile(0);
@@ -617,12 +627,12 @@ function choosePart(){// find the task's part in which particpants played with b
 							isItMiddle(1);
 						}
 					}else{// continue phase learning task
-						ncoin=numCoin("navigTable",fullName);
+						ncoin=numCoin("navigTable",subjectId);
 						if (maxTc>8){
-							thisTC = inThisT("learnRandomPairsTable_MEG",fullName);
+							thisTC = inThisT("learnRandomPairsTable_MEG",subjectId);
 							learnRandomPairsTask(thisTC);// learning from pairs
 						}else{
-						    thisTC = inThisT("learnRandomWalkTable_MEG",fullName);
+						    thisTC = inThisT("learnRandomWalkTable_MEG",subjectId);
 							learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
 							}
 					}
