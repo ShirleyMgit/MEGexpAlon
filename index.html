@@ -18,14 +18,14 @@
    <script src="createAr.js"></script><!--create transition matrices arrays-->
    <script src="rectGA.js"></script><!--create rectangular transition matrix-->
    <script src="createMissLinkArGen.js"></script><!-- missing links array-->
-   <script src="otherFunKeyForMEG.js"></script><!--helper functions-->
-   <script src="learnRandomWalkMEG.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called coverMEG-->
-   <script src="learnRandomPairsMEG.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPairMEG-->
-   <script src="isMiddleMEG_missingLink.js"></script><!--is it in the middle task-->
-   <script src="selPileNotTwiceMEG.js"></script><!--pile task-->
+   <script src="otherFunKeyFor.js"></script><!--helper functions-->
+   <script src="learnRandomWalk.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called cover-->
+   <script src="learnRandomPairs.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPair-->
+   <script src="isMiddle_missingLink.js"></script><!--is it in the middle task-->
+   <script src="selPileNotTwice.js"></script><!--pile task-->
    <script src="taskNavig.js"></script><!--navigation task-->
-   <script src="whereToGoMEG.js"></script><!-- distance estimation task-->
-   <script src="ajaxFunctionsMEG.js"></script>
+   <script src="whereToGo.js"></script><!-- distance estimation task-->
+   <script src="ajaxFunctions.js"></script>
 
   <!--start-->
 
@@ -540,11 +540,11 @@ function choosePart(){// find the task's part in which particpants played with b
   var n;
    var nTrialcV=[];
    var nTrialcVs=[];
-   nTrialcV[0] = TrialNum("learnRandomWalkTable_MEG",subjectId); // function TrialNum is in ajaxFunctionsMEG.js, TrialNum gives the current trial in each task
-   nTrialcV[1] = TrialNum("isMiddleTable_MEG",subjectId);
-   nTrialcV[2] = TrialNum("isInPileTable_MEG",subjectId);
-   nTrialcV[3] = TrialNum("navigTable_MEG",subjectId);
-   nTrialcV[4] = TrialNum("whichIsCloserTable_MEG",subjectId);
+   nTrialcV[0] = TrialNum("learnRandomWalkTable",subjectId); // function TrialNum is in ajaxFunctions.js, TrialNum gives the current trial in each task
+   nTrialcV[1] = TrialNum("isMiddleTable",subjectId);
+   nTrialcV[2] = TrialNum("isInPileTable",subjectId);
+   nTrialcV[3] = TrialNum("navigTable",subjectId);
+   nTrialcV[4] = TrialNum("whichIsCloserTable",subjectId);
    for(n=0;n<nTrialcV.length;n++){
 		nTrialcVs[n]=nTrialcV[n];
 		if(n<nTrialcV.length-1){
@@ -569,10 +569,10 @@ function choosePart(){// find the task's part in which particpants played with b
 				curMpLast = -1;
 		}
 		if(nTrialcV[4]==maxTc){
-			numQ = inThisT("whichIsCloserTable_MEG",subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-			ncoin=numCoin("whichIsCloserTable_MEG",subjectId); // check the number of coines that was earned until now
+			numQ = inThisT("whichIsCloserTable",subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+			ncoin=numCoin("whichIsCloserTable",subjectId); // check the number of coines that was earned until now
 			if (numQ<qend){// continue distance estimation task
-				numCorrect = calCorQ("whichIsCloserTable_MEG",subjectId);// number of correct answers
+				numCorrect = calCorQ("whichIsCloserTable",subjectId);// number of correct answers
 				defineGraph();
 				startWhichIsCloser(numQ);
 				}else{// start learning phase of the next block
@@ -593,8 +593,8 @@ function choosePart(){// find the task's part in which particpants played with b
 						numQ=0;
 						startWhichIsCloser(numQ);
 					}else{// continue with navigation task
-						ncoin=numCoin("navigTable_MEG",subjectId);
-						var ntn = inThisT("navigTable_MEG",subjectId);
+						ncoin=numCoin("navigTable",subjectId);
+						var ntn = inThisT("navigTable",subjectId);
 						repTmis = Math.floor(ntn/numdS);
 						startNavigTask(cds+1);
 					}
@@ -603,8 +603,8 @@ function choosePart(){// find the task's part in which particpants played with b
 				}
 			}else{
 				if(nTrialcV[1]==maxTc){// go to is it in the middle part
-					nrep=inThisT("isMiddleTable_MEG",subjectId);
-					ncoin=numCoin("isMiddleTable_MEG",subjectId);
+					nrep=inThisT("isMiddleTable",subjectId);
+					ncoin=numCoin("isMiddleTable",subjectId);
 					defineGraph();
 					if(nrep<maxIsM){
 						isItMiddle(0);
@@ -618,8 +618,8 @@ function choosePart(){// find the task's part in which particpants played with b
 
 				}else{
 					if(nTrialcV[2]==maxTc){// go to which pile part
-						thisT = inThisT("isInPileTable_MEG",subjectId);// read the number of trials that the subject have allready played in this block from the sql table
-						ncoin=numCoin("isInPileTable_MEG",subjectId);
+						thisT = inThisT("isInPileTable",subjectId);// read the number of trials that the subject have allready played in this block from the sql table
+						ncoin=numCoin("isInPileTable",subjectId);
 						defineGraph();
 						if(thisT<maxPile){
 							whichPile(0);
@@ -629,10 +629,10 @@ function choosePart(){// find the task's part in which particpants played with b
 					}else{// continue phase learning task
 						ncoin=numCoin("navigTable",subjectId);
 						if (maxTc>8){
-							thisTC = inThisT("learnRandomPairsTable_MEG",subjectId);
+							thisTC = inThisT("learnRandomPairsTable",subjectId);
 							learnRandomPairsTask(thisTC);// learning from pairs
 						}else{
-						    thisTC = inThisT("learnRandomWalkTable_MEG",subjectId);
+						    thisTC = inThisT("learnRandomWalkTable",subjectId);
 							learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
 							}
 					}
