@@ -89,7 +89,7 @@ function calCorQ(tableName,name){// sum over the number of correct answers as sa
 function TaskdS(name){// check what was the initial distance between initial picture and target in the last time participant played the navigation task
 	var cds;
     var xhttp;
-	var tableName = "navigTable_MEG";
+	var tableName = "navigTable";
 	 xhttp = new XMLHttpRequest();
 	 xhttp.onreadystatechange = function() {
 	 if (this.readyState == 4 && this.status == 200) {
@@ -102,7 +102,7 @@ function TaskdS(name){// check what was the initial distance between initial pic
 		 }
         }
      };
-	 xhttp.open("GET", "find_dSnewWB_MEG.php?tableN="+tableName+"&Fname="+name, false);
+	 xhttp.open("GET", "find_dSnewWB.php?tableN="+tableName+"&Fname="+name, false);
      xhttp.send();
 
 	return cds;
@@ -156,7 +156,7 @@ function save2db_subjectDetailsAndStartTimeTable(subjectId){//
 function saveDataDBnotUtaskInDb(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC: save things into task table
       $.ajax({
       type:'POST',
-      url: 'save2navigTableNewWB_MEG.php',//save2navigTable.php',
+      url: 'save2navigTableNewWB.php',//save2navigTable.php',
       data: {name: subjectId, Trial: nTrialc,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
@@ -180,7 +180,7 @@ function saveDataDBques(cq,iq1,iq2,corQ,RTq){//inMv12,cim1,cim2,prC, save to dis
 function saveDataDBnotUisMc(nrep,RTm,corA){
       $.ajax({
       type:'POST',
-      url: 'save2isMiddleNewWB_MEG.php',
+      url: 'save2isMiddleNewWB.php',
       data: {name: subjectId, Trial: nTrialc,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
@@ -192,7 +192,7 @@ function saveDataDBnotUisMc(nrep,RTm,corA){
 function saveDataDBnotUpileAll(corP,RTp){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
-      url: 'save2pileAllNewWB_MEG.php',//'save2pileTable.php',
+      url: 'save2pileAllNewWB.php',//'save2pileTable.php',
       data: {name: subjectId, Trial: nTrialc,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',

@@ -20,7 +20,7 @@ $isC = stripslashes(htmlspecialchars($_POST['corR']));
 $RTm = stripslashes(htmlspecialchars($_POST['rt']));
 $nC = stripslashes(htmlspecialchars($_POST['ncoin']));
 
-$stmt = $db->prepare("INSERT INTO isMiddleTable_MEG VALUE(?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
+$stmt = $db->prepare("INSERT INTO isMiddleTable VALUE(?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
 $stmt->bind_param("siiiiiiiidi", $Fname,$Tr,$m,$nR,$p1,$p2,$p3,$isMid,$isC,$RTm,$nC);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;

@@ -25,7 +25,7 @@ $cdS= stripslashes(htmlspecialchars($_POST['curDS']));
 $cdSnew= stripslashes(htmlspecialchars($_POST['curDSnew']));
 $RTt = stripslashes(htmlspecialchars($_POST['RT']));
 $nC = stripslashes(htmlspecialchars($_POST['ncoin']));
-$stmt = $db->prepare("INSERT INTO navigTable_MEG VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
+$stmt = $db->prepare("INSERT INTO navigTable VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
 $stmt->bind_param("siiiiiiiiiiiiiidi", $Fname,$Tr,$m,$ndS,$tar,$inp,$ch,$inPlast,$inR,$inL,$isC,$nGood,$nGoodInD,$cdS,$cdSnew,$RTt,$nC);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
