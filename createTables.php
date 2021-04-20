@@ -73,8 +73,20 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
-// sql to create table
+// sql to create table subjectDetailsAndStartTimeTable
+$sql = "CREATE TABLE subjectDetailsAndStartTimeTable (
+subjectId TEXT,
+hour INT,
+day INT,
+month INT
 
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table imagesFilesTable created successfully";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
 
 
 $conn->close();
