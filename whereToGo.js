@@ -142,7 +142,7 @@ function conExpQ(cq){// check subject response
 	TheCanvas.style.display="none"
 	ncoinPv.innerHTML=ncoin+" coins";
 
-    saveDataDBques(cq,imq1,imq2,corQ,RTq);// save data in sql table
+    save2whichIsCloserTable(cq,imq1,imq2,corQ,RTq);// save data in sql table
 
     qcon.style.display="inline";
     var tlap = Math.floor((Math.random() * 1000) + 750);

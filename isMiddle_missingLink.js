@@ -121,7 +121,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
 	   x = x-dx;
 	   y = 0;
    }
-   saveDataDBnotUisMc(nrep,RTm,corA);// save data into sql table
+   save2isMiddleTable(nrep,RTm,corA);// save data into sql table
    if (nrep>maxIsM){// if number of trials exceeded maxIsM start navigation task with intial distance 2 between current picture and target picture
 		if(nTrialc<9){
 			startNavigTask(2);

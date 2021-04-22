@@ -124,7 +124,7 @@ function conExpPair(cpic){
 	   endAllTrials_learnRandomPairs(0);
    }
 
-   saveDataDBnotUpair(subjectId,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+   save2learnRandomPairTable(subjectId,nTrialc,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 

@@ -145,7 +145,7 @@ function conExpT(cpic){// check subject choices
     /*checking reaching to target or too many trials*/
   if ((inP==tar1)||nthis>=maxTask){
 	flagSs=2;
-	saveDataDBnotUtaskInDb(Tchoice,nGood,nGoodInD,corTask,RTt);// save to sql table
+	save2navigTable(Tchoice,nGood,nGoodInD,corTask,RTt);// save to sql table
     Et[0].style.display="inline";
 	cPC.style.display="none";
 	trp.style.display="none";
@@ -211,7 +211,7 @@ function conExpT(cpic){// check subject choices
 	   x = x-dx;
 	   y = 0;
    }
-   saveDataDBnotUtaskInDb(Tchoice,nGood,-2,corTask,RTt);// save choces etc into the sql table
+   save2navigTable(Tchoice,nGood,-2,corTask,RTt);// save choces etc into the sql table
   c = c+1;
 
   var tlap = Math.floor((Math.random() * 1000) + 750);

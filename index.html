@@ -36,7 +36,7 @@
   <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
  for tables for this subject, and if they don't exist, create them.-->
   <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</button>
-  <p id = "ms" style="font-size: 20px">The task will start in a few seconds.</p>
+  <p id = "ms" style="font-size: 20px">The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
   </div> </center>
 
   <!--task description:-->
@@ -463,7 +463,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   			nn = nn-1;
   			jn = j1+1;
   			nodeNumber = nodeNumber0+jn;
-  			save2db_imagesFilesTable(subjectId,vn1[j1],nodeNumber,"imagesFilesTable"); // in ajaxFunctions.js
+  			save2imagesFilesTable(subjectId,vn1[j1],nodeNumber,"imagesFilesTable"); // in ajaxFunctions.js
   			vn.splice(np0, 1);
   		}
   	}
@@ -471,7 +471,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   		clear1dArr(vn);
   	}
 
-    save2db_subjectDetailsAndStartTimeTable(subjectId);
+    save2subjectDetailsAndStartTimeTable(subjectId);
 
    /* change display */
    startDiv.style.display="none";
@@ -530,7 +530,7 @@ function checkIfSubjectMapExists(){
 			}
 		}
 	};
-	xhttp.open("GET", "checkIfSubjectMapExists.php?q="+subjectId, true);
+	xhttp.open("GET", "checkIfSubjectMapExists.php?q="+subjectId, false);
 	xhttp.send();
 	return map;
 }
@@ -540,11 +540,11 @@ function choosePart(){// find the task's part in which particpants played with b
   var n;
    var nTrialcV=[];
    var nTrialcVs=[];
-   nTrialcV[0] = TrialNum("learnRandomWalkTable",subjectId); // function TrialNum is in ajaxFunctions.js, TrialNum gives the current trial in each task
-   nTrialcV[1] = TrialNum("isMiddleTable",subjectId);
-   nTrialcV[2] = TrialNum("isInPileTable",subjectId);
-   nTrialcV[3] = TrialNum("navigTable",subjectId);
-   nTrialcV[4] = TrialNum("whichIsCloserTable",subjectId);
+   nTrialcV[0] = trialNum("learnRandomWalkTable",subjectId); // function trialNum is in ajaxFunctions.js, trialNum gives the current trial in each task
+   nTrialcV[1] = trialNum("isMiddleTable",subjectId);
+   nTrialcV[2] = trialNum("isInPileTable",subjectId);
+   nTrialcV[3] = trialNum("navigTable",subjectId);
+   nTrialcV[4] = trialNum("whichIsCloserTable",subjectId);
    for(n=0;n<nTrialcV.length;n++){
 		nTrialcVs[n]=nTrialcV[n];
 		if(n<nTrialcV.length-1){

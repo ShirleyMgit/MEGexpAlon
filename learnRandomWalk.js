@@ -128,8 +128,8 @@ function conExp(cpic){// check subject response time
    c = c+1;// counting the number of pictures that was displayed until now
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
-   //var ans = saveDataDBnotU(subjectId,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable");// save data into table in sql
-	var ans = saveDataDBnotU(subjectId,nTrialc,in1P,0,RT,c,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+   //var ans = save2learnRandomWalkTable(subjectId,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable");// save data into table in sql
+	var ans = save2learnRandomWalkTable(subjectId,nTrialc,in1P,0,RT,c,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
    imCold.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
    ran1 = Math.random();
@@ -142,7 +142,7 @@ function conExp(cpic){// check subject response time
    timeLast = new Date();
    if(c>maxCov){// stop learning phase after maxCov observations
 	   thisTC=-1;
-	   endAllTrials(0);
+	   endAllTrials_learnRandomWalk(0);
    }
 }
 

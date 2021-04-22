@@ -89,6 +89,25 @@ if ($conn->query($sql) === TRUE) {
 }
 
 
+// sql to create table learnRandomWalkTable (variable names need changing)
+$sql = "CREATE TABLE learnRandomWalkTable (
+subjectId TEXT,
+trial INT,
+map INT,
+pic INT,
+answer INT,
+RT INT,
+npic INT
+
+)";
+
+if ($conn->query($sql) === TRUE) {
+  echo "Table learnRandomWalkTable created successfully";
+} else {
+  echo "Error creating table: " . $conn->error;
+}
+
+
 $conn->close();
 
 ?>

@@ -9,18 +9,18 @@ if (mysqli_connect_errno()) {
    exit();
 }
 
-$Fname = stripslashes(htmlspecialchars($_POST['name']));
-$Tr = stripslashes(htmlspecialchars($_POST['Trial']));
+$subjectId = stripslashes(htmlspecialchars($_POST['subjectId']));
+$trial = stripslashes(htmlspecialchars($_POST['trial']));
 $m = stripslashes(htmlspecialchars($_POST['map']));
 $pic = stripslashes(htmlspecialchars($_POST['picN']));
 $ans = stripslashes(htmlspecialchars($_POST['choice']));
-$RT = stripslashes(htmlspecialchars($_POST['RTv']));
+$rt = stripslashes(htmlspecialchars($_POST['rt']));
 $cT = stripslashes(htmlspecialchars($_POST['picT']));
-$TableN= stripslashes(htmlspecialchars($_POST['tableN']));   
+$TableN= stripslashes(htmlspecialchars($_POST['tableN']));
 
 
-$stmt = $db->prepare("INSERT INTO $TableN VALUE(?,?,?,?,?,?,?)");//I also insert the time
-$stmt->bind_param("siiiiii", $Fname, $Tr,$m,$pic,$ans,$RT,$cT);//s=string, i=integer, d=double
+$stmt = $db->prepare("INSERT INTO $TableN (subjectId, trial, map, pic, answer, rt, npic) VALUE(?,?,?,?,?,?,?)");//I also insert the time
+$stmt->bind_param("siiiiii", $subjectId, $trial,$m,$pic,$ans,$rt,$cT);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(
