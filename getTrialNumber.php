@@ -1,7 +1,7 @@
 <?php
 
 // this path should point to your configuration file:
-include('newDataBaseConnectMine.php');
+include('dbConnectConfig.php');
 
 // Create connection
 $conn = new mysqli($servername, $username, $password,$dbname);
@@ -12,20 +12,20 @@ if ($conn->connect_error) {
 }
 //echo "Connected successfully ";
 
-mysqli_select_db($conn,"smark");
+mysqli_select_db($conn,"alonbara_meg");
 //input:
 
-$name1 = $_GET['Fname'];
-$TableN = $_GET['tableN'];
+$subjectId = $_GET['subjectId'];
+$tableName = $_GET['tableName'];
 
 
 // Perform Query
-$sql = "SELECT Trial FROM $TableN WHERE Name='$name1'";
-//$sql = "SELECT Trial FROM coverTable WHERE Name='$name1'";
+$sql = "SELECT trial FROM $tableName WHERE subjectId='$subjectId'";
+//$sql = "SELECT Trial FROM learnRandomWalkTable WHERE Name='$name1'";
 //echo($sql);
 $result = mysqli_query($conn,$sql);
 
-//$result = mysql_query ("SELECT Trial FROM $TableN WHERE Name='$name1'")or die(mysql_error());//mysql_query("SELECT * FROM TryMapsTable2 WHERE Name='Shirley_Mark_map3'");//or die(mysql_error());
+//$result = mysql_query ("SELECT Trial FROM $tableName WHERE Name='$name1'")or die(mysql_error());//mysql_query("SELECT * FROM TryMapsTable2 WHERE Name='Shirley_Mark_map3'");//or die(mysql_error());
 //echo mysqli_error();
 
 if($result){
@@ -35,11 +35,11 @@ if($result){
 	   $resArr[$rn] =$info;
 	   $rn=$rn+1;
    }
-}else{
+} else{
 	$rn=-1;
 	$resArr=-1;
 }
-//$sql1 = mysql_query ('SELECT * FROM $TableN WHERE Name=$name1')or die(mysql_error());
+//$sql1 = mysql_query ('SELECT * FROM $tableName WHERE Name=$name1')or die(mysql_error());
 $myJSON1 = json_encode($resArr);
 $myJSON2 = json_encode($rn);
 echo($myJSON1);

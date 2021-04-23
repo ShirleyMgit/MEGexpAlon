@@ -1,6 +1,5 @@
 <?php
 
-
 // this path should point to your configuration file:
 include('dbConnectConfig.php');
 
@@ -17,18 +16,18 @@ mysqli_select_db($conn,"alonbara_meg");
 
 $name1 = $_GET['Fname'];
 $TableN = $_GET['tableN'];
-$Trialc = $_GET['Trial'];
 
 // Perform Query
-$sql = "SELECT isCorr FROM $TableN WHERE Name='$name1'&&Trial=$Trialc";
+$sql = "SELECT dS FROM $TableN WHERE Name='$name1'";
 $result = mysqli_query ($conn,$sql);
-echo mysqli_error();
-
+//echo $sql;
 if($result){
 	$resArr = array();
     $rn=0;
-   while($info = mysqli_fetch_array( $result )) {
+   while($info = mysqli_fetch_array($result,MYSQLI_NUM)) {
 	   $resArr[$rn] =$info;
+	  // 	echo $rn;
+		//echo $info;
 	   $rn=$rn+1;
    }
 }else{
@@ -37,7 +36,8 @@ if($result){
 }
 
 $myJSON1 = json_encode($resArr);
-
+//$myJSON2 = json_encode($rn);
+//echo "now json: ";
 echo($myJSON1);
 
 $conn->close();

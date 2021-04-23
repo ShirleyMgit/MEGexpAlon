@@ -2,7 +2,7 @@
 
 
 // this path should point to your configuration file:
-include('newDataBaseConnectMine.php');
+include('dbConnectConfig.php');
 
 // Create connection
 $conn = new mysqli($servername, $username, $password,$dbname);
@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 //echo "Connected successfully ";
 
-mysqli_select_db($conn,"smark");
+mysqli_select_db($conn,"alonbara_meg");
 
 $name1 = $_GET['Fname'];
 $TableN = $_GET['tableN'];

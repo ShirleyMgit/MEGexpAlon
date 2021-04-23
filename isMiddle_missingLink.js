@@ -6,7 +6,7 @@ function isItMiddle(nn){// is it in the middle task
    flagSp=2;
    flagCov = 0;//signal that it is not in the cover part
    flagTr=1;//can get an answer
-   
+
    if(nn==1){
 	  y = y0;
 	  x = 0;
@@ -48,9 +48,9 @@ function isItMiddle(nn){// is it in the middle task
 			if(ism1p==nbism[j]){
 				for(j2=0;j2<nbism.length;j2++){
 			        if(ism2p==nbism[j2]){
-				       flagNb=1; 
+				       flagNb=1;
 					}
-			    } 
+			    }
 			}
 		}
 	  }
@@ -67,12 +67,12 @@ function isItMiddle(nn){// is it in the middle task
    m3cor.style.display="none";
    m3con.style.display="none";
 
-   thisLast=new Date(); 
+   thisLast=new Date();
 }
 
 function isItMiddleYN(yn){// check if correct and give feedback
     var corA;
-	var  thisTime=new Date(); 
+	var  thisTime=new Date();
     var RTm = calResponseTime(thisTime,thisLast);
 	if(ys==yn){
 	  ncoin = ncoin+1;
@@ -101,7 +101,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
 		   }
 	   flagIsM=1;
 	   ncoin = ncoin-1;
-	   
+
 	   m3div.style.display="none";
 	   m3cor.innerHTML = "NOT Correct!";
 	   m3cor.style.display="inline";
@@ -121,21 +121,20 @@ function isItMiddleYN(yn){// check if correct and give feedback
 	   x = x-dx;
 	   y = 0;
    }
-   saveDataDBnotUisMc(nrep,RTm,corA);// save data into sql table
+   save2isMiddleTable(nrep,RTm,corA);// save data into sql table
    if (nrep>maxIsM){// if number of trials exceeded maxIsM start navigation task with intial distance 2 between current picture and target picture
 		if(nTrialc<9){
-			startTask(2);
+			startNavigTask(2);
 		}else{
-			startQuestion(0);
+			startWhichIsCloser(0);
 		}
    }
 }
 
 function writeResp(){// go to next task
 	if(nTrialc<9){
-		startTask(2);
+		startNavigTask(2);
 	}else{
-		startQuestion(0);
+		startWhichIsCloser(0);
 	}
 }
-

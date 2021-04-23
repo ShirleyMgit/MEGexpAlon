@@ -1,6 +1,6 @@
 <?php
 // this path should point to your configuration file:
-include('newDataBaseConnectMine.php');
+include('dbConnectConfig.php');
 
 $db = new mysqli($servername, $username, $password,$dbname);
 if (mysqli_connect_errno()) {
@@ -19,7 +19,7 @@ $isC = stripslashes(htmlspecialchars($_POST['isCorrect']));
 $RTq = stripslashes(htmlspecialchars($_POST['RT']));
 $nC = stripslashes(htmlspecialchars($_POST['ncoin']));
 
-$stmt = $db->prepare("INSERT INTO qTable VALUE(?,?,?,?,?,?,?,?,?,?)");//I also insert the time
+$stmt = $db->prepare("INSERT INTO whichIsCloserTable VALUE(?,?,?,?,?,?,?,?,?,?)");//I also insert the time
 $stmt->bind_param("siiiiiiidi", $Fname,$Tr,$m,$tar,$ch,$imq1,$imq2,$isC,$RTq,$nC);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;

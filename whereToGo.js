@@ -1,6 +1,6 @@
 /*task functions*/
 // the missing links questions are for recangular only - need to be checked for other structures!!!
-function startQuestion(nQ){//distance estimation
+function startWhichIsCloser(nQ){//distance estimation, formerly called startQustions
    setTimeout(function(){flagT=1}, 500);
    qcor.style.display="none";
    qcon.style.display="none";
@@ -48,7 +48,7 @@ function startQuestion(nQ){//distance estimation
   var j1,j2,wCl,flagTs,dis2;
   imq2=-1;
   corAs = 0;
-  
+
   if(nTrialc<9){// no missing links
   	tarQ = Math.floor(Math.random() * (np));// target index
 	ran1 = Math.random();
@@ -64,10 +64,10 @@ function startQuestion(nQ){//distance estimation
 			imq2 = findTargGen(4,tarQ,DistM);
 		}
 	}
-	
+
 	 var nS1 = DistM[tarQ][imq1];
 	 var nS2 = DistM[tarQ][imq2];
- 
+
     if (nS1<nS2){
 	    corAs=1;
     }else{
@@ -85,7 +85,7 @@ function startQuestion(nQ){//distance estimation
 	ind = Math.floor(Math.random() * (lenMS));// index for choosing target
 	tarQ = vnmis[ind];// the target index
 	lenMS2 = vConmis[ind].length;
-	ind2 = Math.floor(Math.random() * (lenMS2));// index for choosing the unconnected node (3 away on the missing link graph but 1 away on the complete graph);		
+	ind2 = Math.floor(Math.random() * (lenMS2));// index for choosing the unconnected node (3 away on the missing link graph but 1 away on the complete graph);
 	if(ranD<0.75){//change 1->3
 		imq1 = vConmis[ind][ind2];
 		imq2 = findTargGenWithMis(3,tarQ,DistM);//find an image with distance 3 both on the omplete and missing link graphs
@@ -126,7 +126,7 @@ function startQuestion(nQ){//distance estimation
 }
 
 function conExpQ(cq){// check subject response
-	
+
 	var  thisTime=new Date();
 	var RTq = calResponseTime(thisTime,timeLast);
 	flagQ = 1;
@@ -134,7 +134,7 @@ function conExpQ(cq){// check subject response
 	/*  correct / non-correct*/
 	if(corAs==cq||corAs==0){
 		numCorrect = numCorrect+1;
-		corQ = 1;		
+		corQ = 1;
 	}else{
 	    corQ = 0;
 	}
@@ -142,12 +142,12 @@ function conExpQ(cq){// check subject response
 	TheCanvas.style.display="none"
 	ncoinPv.innerHTML=ncoin+" coins";
 
-    saveDataDBques(cq,imq1,imq2,corQ,RTq);// save data in sql table
+    save2whichIsCloserTable(cq,imq1,imq2,corQ,RTq);// save data in sql table
 
     qcon.style.display="inline";
     var tlap = Math.floor((Math.random() * 1000) + 750);
-    setTimeout(myTimeout, tlap,3); 
-   
+    setTimeout(myTimeout, tlap,3);
+
 }
 
 function conQ(){// next question or next block
@@ -155,14 +155,15 @@ function conQ(){// next question or next block
 	qcor.style.display="none";
 	q1.style.display="none";
     q2.style.display="none";
-  
+
    timeLast = new Date();
    if (numQ<qend){
-		startQuestion(numQ);
+		startWhichIsCloser(numQ);
    }else{
 	    if(nTrialc<maxT){
 		    nTrialc = nTrialc+1;
 			numQ = 0;
+			flagQ = 2;// so there wont be any response to subject pressing any key (enter/1/2)
 			allQ[0].style.display="none";
 			QFclass[0].style.display="inline";
 			feedbackQ.style.display="inline";
@@ -175,5 +176,3 @@ function conQ(){// next question or next block
 
    }
 }
-
-

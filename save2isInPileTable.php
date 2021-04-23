@@ -1,6 +1,6 @@
 <?php
 // this path should point to your configuration file:
-include('newDataBaseConnectMine.php');
+include('dbConnectConfig.php');
 
 $db =  new mysqli($servername, $username, $password,$dbname);
 if (mysqli_connect_errno()) {
@@ -25,7 +25,7 @@ $wPile= stripslashes(htmlspecialchars($_POST['wP']));
 $RTp = stripslashes(htmlspecialchars($_POST['RT']));
 $nC = stripslashes(htmlspecialchars($_POST['ncoin']));
 
-$stmt = $db->prepare("INSERT INTO isPileTable VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
+$stmt = $db->prepare("INSERT INTO isInPileTable VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
 $stmt->bind_param("siiiiiiiiiiiiidi", $Fname,$Tr,$m,$nR,$isC,$isinO,$pic11,$pic12,$pic13,$pic21,$pic22,$pic23,$pic4,$wPile,$RTp,$nC);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
