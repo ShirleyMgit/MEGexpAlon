@@ -73,7 +73,7 @@ function iniRun(){
   mn = Math.floor(mn/2);
   for (nr==0;nr++;nr<mn){
        Math.random();
-  } 
+  }
 }
 
 /*plot,delete,replot a circle (the coins)*/
@@ -110,7 +110,7 @@ function clearCanvas(crE0,x,y){
 	ctx.clearRect(0, 0, x, y);
 	ctx.fill();
 }
-document.onkeydown = checkKeyT;
+document.onkeydown = checkKeyT; // Alon: look how Mona does this
 
 function checkKeyT(e) {// subject key choice to functions responses
     if (e.keyCode == '13'&&flagIsM==-1&&flagSp==2&&flagSs==-1&&flagQ==1){//enter
@@ -122,7 +122,7 @@ function checkKeyT(e) {// subject key choice to functions responses
     if (e.keyCode == '50'&&flagIsM==-1&&flagSp==2&&flagSs==-1&&flagQ==0){//2
 		conExpQ(2);
     }
-   
+
     if (e.keyCode == '13'&&flagIsM==1&&flagSp==2&&flagSs==-1){//enter
 	   isItMiddle(0);
     }
@@ -132,9 +132,9 @@ function checkKeyT(e) {// subject key choice to functions responses
     if (e.keyCode == '78'&&flagIsM==0&&flagSp==2&&flagSs==-1&&flagTr==1){//n
 	   isItMiddleYN(0);
     }
-   
+
     if(flagSs==0&&flagIsM==-1&&flagSp==2&&flagT==1&&flagTr==1){// for navigation task
-	 	   
+
 		if (e.keyCode == '13'&&flagSs==0){
 			cpic = 0;
 			flagTr=0;
@@ -150,7 +150,7 @@ function checkKeyT(e) {// subject key choice to functions responses
 			flagTr=0;
 			conExpT(cpic);
 		}
-   
+
 	}else{
 		if (e.keyCode == '13'&&flagIsM==-1&&flagSs==1&&flagSp==2){
 			flagSs=0;
@@ -184,13 +184,13 @@ function checkKeyT(e) {// subject key choice to functions responses
 	if(flagSp==1&&flagIsM==-1&&flagTr==1){
 		if(e.keyCode=='49'){
 		  whichPileAns(1);
-		}		
+		}
 		if(e.keyCode=='50'){
 		  whichPileAns(2);
-		}	
+		}
 		if(e.keyCode=='51'){
 		  whichPileAns(3);
-		}	
+		}
 	}
 }
 
@@ -313,7 +313,7 @@ function detNextPicExAnoR(in0,ran1,Ar1,inR,inL){//fixes for corrected Ar
   var in2=nb[nin];
 
   return [in1,in2];;
-} 
+}
 
 function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fixed for corrected Ar
 /*This function finds the next forth picture in Hamiltonian path - good for all structures*/
@@ -476,4 +476,3 @@ function findTargGenWithMis(dS,inP,DistM0){
 	}
 	return targ;
 }
-
