@@ -6,12 +6,12 @@ function learnRandomWalkTask(thisTC){// learning phase
     thisTC = thisTC+1;
 
      /* which map:*/ // Alon: change sso that choosing the map will happen in choosePart()
-    if (nTrialc>1){
-	   curMpLast = curMpV[nTrialc-2];
+    if (currentRun>1){
+	   curMpLast = curMpV[currentRun-2];
     }else{
 	   curMpLast = -1;
     }
-    curMp = curMpV[nTrialc-1];
+    curMp = curMpV[currentRun-1];
 
     defineGraph();// create transition matrixes and define pictures set directory // Alon: move to choosePart
 
@@ -39,9 +39,6 @@ function learnRandomWalkTask(thisTC){// learning phase
     isMc[0].style.display="none";
     allQ[0].style.display="none";
     allTask[0].style.display="none";
-    if(fc!=3){
-       gInst[0].style.display="none";
-    }
     sPcB.style.display="none";
 
 	iniRun();//initilzation of random generator
@@ -60,7 +57,7 @@ function learnRandomWalkTask(thisTC){// learning phase
 
 // Alon: change all this so that it'll be one map per day. On day 3 have a map with missing links.
 
-	if(nTrialc>(maxT)){
+	if(currentRun>(maxT)){
 		isNmap.style.color="blue";
 	    isNmap.innerHTML="new pictures set <br> experiment ended - thanks!";
 	}
@@ -76,7 +73,7 @@ function learnRandomWalkTask(thisTC){// learning phase
 	    isNmap.style.color="red";
 	    isNmap.innerHTML="new pictures set <br> take few minutes to rest";
 
-	    switch(nTrialc){// display new/same picture sets message
+	    switch(currentRun){// display new/same picture sets message
 			case 9:
 		  	  isNmap.style.color="Blue";
 			  isNmap.innerHTML="new pictures set <br> End Day 1";
@@ -101,7 +98,7 @@ function learnRandomWalkTask(thisTC){// learning phase
 	    isNmap.style.color="green";
 	    isNmap.innerHTML="Same pictures set, same game - new trial";
     }
-    if(nTrialc==1){
+    if(currentRun==1){
 	  isFround=1;  // Alon: can delete?
     }
 
@@ -123,8 +120,8 @@ function conExp(){// continue experiment: check subject response time // Shirey 
    c = c+1;// counting the number of pictures that was displayed until now
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
-   //var ans = save2learnRandomWalkTable(subjectId,nTrialc,in1P,cor,RT,c,"learnRandomWalkTable");// save data into table in sql
-	var ans = save2learnRandomWalkTable(subjectId,nTrialc,in1P,0,RT,c,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+   //var ans = save2learnRandomWalkTable(subjectId,currentRun,in1P,cor,RT,c,"learnRandomWalkTable");// save data into table in sql
+	var ans = save2learnRandomWalkTable(subjectId,currentRun,in1P,0,RT,c,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
    imCold.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
    ran1 = Math.random();

@@ -18,7 +18,7 @@ function startNavigTask(dS){ // formerly called startTask
    flagIsM=-1;//signal that it is not IsM part
    flagT = 1;
    flagTr=1;//can get an answer
-   nTrialt = nTrialt+1;
+   nRunsNavig = nRunsNavig+1;
    isMc[0].style.display="none";
    PileDiv[0].style.display="none";
    skT.style.display="inline";
@@ -58,7 +58,7 @@ function startNavigTask(dS){ // formerly called startTask
   }else{
 	  isFround = 0;
   }
-  if (nTrialc==1){
+  if (currentRun==1){
      sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
 	 }else{
 	 sPC.innerHTML="Your current card:<br>";
@@ -195,7 +195,7 @@ function conExpT(cpic){// check subject choices
 	   ncolCrc = ncolCrc-1;
 	   corTask = 0;
 	}
-	   if (nTrialc==1){
+	   if (currentRun==1){
 		ncoinPv.style.display="inline";
 		TheCanvas.style.display="inline"
 		ncoinPv.innerHTML=ncoin+" coins";
@@ -221,7 +221,7 @@ function conExpT(cpic){// check subject choices
    imel1.style.display="none";
    imel.src = FileName+"pic"+ myPic[in1R].toString() + ".jpg";
    imel1.src = FileName+"pic"+ myPic[in1L].toString() + ".jpg";
-    if (nTrialc==1){
+    if (currentRun==1){
      sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
 	}else{
 	 sPC.innerHTML="Your current card:<br>";
@@ -256,7 +256,7 @@ function contT(docon){
 function endAllTrials_navig(endB){// end navigation task function
  if(endB==1){
 	 var j;
-  var avlose = totalStep/nTrialt;
+  var avlose = totalStep/nRunsNavig;
   allTask[0].style.display="none";
   allTask[0].remove;
  }

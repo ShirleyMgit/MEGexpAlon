@@ -29,7 +29,6 @@ function whichPile(nn){// piles task
 	  ncoinT = 0;
 	  clearCanvas(crE,300,450);
 	  flagC=0;
-	  nTrialSp = nTrialSp+1;
 	  thisT=0;
 
     }
@@ -42,7 +41,7 @@ function whichPile(nn){// piles task
 		inPp21 = Math.floor(Math.random() * (np));
 	}
 	var Ar1;
-	if (nTrialc<9){
+	if (currentRun<9){
 		Ar1 = Ar;
 	}else{
 		Ar1 = ArMiss;
