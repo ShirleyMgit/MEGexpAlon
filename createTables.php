@@ -92,12 +92,12 @@ if ($conn->query($sql) === TRUE) {
 // sql to create table learnRandomWalkTable (variable names need changing)
 $sql = "CREATE TABLE learnRandomWalkTable (
 subjectId TEXT,
-trial INT,
+run INT,
 map INT,
-pic INT,
-answer INT,
+trial INT,
 RT INT,
-npic INT
+node INT,
+picFile TEXT
 
 )";
 

@@ -41,7 +41,7 @@ function whichPile(nn){// piles task
 		inPp21 = Math.floor(Math.random() * (np));
 	}
 	var Ar1;
-	if (currentRun<9){
+	if (task.curRun<9){
 		Ar1 = Ar;
 	}else{
 		Ar1 = ArMiss;

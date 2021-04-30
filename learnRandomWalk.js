@@ -1,17 +1,14 @@
 
-function learnRandomWalkTask(thisTC){// learning phase
+function learnRandomWalkTask(){// learning phase
 
-// fc , c , and thisTC should all be a single variable - the current trial
-
-    thisTC = thisTC+1;
 
      /* which map:*/ // Alon: change sso that choosing the map will happen in choosePart()
-    if (currentRun>1){
-	   curMpLast = curMpV[currentRun-2];
+    if (task.curRun>1){
+	   curMpLast = task.mapsVec[task.curRun-2];
     }else{
 	   curMpLast = -1;
     }
-    curMp = curMpV[currentRun-1];
+    curMp = task.mapsVec[task.curRun-1];
 
     defineGraph();// create transition matrixes and define pictures set directory // Alon: move to choosePart
 
@@ -41,7 +38,7 @@ function learnRandomWalkTask(thisTC){// learning phase
     allTask[0].style.display="none";
     sPcB.style.display="none";
 
-	iniRun();//initilzation of random generator
+	initRand();//initilzation of random generator
     //covRpArr = [];
     allLearnRandomWalk.style.display="inline";
 
@@ -57,7 +54,7 @@ function learnRandomWalkTask(thisTC){// learning phase
 
 // Alon: change all this so that it'll be one map per day. On day 3 have a map with missing links.
 
-	if(currentRun>(maxT)){
+	if(task.curRun>(maxT)){
 		isNmap.style.color="blue";
 	    isNmap.innerHTML="new pictures set <br> experiment ended - thanks!";
 	}
@@ -73,7 +70,7 @@ function learnRandomWalkTask(thisTC){// learning phase
 	    isNmap.style.color="red";
 	    isNmap.innerHTML="new pictures set <br> take few minutes to rest";
 
-	    switch(currentRun){// display new/same picture sets message
+	    switch(task.curRun){// display new/same picture sets message
 			case 9:
 		  	  isNmap.style.color="Blue";
 			  isNmap.innerHTML="new pictures set <br> End Day 1";
@@ -98,7 +95,7 @@ function learnRandomWalkTask(thisTC){// learning phase
 	    isNmap.style.color="green";
 	    isNmap.innerHTML="Same pictures set, same game - new trial";
     }
-    if(currentRun==1){
+    if(task.curRun==1){
 	  isFround=1;  // Alon: can delete?
     }
 
@@ -117,11 +114,10 @@ function conExp(){// continue experiment: check subject response time // Shirey 
 	document.getElementById("endThanksT").innerHTML = "";
    var tlap=1500;
    var thisTime = new Date();
-   c = c+1;// counting the number of pictures that was displayed until now
+   learnWalkObj.trial = learnWalkObj.trial+1;// counting the number of pictures that was displayed until now
    /*save responses to an Array*/
    var RT = calResponseTime(thisTime,timeLast);// rsponse time
-   //var ans = save2learnRandomWalkTable(subjectId,currentRun,in1P,cor,RT,c,"learnRandomWalkTable");// save data into table in sql
-	var ans = save2learnRandomWalkTable(subjectId,currentRun,in1P,0,RT,c,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+	var ans = save2learnRandomWalkTable(subjectId,task.curRun,learnWalkObj.trial,in1P,RT,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
    imCold.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
    ran1 = Math.random();
@@ -132,15 +128,16 @@ function conExp(){// continue experiment: check subject response time // Shirey 
    imC.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// next picture
    ran1 = Math.random();
    timeLast = new Date();
-   if(c>maxCov){// stop learning phase after maxCov observations
-	   thisTC=-1;
-	   endAllTrials_learnRandomWalk(0);
+   // end part after learnWalkObj.maxTrial observations
+   if(learnWalkObj.trial>learnWalkObj.maxTrial){
+	   learnWalkObj.trial=-1;
+	   endAllTrials_learnRandomWalk();
    }
 }
 
 
 /* end learnRandomWalk task part*/
-function endAllTrials_learnRandomWalk(endB){
+function endAllTrials_learnRandomWalk(){
 
   corR=0;
   allLearnRandomWalk.style.display="none";

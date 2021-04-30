@@ -65,7 +65,7 @@ function myTimeout(a){
 }
 
 
-function iniRun(){
+function initRand(){
   /*initilzation of the random generator:*/
   var d = new Date();
   var mn = d.getMinutes();

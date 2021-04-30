@@ -2,12 +2,12 @@
 function learnRandomPairsTask(fc){
 
    /* Load The Picture Array:*/
-    if (currentRun>0){
-	  curMpLast = curMpV[currentRun-2];
+    if (task.curRun>0){
+	  curMpLast = task.mapsVec[task.curRun-2];
     }else{
 	  curMpLast = -1;
     }
-    curMp = curMpV[currentRun-1];
+    curMp = task.mapsVec[task.curRun-1];
 
     chooseLearning_walkOrPairs();// create transition matrixes and define pictures set directory
 
@@ -36,7 +36,7 @@ function learnRandomPairsTask(fc){
     allTask[0].style.display="none";
     sPcB.style.display="none";
     contCP.style.display="none";
-	iniRun();//initilzation of random generator
+	initRand();//initilzation of random generator
     /*array of all presentation*/
     covRpArr = [];
     allTask[0].style.display="none";
@@ -52,7 +52,7 @@ function learnRandomPairsTask(fc){
    corR=0;
    var j1,j2,np0;
 
-	if(currentRun>(maxT)){
+	if(task.curRun>(maxT)){
 		isNmapP.style.color="blue";
 		isNmapP.innerHTML="new pictures set <br> experiment ended - thanks!";
 	}
@@ -69,7 +69,7 @@ function learnRandomPairsTask(fc){
 	   isNmapP.style.color="green";
 	   isNmapP.innerHTML="Same pictures set, same game - new trial";
     }
-    if(currentRun==1){
+    if(task.curRun==1){
 	   isFround=1;
     }
 
@@ -97,7 +97,7 @@ function conExpPair(cpic){
 
     in1P = Math.floor(Math.random() * (np-1));
     ran1 = Math.random();
-    if (currentRun<9){
+    if (task.curRun<9){
 	   in2P=detNextPicGenA(ran1,Ar,in1P);// no missing links
     }else{
 	   in2P=detNextPicGenA(ran1,ArMiss,in1P);// with missing links
@@ -124,7 +124,7 @@ function conExpPair(cpic){
 	   endAllTrials_learnRandomPairs(0);
    }
 
-   save2learnRandomPairTable(subjectId,currentRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+   save2learnRandomPairTable(subjectId,task.curRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 

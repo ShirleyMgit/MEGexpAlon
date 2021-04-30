@@ -1,46 +1,47 @@
 // functions to read and write from sql tables
 
-function inThisT(tableName,name){// counts the number of repeatitions in the task part that was played before
-	 var cds,T,cT,countT=0;
-	 var xhttp;
-	 xhttp = new XMLHttpRequest();
-	 xhttp.onreadystatechange = function() {
-	 if (this.readyState == 4 && this.status == 200) {
-	     var myData = JSON.parse(this.responseText);
-         var len = myData.length;
-		 T = Number(myData[len-1].Trial);
-		 cT = T;
-		 countT = 0;
-		 while (cT==T&&(len-countT)>1){
-			countT = countT+1;
-            cT = Number(myData[len-countT-1].Trial);
-		 }
-        }
-     };
-	 xhttp.open("GET", "getRunAndTrialNumber.php?tableN="+tableName+"&subjectId="+subjectId, false);
-     xhttp.send();
-     return countT;
+function getTrialNumFromTable(tableName,name){// counts the number of repeatitions in the task part that was played before
+	var cds,run,cT,trialNum=0;
+	var xhttp;
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			// myData returns
+			var myData = JSON.parse(this.responseText);
+			var len = myData.length;
+			run = Number(myData[len-1].run);
+			cT = run;
+			trialNum = 0;
+			while (cT==run && (len-trialNum)>1){
+				trialNum = trialNum+1;
+				cT = Number(myData[len-trialNum-1].run);
+			}
+		}
+	};
+	xhttp.open("GET", "getRunAndTrialNumber.php?tableN="+tableName+"&subjectId="+subjectId, false);
+	xhttp.send();
+	return trialNum;
 }
 
 
-function runNumber(tableName,subjectId){ // check the number of runs already completed for a task.
-	 var num;
-	 var xhttp;
-	 xhttp = new XMLHttpRequest();
-	 xhttp.onreadystatechange = function() {
-	 if (this.readyState == 4 && this.status == 200) {
-	     var myData = JSON.parse(this.responseText);
-         var len = myData.length;
-		 if (len>0){
-            num = Number(myData[len-1].Trial);
-		 }else{
-            num=0;
-		 }
-        }
-     };
-	 xhttp.open("GET", "getRunAndTrialNumber.php?tableName="+tableName+"&subjectId="+subjectId, false);
-     xhttp.send();
-     return num;
+function getRunNumFromTable(tableName,subjectId){ // check the number of runs already completed for a task.
+	var num;
+	var xhttp;
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var myData = JSON.parse(this.responseText);
+			var len = myData.length;
+			if (len>0){
+				num = Number(myData[len-1].run);
+			}else{
+				num=0;
+			}
+		}
+	};
+	xhttp.open("GET", "getRunAndTrialNumber.php?tableName="+tableName+"&subjectId="+subjectId, false);
+	xhttp.send();
+	return num;
 }
 
 
@@ -80,7 +81,7 @@ function calCorQ(tableName,name){// sum over the number of correct answers as sa
 		}
        }
     };
-	xhttp.open("GET", "findIscor.php?tableN="+tableName+"&Fname="+name+"&Trial="+currentRun, false);
+	xhttp.open("GET", "findIscor.php?tableN="+tableName+"&Fname="+name+"&run="+task.curRun, false);
     xhttp.send();
     return sumCor;
 }
@@ -138,12 +139,12 @@ function save2subjectDetailsAndStartTimeTable(subjectId){//
 
 }
 
-function save2learnRandomWalkTable(subjectId,Tnum,npic,ch,rt,c,TableName){// previously -  saveDataDBnotU: save to cover table
+function save2learnRandomWalkTable(subjectId,run,trial,npic,rt,TableName){// previously -  saveDataDBnotU: save to cover table
 	var ans=-1;
       $.ajax({
       type:'POST',
       url: 'save2learnRandomWalkTable.php',
-      data: {subjectId: subjectId, trial: Tnum,map:curMp,picN:npic,choice:ch,rt:rt,tableN:TableName,picT:c},
+      data: {subjectId: subjectId, run:run, trial:trial, map:curMp, picN:npic, rt:rt, tableN:TableName},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -158,7 +159,7 @@ function save2learnRandomPairTable(subjectId,Tnum,npic1,npic2,rt,c,TableName){
       $.ajax({
       type:'POST',
       url: 'save2learnRandomPairs.php',
-      data: {name: subjectId, Trial: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
+      data: {name: subjectId, run: Tnum,map:curMp,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -171,7 +172,7 @@ function save2navigTable(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim
       $.ajax({
       type:'POST',
       url: 'save2navigTable.php',//save2navigTable.php',
-      data: {name: subjectId, Trial: currentRun,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
+      data: {name: subjectId, run: task.curRun,map:curMp,dS:ndS,target:tar1,inP:inP,choice:Tchoice,inPlast:inPlast,in1R:inRlast,in1L:inLlast,isCorrect:corTask,nCor:fnGood,nCorInD:fnGoodInD,curDS:LastnSt,curDSnew:nSt,RT:RTt,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -183,7 +184,7 @@ function save2whichIsCloserTable(cq,iq1,iq2,corQ,RTq){//inMv12,cim1,cim2,prC, sa
       $.ajax({
       type:'POST',
       url: 'save2whichIsCloserTable.php',
-      data: {name: subjectId, Trial: currentRun,map:curMp,target:tarQ,choice:cq,im1:iq1,im2:iq2,isCorrect:corQ,RT:RTq,ncoin:ncoin},
+      data: {name: subjectId, run: task.curRun,map:curMp,target:tarQ,choice:cq,im1:iq1,im2:iq2,isCorrect:corQ,RT:RTq,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -195,7 +196,7 @@ function save2isMiddleTable(nrep,RTm,corA){
       $.ajax({
       type:'POST',
       url: 'save2isMiddleTable.php',
-      data: {name: subjectId, Trial: currentRun,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
+      data: {name: subjectId, run: task.curRun,map:curMp,nREP:nrep,pic1:ism1p,pic2:ism,pic3:ism2p,isitM:ys,corR:corA,rt:RTm,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {
@@ -207,7 +208,7 @@ function save2isInPileTable(corP,RTp){//inMv12,cim1,cim2,prC
       $.ajax({
       type:'POST',
       url: 'save2isInPileTable.php',//'save2pileTable.php',
-      data: {name: subjectId, Trial: currentRun,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
+      data: {name: subjectId, run: task.curRun,map:curMp,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,ncoin:ncoin},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {

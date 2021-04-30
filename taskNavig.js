@@ -58,7 +58,7 @@ function startNavigTask(dS){ // formerly called startTask
   }else{
 	  isFround = 0;
   }
-  if (currentRun==1){
+  if (task.curRun==1){
      sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
 	 }else{
 	 sPC.innerHTML="Your current card:<br>";
@@ -195,7 +195,7 @@ function conExpT(cpic){// check subject choices
 	   ncolCrc = ncolCrc-1;
 	   corTask = 0;
 	}
-	   if (currentRun==1){
+	   if (task.curRun==1){
 		ncoinPv.style.display="inline";
 		TheCanvas.style.display="inline"
 		ncoinPv.innerHTML=ncoin+" coins";
@@ -221,7 +221,7 @@ function conExpT(cpic){// check subject choices
    imel1.style.display="none";
    imel.src = FileName+"pic"+ myPic[in1R].toString() + ".jpg";
    imel1.src = FileName+"pic"+ myPic[in1L].toString() + ".jpg";
-    if (currentRun==1){
+    if (task.curRun==1){
      sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
 	}else{
 	 sPC.innerHTML="Your current card:<br>";

@@ -20,15 +20,12 @@ $tableName = $_GET['tableName'];
 
 
 // Perform Query
-$sql = "SELECT trial FROM $tableName WHERE subjectId='$subjectId'";
-//$sql = "SELECT Trial FROM learnRandomWalkTable WHERE Name='$name1'";
-//echo($sql);
+$sql = "SELECT run FROM $tableName WHERE subjectId='$subjectId'";
+
 $result = mysqli_query($conn,$sql);
 
-//$result = mysql_query ("SELECT Trial FROM $tableName WHERE Name='$name1'")or die(mysql_error());//mysql_query("SELECT * FROM TryMapsTable2 WHERE Name='Shirley_Mark_map3'");//or die(mysql_error());
-//echo mysqli_error();
-
 if($result){
+  // if 
 	$resArr = array();
     $rn=0;
    while($info = mysqli_fetch_array( $result )) {
@@ -41,7 +38,6 @@ if($result){
 }
 //$sql1 = mysql_query ('SELECT * FROM $tableName WHERE Name=$name1')or die(mysql_error());
 $myJSON1 = json_encode($resArr);
-$myJSON2 = json_encode($rn);
 echo($myJSON1);
 $conn->close();
 ?>

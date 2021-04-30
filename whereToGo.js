@@ -43,13 +43,13 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   for (nr=0;nr<mn;nr++){
       Math.random();
   }
-  evT = calRem(currentRun,2);
+  evT = calRem(task.curRun,2);
   /*stimulus blocks*/
   var j1,j2,wCl,flagTs,dis2;
   imq2=-1;
   corAs = 0;
 
-  if(currentRun<9){// no missing links
+  if(task.curRun<9){// no missing links
   	tarQ = Math.floor(Math.random() * (np));// target index
 	ran1 = Math.random();
 	if (ran1<0.333){// find the indexes of the pictures to choose from
@@ -160,8 +160,8 @@ function conQ(){// next question or next block
    if (numQ<qend){
 		startWhichIsCloser(numQ);
    }else{
-	    if(currentRun<maxT){
-		    currentRun = currentRun+1;
+	    if(task.curRun<maxT){
+		    task.curRun = task.curRun+1;
 			numQ = 0;
 			flagQ = 2;// so there wont be any response to subject pressing any key (enter/1/2)
 			allQ[0].style.display="none";
