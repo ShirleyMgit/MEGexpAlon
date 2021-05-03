@@ -1,6 +1,8 @@
 
 function learnRandomWalkTask(){// learning phase
 
+    // Alon: think if this should be changed to get the trial from the table, in case subjects return to the task after disconnecting
+    learnWalkObj.trial = 0;
 
      /* which map:*/ // Alon: change sso that choosing the map will happen in choosePart()
     if (task.curRun>1){
@@ -103,9 +105,9 @@ function learnRandomWalkTask(){// learning phase
 	   alert(" there is a problem with the map index- stop experiment!"); // Alon: can delete?
     }
 
-  in1P = Math.floor(Math.random() * (np-1));//first picture index // np is size of map (number of states/nodes)
-  imC.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// first picture
-  //covRpArr.push(in1P);
+  nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
+  imC.src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// first image
+  //covRpArr.push(nodeNumImg1);
   ran1 = Math.random();
   timeLast = new Date();
 }
@@ -114,18 +116,19 @@ function conExp(){// continue experiment: check subject response time // Shirey 
 	document.getElementById("endThanksT").innerHTML = "";
    var tlap=1500;
    var thisTime = new Date();
-   learnWalkObj.trial = learnWalkObj.trial+1;// counting the number of pictures that was displayed until now
+   //increase trial. increase before saving so that it will start from 1 (not 0), but still index
+   learnWalkObj.trial = learnWalkObj.trial+1;
    /*save responses to an Array*/
-   var RT = calResponseTime(thisTime,timeLast);// rsponse time
-	var ans = save2learnRandomWalkTable(subjectId,task.curRun,learnWalkObj.trial,in1P,RT,"learnRandomWalkTable");// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+   var rt = calResponseTime(thisTime,timeLast);// rsponse time
+	var ans = save2learnRandomWalkTable(subjectId,task.curRun, curMp, learnWalkObj.trial,nodeNumImg1,imgFileNamesArr[nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
-   imCold.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// old picture
+   imCold.src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// old picture
    ran1 = Math.random();
-   in1P=detNextPicGenA(ran1,Ar,in1P);// next picture index
+   nodeNumImg1=detNextPicGenA(ran1,Ar,nodeNumImg1);// next picture index
 
-   //covRpArr.push(in1P);
+   //covRpArr.push(nodeNumImg1);
 
-   imC.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";// next picture
+   imC.src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// next picture
    ran1 = Math.random();
    timeLast = new Date();
    // end part after learnWalkObj.maxTrial observations

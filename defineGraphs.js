@@ -1,7 +1,7 @@
 function defineGraph(){// create transition structures and define pictures set
 	switch(curMp){//structure
         case(0):
-		   FileName = "/MEG/images/set1reg/"; // pictures directory
+		   pathToImgDir = "/MEG/images/set1reg/"; // pictures directory
 		   /*graph size*/
 		   nCol = 6;
 		   nRow = 6;
@@ -12,14 +12,14 @@ function defineGraph(){// create transition structures and define pictures set
 		   nCol = 5;
 		   nRow = 5;
 		   np=nCol*nRow;
-		   FileName = "/MEG/images/set2reg/"; // pictures directory
+		   pathToImgDir = "/MEG/images/set2reg/"; // pictures directory
 		   break;
 		case(2):
 		   /*graph size*/
 		   nCol = 4;
 		   nRow = 4;
 		   np=nCol*nRow;
-		   FileName = "/MEG/images/set3reg/"; // pictures directory
+		   pathToImgDir = "/MEG/images/set3reg/"; // pictures directory
 		   /* missing links staff*/
 		   vnmis = [1,5,7,11,9,10]; // mising links nodes
 		   vConmis = [[5],[1],[11],[7],[10],[9]];

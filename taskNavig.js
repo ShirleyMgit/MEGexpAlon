@@ -65,11 +65,11 @@ function startNavigTask(dS){ // formerly called startTask
 	 }
 
   /*taret picture*/
-  imelt.src = FileName+"pic"+ myPic[tar1].toString() + ".jpg";
+  imelt.src = pathToImgDir + imgFileNamesArr[tar1];
   imelt.style.display="inline";
 
   /*current picture*/
-  imCu.src=FileName+"pic"+ myPic[inP].toString() + ".jpg";
+  imCu.src=pathToImgDir + imgFileNamesArr[inP];
 
   /* indexes cards/pictures to choose from*/
   do{
@@ -87,10 +87,10 @@ function startNavigTask(dS){ // formerly called startTask
   inLlast = in1L;
   inRlast = in1R;
   /* pictures to choose from*/
-  imel1.src = FileName+"pic"+ myPic[in1L].toString() + ".jpg";
+  imel1.src = pathToImgDir + imgFileNamesArr[in1L];
   imel1.style.display="inline";
 
-  imel.src = FileName+"pic"+ myPic[in1R].toString() + ".jpg";
+  imel.src = pathToImgDir + imgFileNamesArr[in1R];
   imel.style.display="inline";
 
   PICclass.style.display="inline";
@@ -109,12 +109,12 @@ function conExpT(cpic){// check subject choices
   var RTt = calResponseTime(thisTime,timeLast);
   if (cpic==1){//LEFT HAS BEEN CHOSEN
         inP = in1L;
-		imCu.src=FileName+"pic"+ myPic[inP].toString() + ".jpg";
+		imCu.src=pathToImgDir + imgFileNamesArr[inP];
 		Tchoice = 1;
   }else{
      if(cpic==2){
         inP = in1R;
-		imCu.src=FileName+"pic"+ myPic[inP].toString() + ".jpg";
+		imCu.src=pathToImgDir + imgFileNamesArr[inP];
 		Tchoice = 2;
 		}else{
 		  Tchoice = 0;
@@ -219,8 +219,8 @@ function conExpT(cpic){// check subject choices
 
    imel.style.display="none";
    imel1.style.display="none";
-   imel.src = FileName+"pic"+ myPic[in1R].toString() + ".jpg";
-   imel1.src = FileName+"pic"+ myPic[in1L].toString() + ".jpg";
+   imel.src = pathToImgDir + imgFileNamesArr[in1R];
+   imel1.src = pathToImgDir + imgFileNamesArr[in1L];
     if (task.curRun==1){
      sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
 	}else{

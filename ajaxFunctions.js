@@ -110,11 +110,11 @@ function TaskdS(name){// check what was the initial distance between initial pic
 }
 
 /*save variable into sql table*/
-function save2imagesFilesTable(subjectId,filenameNumber,nodeNumber,tableName){ // save in sql table
+function save2imagesFilesTable(imgFileName,nodeNumber){ // save in sql table
       $.ajax({
       type:'POST',
       url: 'save2imagesFilesTable.php',
-      data: {subjectId: subjectId, filenameNumber: filenameNumber, nodeNumber:nodeNumber, tableName:tableName},
+      data: {subjectId: subjectId, imgFileName: imgFileName, nodeNumber:nodeNumber},
 	  async: false,
 	  dataType:'json'
    });
@@ -139,12 +139,12 @@ function save2subjectDetailsAndStartTimeTable(subjectId){//
 
 }
 
-function save2learnRandomWalkTable(subjectId,run,trial,npic,rt,TableName){// previously -  saveDataDBnotU: save to cover table
+function save2learnRandomWalkTable(subjectId, run, map, trial, node, imgFile, rt){// previously -  saveDataDBnotU: save to cover table
 	var ans=-1;
       $.ajax({
       type:'POST',
       url: 'save2learnRandomWalkTable.php',
-      data: {subjectId: subjectId, run:run, trial:trial, map:curMp, picN:npic, rt:rt, tableN:TableName},
+      data: {subjectId: subjectId, run:run, map:map, trial:trial, node:node, imgFile:imgFile, rt:rt},
 	  async: false,
 	  dataType:'json',
 	  success: function(ans) {

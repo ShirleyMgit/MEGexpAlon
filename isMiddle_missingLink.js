@@ -56,9 +56,9 @@ function isItMiddle(nn){// is it in the middle task
 	  ism = ismnew;
    }
    /* the pictures*/
-   im1.src = FileName+"pic"+ myPic[ism1p].toString() + ".jpg";
-   im2.src = FileName+"pic"+ myPic[ism2p].toString() + ".jpg";
-   im3.src = FileName+"pic"+ myPic[ism].toString() + ".jpg";
+   im1.src = pathToImgDir + imgFileNamesArr[ism1p];
+   im2.src = pathToImgDir + imgFileNamesArr[ism2p];
+   im3.src = pathToImgDir + imgFileNamesArr[ism];
 
    /* manage display*/
    m3.style.display="inline";

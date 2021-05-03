@@ -114,12 +114,12 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   }
   /*the picture*/
   /*the target picture*/
-   imelQ.src = FileName+"pic"+ myPic[tarQ].toString() + ".jpg";
+   imelQ.src = pathToImgDir + imgFileNamesArr[tarQ];
    imelQ.style.display="inline";
    /* the other pictures*/
-   q1.src = FileName+"pic"+ myPic[imq1].toString() + ".jpg";
+   q1.src = pathToImgDir + imgFileNamesArr[imq1];
    q1.style.display="inline";
-   q2.src = FileName+"pic"+ myPic[imq2].toString() + ".jpg";
+   q2.src = pathToImgDir + imgFileNamesArr[imq2];
    q2.style.display="inline";
 
   timeLast = new Date();

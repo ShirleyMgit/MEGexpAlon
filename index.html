@@ -381,7 +381,7 @@ var qb=document.getElementById("qBot");
 var RB=document.getElementById("Rbot");
 var LB=document.getElementById("Lbot");
 
-var FileName;
+var pathToImgDir;
 
 /*respone ojsect*/
 var resCArr=[];//the array of resCover
@@ -407,7 +407,7 @@ var inP1,inP,inPr;
 var dtT;
 var stTarr;
 var flip =0;
-var myPic=[]; // the pictures from directory array
+var imgFileNamesArr=[]; // the pictures from directory array
 
 
 
@@ -446,23 +446,20 @@ var nmap=1;
 function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
 /* subject first name*/
    var subjectId0 = document.getElementById("subjectId").value;
-   var lenf = subjectId0.length;
-   var j;
    if(subjectId0.endsWith("\n")||subjectId0.endsWith(" ")){
-      subjectId = subjectId0.slice(0,lenf-1);
+      subjectId = subjectId0.slice(0,subjectId0.length - 1);
    }else{
         subjectId = subjectId0;
    }
 
   /*create/retrive MAPS and save in sql table*/
    var j1,j2,j3;
-   var nodeNumber; // these will be the names of the columns in SQL table, storing the file names of images in their order in he current graph
-   var nodeNumber0 = "node";
-   var nmmax,jn;
+   var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current graph. their tags are the indeces of the file names in imgFileNamesArr
+   var nmmax,nodeNum;
    nmmax = maxMap;
    var nn,vn=[]; // vn: vector of numbers.
    var vn01=[];
-   var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg)
+   var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
    for (j3=1;j3<=nall;j3++){
      vn01.push(j3); // vn01 is a vector 1:nall
    }
@@ -470,27 +467,31 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
    // sample without replacement indeces for pictures, store in vn1
    for (j3=0;j3<=npmax;j3++){ // npmax is the length of the largest map of the experiment
+     // get a random index between 1 and nall, and populate vn1 with it
      np0 = Math.floor(Math.random() * (nn));
      vn1.push(vn01[np0]);
+     // discard the used random index
      vn01.splice(np0, 1);
      nn = nn-1;
    }
-
   	nn = npmax;
 
     // check if the images array already exists. If it does, return it in an array .
     // If it doesn't, return -1
-  	myPic = checkIfSubjectMapExists(subjectId);
+  	imgFileNamesArr = checkIfSubjectMapExists(subjectId);
     // If images array does not exist, create it (randomely assign images files to graph nodes - i.e. the emissions matrix)
-  	if (myPic[0]==-1){ // does not exists
-  		myPic=[];
+  	if (imgFileNamesArr[0]==-1){ // does not exists
+  		imgFileNamesArr=[];
   		for (j1=0; j1<npmax;j1++){
-  			myPic.push(vn1[j1]);
   			nn = nn-1;
-  			jn = j1+1;
-  			nodeNumber = nodeNumber0+jn;
-  			save2imagesFilesTable(subjectId,vn1[j1],nodeNumber,"imagesFilesTable"); // in ajaxFunctions.js
-  			vn.splice(np0, 1);
+  			nodeNum = j1+1;
+  			nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
+        imgFileName = "pic" + vn1[j1].toString() + ".jpg"
+        imgFileNamesArr.push(imgFileName);
+        // save to SQL. vn1[j1] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
+ 			  save2imagesFilesTable(imgFileName,nodeStr); // in ajaxFunctions.js
+        // discard the number already used
+        vn.splice(np0, 1);
   		}
   	}
   	if (vn.length>0){ // Alon: I don't really understand why you need to do this - you don't use vn again.
@@ -516,7 +517,7 @@ function presPic(){
   /*display the pictures array -  for debugging*/
 var disPic = 0;
 var j,picSrc,isLine,leftP,leftP0,rightP=0;
-var FileName = "/MEG/images/set1reg/";
+var pathToImgDir = "/MEG/images/set1reg/";
 var imH = 120;
 var dpL = 20;
 var dpR = 20;
@@ -524,7 +525,7 @@ var dpR = 20;
 	leftP = leftP0;
 	document.write("<div class='dispPicArr'>");
 	for(j=0;j<npmax;j++){
-		picSrc = FileName+"pic"+ myPic[j].toString() + ".jpg'";
+		picSrc = pathToImgDir+ imgFileNamesArr[j];
 		document.write("<img border ='5px solid gray' height='"+imH+"'px width='"+imH+"px' position='relative' left="+leftP+"px right="+rightP+"px src='"+picSrc+">");
 		isLine = Math.ceil((j+1)/nCol);
 		isLine = (isLine)*nCol-j-1;
@@ -535,11 +536,10 @@ var dpR = 20;
 			rightP = 0;
 		}
 	}
-
 }
 
 function checkIfSubjectMapExists(){
-	var map=[]; // map is an array mapping image files to node numbers
+	var map=[]; // map is an array mapping image files to node numbers - imgFileNamesArr
 	var j;
 	var xhttp;
 	xhttp = new XMLHttpRequest();
@@ -550,8 +550,9 @@ function checkIfSubjectMapExists(){
 			if(data.length==0){ //if map does not exist
 				map[0]=-1;
 			}else{ // if exists, build map array
+        // loop through images. Start at 1 because the first column in data[0] is subjectId.
 				for(j=1;j<=npmax;j++){
-					map[j-1]=data[0][j];
+					map[j-1]=data[0][j]; // data[0] is a single row of SQL table, j indexes it.
 				}
 			}
 		}

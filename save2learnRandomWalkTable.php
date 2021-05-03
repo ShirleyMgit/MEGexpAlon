@@ -9,18 +9,20 @@ if (mysqli_connect_errno()) {
    exit();
 }
 
+// make sure parameters don't have slashes etc
 $subjectId = stripslashes(htmlspecialchars($_POST['subjectId']));
+$run = stripslashes(htmlspecialchars($_POST['run']));
+$map = stripslashes(htmlspecialchars($_POST['map']));
 $trial = stripslashes(htmlspecialchars($_POST['trial']));
-$m = stripslashes(htmlspecialchars($_POST['map']));
-$pic = stripslashes(htmlspecialchars($_POST['picN']));
-$ans = stripslashes(htmlspecialchars($_POST['choice']));
+$node = stripslashes(htmlspecialchars($_POST['node']));
+$imgFile = stripslashes(htmlspecialchars($_POST['imgFile']));
 $rt = stripslashes(htmlspecialchars($_POST['rt']));
-$cT = stripslashes(htmlspecialchars($_POST['picT']));
-$TableN= stripslashes(htmlspecialchars($_POST['tableN']));
 
-
-$stmt = $db->prepare("INSERT INTO $TableN (subjectId, trial, map, pic, answer, rt, npic) VALUE(?,?,?,?,?,?,?)");//I also insert the time
-$stmt->bind_param("siiiiii", $subjectId, $trial,$m,$pic,$ans,$rt,$cT);//s=string, i=integer, d=double
+// prepare SQL statement
+$stmt = $db->prepare("INSERT INTO learnRandomWalkTable (subjectId, run, map, trial, node,imgFile, rt) VALUE(?,?,?,?,?,?,?)");//I also insert the time
+// bind parameters to statement
+$stmt->bind_param("siiiiis", $subjectId, $run,$map,$trial,$node,$imgFile,$rt);//s=string, i=integer, d=double
+// execute statement (save row to table)
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(

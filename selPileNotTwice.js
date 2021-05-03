@@ -51,11 +51,11 @@ function whichPile(nn){// piles task
    	inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,Ar1);
 	inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,Ar1);
 
-   imCsP11.src = FileName+"pic"+ myPic[inPp11].toString() + ".jpg";//the first picture 1 pile
-   imCsP21.src = FileName+"pic"+ myPic[inPp21].toString() + ".jpg";//the first picture 2 pile
+   imCsP11.src = pathToImgDir + imgFileNamesArr[inPp11];//the first picture 1 pile
+   imCsP21.src = pathToImgDir + imgFileNamesArr[inPp21];//the first picture 2 pile
 
-   imCsP12.src = FileName+"pic"+ myPic[inPp12].toString() + ".jpg";//the 2 picture 1 pile
-   imCsP22.src = FileName+"pic"+ myPic[inPp22].toString() + ".jpg";//the 2 picture 2 pile
+   imCsP12.src = pathToImgDir + imgFileNamesArr[inPp12];//the 2 picture 1 pile
+   imCsP22.src = pathToImgDir + imgFileNamesArr[inPp22];//the 2 picture 2 pile
 
    while (inPp23==inPp13){
 	   var A23L;
@@ -78,8 +78,8 @@ function whichPile(nn){// piles task
 	 }
 
    if (conSP==1){
-    imCsP13.src = FileName+"pic"+ myPic[inPp13].toString() + ".jpg";//the 3 picture 1 pile
-    imCsP23.src = FileName+"pic"+ myPic[inPp23].toString() + ".jpg";//the 3 picture 2 pile
+    imCsP13.src = pathToImgDir + imgFileNamesArr[inPp13];//the 3 picture 1 pile
+    imCsP23.src = pathToImgDir + imgFileNamesArr[inPp23];//the 3 picture 2 pile
     var all1pile = [inPp11,inPp12,inPp13];
 	var all2pile = [inPp21,inPp22,inPp23];
     imCsP14.src = "/MEG/images/whitePic.jpg";
@@ -101,7 +101,7 @@ function whichPile(nn){// piles task
 	   whichPile(0);
     }else{
 
-      wCsP12.src=FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the q pic
+      wCsP12.src=pathToImgDir + imgFileNamesArr[inPisP];//the q pic
 
    /*need to check wether the picture is not a neighbour of both of them or if exists in one of the piles*/
       if(wP==1){// I am not sure whether I sould put Ar or ArMiss here...
@@ -186,15 +186,15 @@ function whichPileAns(ansP){// check particpants answer
    }
    isCsP.style.display= "inline";
    if (wP==1){// put the picture in the correct pile
-			imCsP14.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture 1 pile
+			imCsP14.src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture 1 pile
 			imCsP24.src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
    }else{
 	   if(wP==2){
 			imCsP14.src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
-			imCsP24.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture 2 pile
+			imCsP24.src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture 2 pile
 	   }else{
-			imCsP14.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture both pile
-			imCsP24.src = FileName+"pic"+ myPic[inPisP].toString() + ".jpg";//the 4 picture both pile
+			imCsP14.src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture both pile
+			imCsP24.src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture both pile
 	   }
    }
    EcSp.style.display="inline"

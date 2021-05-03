@@ -103,8 +103,8 @@ function conExpPair(cpic){
 	   in2P=detNextPicGenA(ran1,ArMiss,in1P);// with missing links
     }
 	/* the 2 pictures*/
-    imC1.src = FileName+"pic"+ myPic[in1P].toString() + ".jpg";
-    imC2.src = FileName+"pic"+ myPic[in2P].toString() + ".jpg";
+    imC1.src = pathToImgDir + imgFileNamesArr[in1P];
+    imC2.src = pathToImgDir + imgFileNamesArr[in2P];
 
    	if (thisTCp>0){
 		 contCP.style.display="inline";
