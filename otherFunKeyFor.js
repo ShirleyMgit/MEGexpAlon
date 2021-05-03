@@ -376,65 +376,7 @@ function multiplyMatrices(m1, m2) {//Not My Code
 	return result;
 }
 
-function calDistAdjMat(Ar1){
-	var i,j,m,lenB,flagNb,numZ;
-	var np1 = Ar1.length;
-	var D=[[]];
-	var A = [[]];
-	var An = [[]];
-	numZ = 0;
-	/*Initilizing D*/
-	for (i=0;i<np1;i++){//initialization - just neighbours
-		var nB = Ar1[i];
-		lenB = nB.length;
-		D[i].push( new Array(np1));
-		A[i].push( new Array(np1));
-		An[i].push( new Array(np1));
-		for (j=0;j<np1;j++){
-			flagNb = 0;
-			for (m=0;m<lenB;m++){
-				if(nB[m]==j){
-					flagNb=1;
-					D[i][j]=1;
-					A[i][j]=1;
-					An[i][j]=1;
-					break;
-				}
-			}
-			if (flagNb==0){
-				D[i][j]=0;
-				A[i][j]=0;
-				An[i][j]=0;
-				numZ = numZ+1;
-			}
-		}
-		if(i<np1-1){
-			D.push([]);
-			A.push([]);
-			An.push([]);
-		}
-	}
-	var n=2;
-	while (numZ>np1){
-		numZ = np1;
-		An = multiplyMatrices(An,A);
-		for (i=0;i<np1;i++){
-			for (j=0;j<np1;j++){
-				if(i!=j){
-					if(D[i][j]==0){
-						if(An[i][j]!=0){
-							D[i][j]=n;
-						}else{
-							numZ = numZ+1;
-						}
-					}
-				}
-			}
-		}
-		n = n+1;
-	}
-	return D;
-}
+
 function findTargGen(dS,inP,DistM0){
 	var Dinp = DistM0[inP];
 	var DdS =[];
