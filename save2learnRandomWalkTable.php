@@ -5,8 +5,8 @@ include('dbConnectConfig.php');
 
 $db =  new mysqli($servername, $username, $password,$dbname);
 if (mysqli_connect_errno()) {
-   printf("DB error: %s", mysqli_connect_error());
-   exit();
+  printf("DB error: %s", mysqli_connect_error());
+  exit();
 }
 
 // make sure parameters don't have slashes etc
@@ -26,10 +26,10 @@ $stmt->bind_param("siiiiis", $subjectId, $run,$map,$trial,$node,$imgFile,$rt);//
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(
-      'ErrorNo' => $err,
-    );
+  'ErrorNo' => $err,
+);
 $stmt->close();
- $db->close();
+$db->close();
 echo json_encode($data);
 
 ?>

@@ -8,7 +8,7 @@ $conn = new mysqli($servername, $username, $password,$dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 //echo "Connected successfully ";
 
@@ -27,34 +27,34 @@ $result2 = mysqli_query ($conn,$sql2)or die(mysqli_error());//mysql_query("SELEC
 echo mysqli_error();
 
 if($result1){
-	$tarArr = array();
-    $rn=0;
-   while($info = mysqli_fetch_array( $result1 )) {
-	   $tarArr[$rn] =$info;
-	   $rn=$rn+1;
-   }
+  $tarArr = array();
+  $rn=0;
+  while($info = mysqli_fetch_array( $result1 )) {
+    $tarArr[$rn] =$info;
+    $rn=$rn+1;
+  }
 }else{
-	$rn=-1;
-	$tarArr=-1;
+  $rn=-1;
+  $tarArr=-1;
 }
 
 if($result2){
-	$picArr = array();
-    $rn2=0;
-   while($info = mysql_fetch_array( $result2 )) {
-	   $picArr[$rn2] =$info;
-	   $rn2=$rn2+1;
-   }
+  $picArr = array();
+  $rn2=0;
+  while($info = mysql_fetch_array( $result2 )) {
+    $picArr[$rn2] =$info;
+    $rn2=$rn2+1;
+  }
 }else{
-	$rn2=-1;
-	$picArr=-1;
+  $rn2=-1;
+  $picArr=-1;
 }
 $target = $tarArr[$rn-1];
 $cpic = $picrArr[$rn-1];
 if($target==$cpic){
-	$rch = 1;
+  $rch = 1;
 }else{
-	$rch = 0;
+  $rch = 0;
 }
 //$sql1 = mysql_query ('SELECT * FROM $TableN WHERE Name=$name1')or die(mysql_error());
 $myJSON1 = json_encode($rch);

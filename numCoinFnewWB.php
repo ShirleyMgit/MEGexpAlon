@@ -9,7 +9,7 @@ $conn = new mysqli($servername, $username, $password,$dbname);
 
 // Check connection
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+  die("Connection failed: " . $conn->connect_error);
 }
 //echo "Connected successfully ";
 
@@ -25,15 +25,15 @@ $result = mysqli_query ($conn,$sql);
 //echo mysqli_error();
 
 if($result){
-	$resArr = array();
-    $rn=0;
-   while($info = mysqli_fetch_array( $result )) {
-	   $resArr[$rn] =$info;
-	   $rn=$rn+1;
-   }
+  $resArr = array();
+  $rn=0;
+  while($info = mysqli_fetch_array( $result )) {
+    $resArr[$rn] =$info;
+    $rn=$rn+1;
+  }
 }else{
-	$rn=-1;
-	$resArr=-1;
+  $rn=-1;
+  $resArr=-1;
 }
 
 $myJSON1 = json_encode($resArr);

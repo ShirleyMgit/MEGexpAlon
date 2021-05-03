@@ -6,8 +6,8 @@ $password="Yohghovaih1!";
 
 $db = new mysqli($host, $user, $password, $database);
 if (mysqli_connect_errno()) {
-   printf("DB error: %s", mysqli_connect_error());
-   exit();
+  printf("DB error: %s", mysqli_connect_error());
+  exit();
 }
 //for security reasons we remove slashes from the inputs
 $Fname = stripslashes(htmlspecialchars($_POST['subjectId']));
@@ -20,9 +20,9 @@ $stmt->bind_param("siii", $Fname,$hour,$day,$month);//s=string, i=integer, d=dou
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(
-      'ErrorNo' => $err,
-    );
+  'ErrorNo' => $err,
+);
 $stmt->close();
- $db->close();
+$db->close();
 echo json_encode($data);
- ?>
+?>

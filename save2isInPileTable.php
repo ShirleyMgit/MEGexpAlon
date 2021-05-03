@@ -4,8 +4,8 @@ include('dbConnectConfig.php');
 
 $db =  new mysqli($servername, $username, $password,$dbname);
 if (mysqli_connect_errno()) {
-   printf("DB error: %s", mysqli_connect_error());
-   exit();
+  printf("DB error: %s", mysqli_connect_error());
+  exit();
 }
 //for security reasons we remove slashes from the inputs
 $Fname = stripslashes(htmlspecialchars($_POST['name']));
@@ -30,9 +30,9 @@ $stmt->bind_param("siiiiiiiiiiiiidi", $Fname,$Tr,$m,$nR,$isC,$isinO,$pic11,$pic1
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(
-      'ErrorNo' => $err,
-    );
+  'ErrorNo' => $err,
+);
 $stmt->close();
- $db->close();
+$db->close();
 echo json_encode($data);
- ?>
+?>
