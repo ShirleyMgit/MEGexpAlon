@@ -250,10 +250,7 @@ p.botp{
 #allPic{
   display:none;
 }
-/*#d1inp{
-width: 300px;
-height: 100px;
-}*/
+
 #currPic{
   font-family: serif;
   font-size: 18px;
@@ -360,10 +357,7 @@ margin-top: 400px;
   left: 150px;
   bottom: 250px;
 }
-#startPicR{
-  font-family: serif;
-  font-size: 20px;
-}
+
 #im1{
   width: 140px;
   height: 140px;
@@ -478,10 +472,6 @@ top: 0px;
   display:none;
 }
 #randMVins{
-  font-family: serif;
-  font-size: 20px;
-}
-#ins12MV{
   font-family: serif;
   font-size: 20px;
 }

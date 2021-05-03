@@ -5,12 +5,12 @@ function startNavigTask(dS){ // formerly called startTask
   setTimeout(function(){flagT=1}, 500);
   inLlast = -1;
   inRlast = -1;
-  bc.disabled=true;
+  document.getElementById("conBot").disabled=true;
   ndS=dS;
   y = y0;
   x = 0;
   nthis = 0;
-  clearCanvas(crE,300,450);
+  clearCanvas(document.getElementById("myCanvas"),300,450);
   ncoinT=0;
   flagC=0;
   flagSs=0;
@@ -19,18 +19,18 @@ function startNavigTask(dS){ // formerly called startTask
   flagT = 1;
   flagTr=1;//can get an answer
   nRunsNavig = nRunsNavig+1;
-  isMc[0].style.display="none";
-  PileDiv[0].style.display="none";
-  skT.style.display="inline";
-  trp.style.display="inline";
-  cPC.style.display="inline";
-  imCu.style.display="inline";
-  LBt.style.display="inline";
-  RBt.style.display="inline";
-  allTask[0].style.display="inline";
-  sPcB.style.display="none";
-  Et[0].style.display="none";
-  endErT.style.display="none";
+  document.getElementsByClassName("isMiddle")[0].style.display="none";
+  document.getElementsByClassName("pileDiv")[0].style.display="none";
+  document.getElementById("skip").style.display="inline";
+  document.getElementById("tarPid").style.display="inline";
+  document.getElementById("cPic").style.display="inline";
+  document.getElementById("currPt").style.display="inline";
+  document.getElementById("LbotT").style.display="inline";
+  document.getElementById("RbotT").style.display="inline";
+  document.getElementsByClassName("navig")[0].style.display="inline";
+  document.getElementById("dispPc").style.display="none";
+  document.getElementsByClassName("endTask")[0].style.display="none";
+  document.getElementById("endExpReachT").style.display="none";
   c=1;
 
   /*print instructions:*/
@@ -59,17 +59,17 @@ function startNavigTask(dS){ // formerly called startTask
     isFround = 0;
   }
   if (task.curRun==1){
-    sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
+    document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
   }else{
-    sPC.innerHTML="Your current card:<br>";
+    document.getElementById("startPic").innerHTML="Your current card:<br>";
   }
 
   /*taret picture*/
-  imelt.src = pathToImgDir + imgFileNamesArr[tar1];
-  imelt.style.display="inline";
+  document.getElementById("tarPt").src = pathToImgDir + imgFileNamesArr[tar1];
+  document.getElementById("tarPt").style.display="inline";
 
   /*current picture*/
-  imCu.src=pathToImgDir + imgFileNamesArr[inP];
+  document.getElementById("currPt").src=pathToImgDir + imgFileNamesArr[inP];
 
   /* indexes cards/pictures to choose from*/
   do{
@@ -87,13 +87,13 @@ function startNavigTask(dS){ // formerly called startTask
   inLlast = in1L;
   inRlast = in1R;
   /* pictures to choose from*/
-  imel1.src = pathToImgDir + imgFileNamesArr[in1L];
-  imel1.style.display="inline";
+  document.getElementById("chPic1").src = pathToImgDir + imgFileNamesArr[in1L];
+  document.getElementById("chPic1").style.display="inline";
 
-  imel.src = pathToImgDir + imgFileNamesArr[in1R];
-  imel.style.display="inline";
+  document.getElementById("chPic2").src = pathToImgDir + imgFileNamesArr[in1R];
+  document.getElementById("chPic2").style.display="inline";
 
-  PICclass.style.display="inline";
+  document.getElementById("picT").style.display="inline";
 
   timeLast = new Date();
 }
@@ -102,19 +102,19 @@ function conExpT(cpic){// check subject choices
   flagTr=1;
   nthis= nthis+1;// number of current trial steps
   var Tchoice,nGood,nGoodInD,corTask;
-  Et[0].style.display="none";
+  document.getElementsByClassName("endTask")[0].style.display="none";
   var  thisTime=new Date();
   flagSs=1;
   inPlast = inP;
   var RTt = calResponseTime(thisTime,timeLast);
   if (cpic==1){//LEFT HAS BEEN CHOSEN
     inP = in1L;
-    imCu.src=pathToImgDir + imgFileNamesArr[inP];
+    document.getElementById("currPt").src=pathToImgDir + imgFileNamesArr[inP];
     Tchoice = 1;
   }else{
     if(cpic==2){
       inP = in1R;
-      imCu.src=pathToImgDir + imgFileNamesArr[inP];
+      document.getElementById("currPt").src=pathToImgDir + imgFileNamesArr[inP];
       Tchoice = 2;
     }else{
       Tchoice = 0;
@@ -138,31 +138,30 @@ function conExpT(cpic){// check subject choices
   ran1 = Math.random();
   nSt = DistM[tar1][inP];
   /*change things that are displayed on the screen*/
-  skT.style.display="none";
-  sPcB.style.display="inline";
-  sPcB.style.backgroundColor="red";
+  document.getElementById("skip").style.display="none";
+  document.getElementById("dispPc").style.display="inline";
+  document.getElementById("dispPc").style.backgroundColor="red";
 
   /*checking reaching to target or too many trials*/
   if ((inP==tar1)||nthis>=maxTask){
     flagSs=2;
     save2navigTable(Tchoice,nGood,nGoodInD,corTask,RTt);// save to sql table
-    Et[0].style.display="inline";
-    cPC.style.display="none";
-    trp.style.display="none";
-    imel.style.display="none";
-    imel1.style.display="none";
-    imelt.style.display="none";
-    imCu.style.display="none";
+    document.getElementsByClassName("endTask")[0].style.display="inline";
+    document.getElementById("cPic").style.display="none";
+    document.getElementById("tarPid").style.display="none";
+    document.getElementById("chPic2").style.display="none";
+    document.getElementById("chPic1").style.display="none";
+    document.getElementById("tarPt").style.display="none";
+    document.getElementById("currPt").style.display="none";
     if(nthis<maxTask){// end trial if number of steps exceeded max Task number of steps
-      endErT.innerHTML = "<b> target has been reached,<br> number of step= "+c.toString()+"<br>";
+      document.getElementById("endExpReachT").innerHTML = "<b> target has been reached,<br> number of step= "+c.toString()+"<br>";
     }else{
-      endErT.innerHTML = "<b> too many steps";
+      document.getElementById("endExpReachT").innerHTML = "<b> too many steps";
     }
-    endErT.style.display="inline";
-    sPcB.style.display="none";
-    skT.style.display="none";
-    bc.disabled=false;
-    //be.disabled=false;
+    document.getElementById("endExpReachT").style.display="inline";
+    document.getElementById("dispPc").style.display="none";
+    document.getElementById("skip").style.display="none";
+    document.getElementById("conBot").disabled=false;
     totalStep = totalStep +c;
     return;
   }
@@ -178,9 +177,9 @@ function conExpT(cpic){// check subject choices
     corTask = 1;
     if (nthis<80){
       if (flagC==0){
-        plotCircle(crE,y,"blue",x);
+        plotCircle(document.getElementById("myCanvas"),y,"blue",x);
       }else{
-        replotCircle(crE,y,x);
+        replotCircle(document.getElementById("myCanvas"),y,x);
       }
       y = y-dy;
     }
@@ -191,17 +190,17 @@ function conExpT(cpic){// check subject choices
       ncoinT = ncoinT-1;
     }
     ncoin = ncoin-1;
-    clearCircle(crE,y,x);
+    clearCircle(document.getElementById("myCanvas"),y,x);
     ncolCrc = ncolCrc-1;
     corTask = 0;
   }
   if (task.curRun==1){
-    ncoinPv.style.display="inline";
-    TheCanvas.style.display="inline"
-    ncoinPv.innerHTML=ncoin+" coins";
+    document.getElementById("ncoinP").style.display="inline";
+    document.getElementById("myCanvas").style.display="inline"
+    document.getElementById("ncoinP").innerHTML=ncoin+" coins";
   }else{
-    ncoinPv.style.display="none";
-    TheCanvas.style.display="none";
+    document.getElementById("ncoinP").style.display="none";
+    document.getElementById("myCanvas").style.display="none";
   }
   if(y<=0){
     x = x+dx;
@@ -217,14 +216,14 @@ function conExpT(cpic){// check subject choices
   var tlap = Math.floor((Math.random() * 1000) + 750);
   setTimeout(myTimeout, tlap,3);
 
-  imel.style.display="none";
-  imel1.style.display="none";
-  imel.src = pathToImgDir + imgFileNamesArr[in1R];
-  imel1.src = pathToImgDir + imgFileNamesArr[in1L];
+  document.getElementById("chPic2").style.display="none";
+  document.getElementById("chPic1").style.display="none";
+  document.getElementById("chPic2").src = pathToImgDir + imgFileNamesArr[in1R];
+  document.getElementById("chPic1").src = pathToImgDir + imgFileNamesArr[in1L];
   if (task.curRun==1){
-    sPC.innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
+    document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
   }else{
-    sPC.innerHTML="Your current card:<br>";
+    document.getElementById("startPic").innerHTML="Your current card:<br>";
   }
   flagTr=1;
 
@@ -232,22 +231,22 @@ function conExpT(cpic){// check subject choices
 
 }
 function dispPic(){
-  imel.style.display="inline";
-  imel1.style.display="inline";
-  sPcB.style.display="none";
-  skT.style.display="inline";
+  document.getElementById("chPic2").style.display="inline";
+  document.getElementById("chPic1").style.display="inline";
+  document.getElementById("dispPc").style.display="none";
+  document.getElementById("skip").style.display="inline";
 }
 function contT(docon){
   if(docon==1){
 
-    sPcB.style.display="none";
-    skT.style.display="none";
+    document.getElementById("dispPc").style.display="none";
+    document.getElementById("skip").style.display="none";
 
     if (ndS<maxdS){
       startNavigTask(ndS+1);
     }else{
-      allTask[0].style.display="none";
-      bc.disabled=false;
+      document.getElementsByClassName("navig")[0].style.display="none";
+      document.getElementById("conBot").disabled=false;
       startWhichIsCloser(0);
     }
   }
@@ -257,7 +256,7 @@ function endAllTrials_navig(endB){// end navigation task function
   if(endB==1){
     var j;
     var avlose = totalStep/nRunsNavig;
-    allTask[0].style.display="none";
-    allTask[0].remove;
+    document.getElementsByClassName("navig")[0].style.display="none";
+    document.getElementsByClassName("navig")[0].remove;
   }
 }

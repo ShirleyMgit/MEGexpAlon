@@ -2,9 +2,9 @@
 // the missing links questions are for recangular only - need to be checked for other structures!!!
 function startWhichIsCloser(nQ){//distance estimation, formerly called startQustions
   setTimeout(function(){flagT=1}, 500);
-  qcor.style.display="none";
-  qcon.style.display="none";
-  bc.disabled=true;
+  document.getElementById("iqcor").style.display="none";
+  document.getElementById("iqcon").style.display="none";
+  document.getElementById("conBot").disabled=true;
   //y = y0;
   //x = 0;
   if(nQ==0){
@@ -12,7 +12,7 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   }
   numQ = nQ+1;
   corAs = 0;
-  clearCanvas(crE,300,450);
+  clearCanvas(document.getElementById("myCanvas"),300,450);
   ncoinT=0;
   flagC=0;
   flagSs=-1;
@@ -21,14 +21,14 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   flagT = 0;
   flagTr = -1;
   flagQ = 0;
-  isMc[0].style.display="none";
-  PileDiv[0].style.display="none";
-  skT.style.display="none";
-  allTask[0].style.display="none";
-  sPcB.style.display="none";
-  Et[0].style.display="none";
-  endErT.style.display="none";
-  allQ[0].style.display="inline";
+  document.getElementsByClassName("isMiddle")[0].style.display="none";
+  document.getElementsByClassName("pileDiv")[0].style.display="none";
+  document.getElementById("skip").style.display="none";
+  document.getElementsByClassName("navig")[0].style.display="none";
+  document.getElementById("dispPc").style.display="none";
+  document.getElementsByClassName("endTask")[0].style.display="none";
+  document.getElementById("endExpReachT").style.display="none";
+  document.getElementsByClassName("whichIsCloser")[0].style.display="inline";
   //c=1;
 
   /*print instructions:"*/
@@ -114,13 +114,13 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   }
   /*the picture*/
   /*the target picture*/
-  imelQ.src = pathToImgDir + imgFileNamesArr[tarQ];
-  imelQ.style.display="inline";
+  document.getElementById("tarPQ").src = pathToImgDir + imgFileNamesArr[tarQ];
+  document.getElementById("tarPQ").style.display="inline";
   /* the other pictures*/
-  q1.src = pathToImgDir + imgFileNamesArr[imq1];
-  q1.style.display="inline";
-  q2.src = pathToImgDir + imgFileNamesArr[imq2];
-  q2.style.display="inline";
+  document.getElementById("Q1").src = pathToImgDir + imgFileNamesArr[imq1];
+  document.getElementById("Q1").style.display="inline";
+  document.getElementById("Q2").src = pathToImgDir + imgFileNamesArr[imq2];
+  document.getElementById("Q2").style.display="inline";
 
   timeLast = new Date();
 }
@@ -130,7 +130,7 @@ function conExpQ(cq){// check subject response
   var  thisTime=new Date();
   var RTq = calResponseTime(thisTime,timeLast);
   flagQ = 1;
-  qcor.style.display="none";
+  document.getElementById("iqcor").style.display="none";
   /*  correct / non-correct*/
   if(corAs==cq||corAs==0){
     numCorrect = numCorrect+1;
@@ -138,23 +138,23 @@ function conExpQ(cq){// check subject response
   }else{
     corQ = 0;
   }
-  ncoinPv.style.display="none";
-  TheCanvas.style.display="none"
-  ncoinPv.innerHTML=ncoin+" coins";
+  document.getElementById("ncoinP").style.display="none";
+  document.getElementById("myCanvas").style.display="none"
+  document.getElementById("ncoinP").innerHTML=ncoin+" coins";
 
   save2whichIsCloserTable(cq,imq1,imq2,corQ,RTq);// save data in sql table
 
-  qcon.style.display="inline";
+  document.getElementById("iqcon").style.display="inline";
   var tlap = Math.floor((Math.random() * 1000) + 750);
   setTimeout(myTimeout, tlap,3);
 
 }
 
 function conQ(){// next question or next block
-  qcon.style.display="none";
-  qcor.style.display="none";
-  q1.style.display="none";
-  q2.style.display="none";
+  document.getElementById("iqcon").style.display="none";
+  document.getElementById("iqcor").style.display="none";
+  document.getElementById("Q1").style.display="none";
+  document.getElementById("Q2").style.display="none";
 
   timeLast = new Date();
   if (numQ<qend){
@@ -164,14 +164,14 @@ function conQ(){// next question or next block
       task.curRun = task.curRun+1;
       numQ = 0;
       flagQ = 2;// so there wont be any response to subject pressing any key (enter/1/2)
-      allQ[0].style.display="none";
-      QFclass[0].style.display="inline";
-      feedbackQ.style.display="inline";
+      document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+      document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="inline";
+      document.getElementById("Qfeedback").style.display="inline";
       precntCor = Math.ceil(100*numCorrect/qend);
-      feedbackQ.innerHTML = "Thank you, you have done: %" + precntCor + "correct";
+      document.getElementById("Qfeedback").innerHTML = "Thank you, you have done: %" + precntCor + "correct";
     }else{
       document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
-      allQ[0].style.display="none";
+      document.getElementsByClassName("whichIsCloser")[0].style.display="none";
     }
 
   }

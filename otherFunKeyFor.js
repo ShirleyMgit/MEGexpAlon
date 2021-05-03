@@ -77,8 +77,8 @@ function initRand(){
 }
 
 /*plot,delete,replot a circle (the coins)*/
-function plotCircle(crE,y,colr,x){
-	var ctx = crE.getContext("2d");
+function plotCircle(myCanvas,y,colr,x){
+	var ctx = myCanvas.getContext("2d");
 	ctx.globalCompositeOperation = 'source-over';
 	ctx.beginPath();
 	ctx.arc(220-x, y, sz, 0, 2 * Math.PI);
@@ -86,16 +86,16 @@ function plotCircle(crE,y,colr,x){
 	ctx.fillStyle = colr;
 	ctx.fill();
 }
-function replotCircle(crE,y,x){
-	var ctx = crE.getContext("2d");
+function replotCircle(myCanvas,y,x){
+	var ctx = myCanvas.getContext("2d");
 	ctx.globalCompositeOperation = 'source-over';
 	ctx.beginPath();
 	ctx.arc(220-x, y, sz, 0, 2 * Math.PI);
 	ctx.fill();
 	flagC=0;
 }
-function clearCircle(crE,y,x){
-	var ctx = crE.getContext("2d");
+function clearCircle(myCanvas,y,x){
+	var ctx = myCanvas.getContext("2d");
 	ctx.globalCompositeOperation = 'destination-out';
 	ctx.beginPath();
 	//ctx.arc(220-x, y, 15, 0, 2 * Math.PI);
@@ -103,8 +103,8 @@ function clearCircle(crE,y,x){
 	ctx.fill();
 	flagC=1;
 }
-function clearCanvas(crE0,x,y){
-	var ctx = crE0.getContext("2d");
+function clearCanvas(myCanvas,x,y){
+	var ctx = myCanvas.getContext("2d");
 	ctx.globalCompositeOperation = 'destination-out';
 	ctx.beginPath();
 	ctx.clearRect(0, 0, x, y);
@@ -160,21 +160,17 @@ function checkKeyT(e) {// subject key choice to functions responses
 
 	if(flagCov==1&&flagIsM==-1&&flagSs==2&&flagSp==2){//for the cover - learning phase
 		if (e.keyCode == '89'){//y
-			isitDan=1;
 			conExp(1);
 		}
 		if (e.keyCode == '78'){//n
-			isitDan=0;
 			conExp(0);
 		}
 		if (e.keyCode == '13'){//enter
-			isitDan=0;
 			conExp(0);
 		}
 	}
 	if(flagCovP==1&&flagCov==0&&flagIsM==-1&&flagSs==2&&flagSp==2){//for the learning from pair phase
 		if (e.keyCode == '13'){//enter
-			isitDan=0;
 			conExpPair(0);
 		}
 	}

@@ -12,7 +12,7 @@ function learnRandomPairsTask(fc){
   chooseLearning_walkOrPairs();// create transition matrixes and define pictures set directory
 
   y = y0;
-  clearCanvas(crE,300,450);
+  clearCanvas(document.getElementById("myCanvas"),300,450);
   ncoinT=0;
   flagC=0;
   flagT=0;
@@ -25,21 +25,21 @@ function learnRandomPairsTask(fc){
   thisTCp = fc;
 
   saveStartTime(ncoin,subjectId);
-  allQ[0].style.display="none";
-  QFclass[0].style.display="none";
-  feedbackQ.style.display="none";
+  document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+  document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
+  document.getElementById("Qfeedback").style.display="none";
 
   /* Print instructions*/
-  instP.innerHTML="Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
+  document.getElementById("instructionsP").innerHTML="Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
 
-  isMc[0].style.display="none";
-  allTask[0].style.display="none";
-  sPcB.style.display="none";
-  contCP.style.display="none";
+  document.getElementsByClassName("isMiddle")[0].style.display="none";
+  document.getElementsByClassName("navig")[0].style.display="none";
+  document.getElementById("dispPc").style.display="none";
+  document.getElementById("conCP").style.display="none";
   initRand();//initilzation of random generator
   /*array of all presentation*/
   covRpArr = [];
-  allTask[0].style.display="none";
+  document.getElementsByClassName("navig")[0].style.display="none";
   allLearnRandomPair.style.display="inline";
 
   /* response object*/
@@ -53,21 +53,21 @@ function learnRandomPairsTask(fc){
   var j1,j2,np0;
 
   if(task.curRun>(maxT)){
-    isNmapP.style.color="blue";
-    isNmapP.innerHTML="new pictures set <br> experiment ended - thanks!";
+    document.getElementById("newMP").style.color="blue";
+    document.getElementById("newMP").innerHTML="new pictures set <br> experiment ended - thanks!";
   }
 
-  isNmapP.style.color="green";
-  isNmapP.innerHTML="Same pictures set, same game - new trial";
+  document.getElementById("newMP").style.color="green";
+  document.getElementById("newMP").innerHTML="Same pictures set, same game - new trial";
   isFround=0;
 
   if(curMp!=curMpLast&&curMpLast!=-1){
     isFround=1;
-    isNmapP.style.color="red";
-    isNmapP.innerHTML="new pictures set <br> take few minutes to rest";
+    document.getElementById("newMP").style.color="red";
+    document.getElementById("newMP").innerHTML="new pictures set <br> take few minutes to rest";
   }else{
-    isNmapP.style.color="green";
-    isNmapP.innerHTML="Same pictures set, same game - new trial";
+    document.getElementById("newMP").style.color="green";
+    document.getElementById("newMP").innerHTML="Same pictures set, same game - new trial";
   }
   if(task.curRun==1){
     isFround=1;
@@ -84,9 +84,9 @@ function learnRandomPairsTask(fc){
 
 function conExpPair(cpic){
   document.getElementById("endThanksT").innerHTML = "";
-  imC1.style.display="none"
-  imC2.style.display="none"
-  contCP.style.display="none"
+  document.getElementById("PicPC1").style.display="none"
+  document.getElementById("PicPC2").style.display="none"
+  document.getElementById("conCP").style.display="none"
   var tlap=1500;
   var thisTime = new Date();
   var cor;
@@ -103,17 +103,17 @@ function conExpPair(cpic){
     in2P=detNextPicGenA(ran1,ArMiss,in1P);// with missing links
   }
   /* the 2 pictures*/
-  imC1.src = pathToImgDir + imgFileNamesArr[in1P];
-  imC2.src = pathToImgDir + imgFileNamesArr[in2P];
+  document.getElementById("PicPC1").src = pathToImgDir + imgFileNamesArr[in1P];
+  document.getElementById("PicPC2").src = pathToImgDir + imgFileNamesArr[in2P];
 
   if (thisTCp>0){
-    contCP.style.display="inline";
-    setTimeout(function(){ contCP.style.display="none";},500);
-    setTimeout(function(){imC1.style.display="inline"; imC2.style.display="inline";},500);
-    isNmapP.style.display="none";
+    document.getElementById("conCP").style.display="inline";
+    setTimeout(function(){ document.getElementById("conCP").style.display="none";},500);
+    setTimeout(function(){document.getElementById("PicPC1").style.display="inline"; document.getElementById("PicPC2").style.display="inline";},500);
+    document.getElementById("newMP").style.display="none";
   } else{
-    imC1.style.display="inline";
-    imC2.style.display="inline";
+    document.getElementById("PicPC1").style.display="inline";
+    document.getElementById("PicPC2").style.display="inline";
   }
   covRpArr.push(in1P);
 

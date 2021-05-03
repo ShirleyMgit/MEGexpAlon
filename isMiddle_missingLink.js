@@ -10,11 +10,11 @@ function isItMiddle(nn){// is it in the middle task
 	if(nn==1){
 		y = y0;
 		x = 0;
-		clearCanvas(crE,300,450);
+		clearCanvas(document.getElementById("myCanvas"),300,450);
 		ncoinT=0;
 		flagC=0;
 		if(isNestDis==1){
-			nxIsM.disabled=true;
+			document.getElementById("nextIsM").disabled=true;
 		}
 		nrep=1;
 	}else{
@@ -23,9 +23,9 @@ function isItMiddle(nn){// is it in the middle task
 
 	flagIsM=0;
 	/*manage display*/
-	PileDiv[0].style.display="none";
-	allTask[0].style.display="none";
-	isMc[0].style.display="inline";
+	document.getElementsByClassName("pileDiv")[0].style.display="none";
+	document.getElementsByClassName("navig")[0].style.display="none";
+	document.getElementsByClassName("isMiddle")[0].style.display="inline";
 	ism = Math.floor(Math.random() * (np));
 
 	if(curMp>1){
@@ -61,10 +61,10 @@ function isItMiddle(nn){// is it in the middle task
 	im3.src = pathToImgDir + imgFileNamesArr[ism];
 
 	/* manage display*/
-	m3.style.display="inline";
-	m3div.style.display="inline";
-	m3cor.style.display="none";
-	m3con.style.display="none";
+	document.getElementById("im3").style.display="inline";
+	document.getElementById("im3div").style.display="inline";
+	document.getElementById("im3cor").style.display="none";
+	document.getElementById("im3con").style.display="none";
 
 	thisLast=new Date();
 }
@@ -77,20 +77,20 @@ function isItMiddleYN(yn){// check if correct and give feedback
 		ncoin = ncoin+1;
 		ncoinT = ncoinT+1;
 		corA =1;
-		m3cor.innerHTML = "Correct!";
+		document.getElementById("im3cor").innerHTML = "Correct!";
 		flagIsM=1;
-		m3div.style.display="none";
-		m3cor.style.display="inline";
+		document.getElementById("im3div").style.display="none";
+		document.getElementById("im3cor").style.display="inline";
 		if(ys==1){
-			m3cor.style.color="green";
+			document.getElementById("im3cor").style.color="green";
 		}else{
-			m3cor.style.color="blue";
+			document.getElementById("im3cor").style.color="blue";
 		}
-		m3con.style.display="inline";
+		document.getElementById("im3con").style.display="inline";
 		if (flagC==0){
-			plotCircle(crE,y,"blue",x);
+			plotCircle(document.getElementById("myCanvas"),y,"blue",x);
 		}else{
-			replotCircle(crE,y,x);
+			replotCircle(document.getElementById("myCanvas"),y,x);
 		}
 		y = y-dy;
 	}else{
@@ -101,17 +101,17 @@ function isItMiddleYN(yn){// check if correct and give feedback
 		flagIsM=1;
 		ncoin = ncoin-1;
 
-		m3div.style.display="none";
-		m3cor.innerHTML = "NOT Correct!";
-		m3cor.style.display="inline";
-		m3cor.style.color="red";
-		m3con.style.display="inline";
+		document.getElementById("im3div").style.display="none";
+		document.getElementById("im3cor").innerHTML = "NOT Correct!";
+		document.getElementById("im3cor").style.display="inline";
+		document.getElementById("im3cor").style.color="red";
+		document.getElementById("im3con").style.display="inline";
 		ncolCrc = ncolCrc-1;
 		corA=0;
-		clearCircle(crE,y,x);
+		clearCircle(document.getElementById("myCanvas"),y,x);
 	}
-	ncoinPv.style.display="inline";
-	ncoinPv.innerHTML=ncoin+" coins";
+	document.getElementById("ncoinP").style.display="inline";
+	document.getElementById("ncoinP").innerHTML=ncoin+" coins";
 	if(y<=0){
 		x = x+dx;
 		y = y0;

@@ -13,8 +13,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
   <!-- tasks part functions-->
-  <script src="defineGraphs.js"></script><!--define maps dimentions and missing links-->
-  <script src="createAr.js"></script><!--create transition matrices arrays-->
+  <script src="graph.js"></script><!--define maps dimentions and missing links-->
   <script src="rectGA.js"></script><!--create rectangular transition matrix-->
   <script src="createMissLinkArGen.js"></script><!-- missing links array-->
   <script src="otherFunKeyFor.js"></script><!--helper functions-->
@@ -31,7 +30,7 @@
 <!--start-->
 
 <!--subject details:-->
-<center><div id="startN" style="background-color: powderblue;">
+<center><div id="startDiv" style="background-color: powderblue;">
   <p style="font-size: 20px"><b>Welcome</b><br> please enter your details.</p>
   Prolific subject ID (or your full name if you don't have a subject ID):<br> <input type="text" id="subjectId" value="" ><br><br>
   <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
@@ -84,7 +83,7 @@
 
   <!--pile task-->
 
-  <div class="pile">
+  <div class="pileDiv">
     <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
     <img id="wCp" style="position:relative; bottom:50px;  left:685px;">
     <center><div><p id="isCorRSp" style="position:relative; bottom:60px; left:200px;"></p><p id="EconSp" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
@@ -114,7 +113,7 @@
     </center>
     <center><p id="im3cor" style="font-size: 18px; color:red"></p></center>
     <center><p id="im3con">Press <b>Enter</b> to continoue</p></center>
-    <center><div id="im3d"><p id="im3p"><br>Intermediate Card?</p><img id="im3"></div></center>
+    <center><div id="im3div"><p id="im3p"><br>Intermediate Card?</p><img id="im3"></div></center>
 
     <button type="button" id="nextIsM" ;
     onclick="writeResp()">Next Step</button>
@@ -285,105 +284,8 @@ var stType;
 var ncolCrc=1;
 var cgetR = 0.4;
 var thisTC=-1;
-/*all display elements*/
-var isNmap = document.getElementById("newM");
-var isNmapP = document.getElementById("newMP");
-var ncoinPv=document.getElementById("nCoinP");
-var TheCanvas = document.getElementById("myCanvas");
-var div1pair = document.getElementById("1inp");
-var EcSp = document.getElementById("EconSp");
-var isCsP = document.getElementById("isCorRSp");
-var imCsP11= document.getElementById("imCp11");
-var imCsP21= document.getElementById("imCp21");
-var imCsP12= document.getElementById("imCp12");
-var imCsP22= document.getElementById("imCp22");
-var imCsP13= document.getElementById("imCp13");
-var imCsP23= document.getElementById("imCp23");
-var imCsP14= document.getElementById("imCp14");
-var imCsP24= document.getElementById("imCp24");
-var wCsP12= document.getElementById("wCp");
-var pileIn= document.getElementById("pileIns");
-var PileDiv = document.getElementsByClassName("pile");
-var allPicEl = document.getElementById("allPic");
-var isitD = document.getElementById("isThis");
-var Ecn = document.getElementById("Econ");
-var isMc = document.getElementsByClassName("isMiddle");
-var m1 = document.getElementById("im1");
-var m2 = document.getElementById("im2");
-var m3 = document.getElementById("im3");
-var m3p = document.getElementById("im3p");
-var m3div = document.getElementById("im3d");
-var m3cor= document.getElementById("im3cor");
-var m3con= document.getElementById("im3con");
-var NmB = document.getElementById("Nm");
-var YmB = document.getElementById("Ym");
-var crE = document.getElementById("myCanvas");
-var allLearnRandomWalk=document.getElementById("learnRandomWalk");
-var allLearnRandomPairs=document.getElementById("learnRandomPairs");
-var instP=document.getElementById("instructionsP");
-var imC1= document.getElementById("PicPC1");
-var imC2= document.getElementById("PicPC2");
-var contCP= document.getElementById("conCP");
-var startDiv=document.getElementById("startN");
-var picC=document.getElementById("pic1");
-var allTask=document.getElementsByClassName("navig");
-var stB = document.getElementById("startTb");
-var gInst=document.getElementsByClassName("global inst");
-var endTresult=document.getElementById("endTid");
-var endLearnRandomWalk=document.getElementById("endLearnRandomWalk");
-var inst=document.getElementById("instructions");
-var instB=document.getElementById("instructionsB");
-var wellel=document.getElementById("wellc");
-var imC = document.getElementById("chPicC1");
-var imCold = document.getElementById("chPicCold");
-var cPC = document.getElementById("cPic");
-var cPCR = document.getElementById("cPicR");
-var sPC = document.getElementById("startPic");
-var sPCr = document.getElementById("startPicR");
-var imCu = document.getElementById("currPt");
-var imCuR = document.getElementById("currPtR");
-var sPcB=document.getElementById("dispPc");
-var sPcBR=document.getElementById("dispPcRW");
-var ins1=document.getElementById("inst1");
-var imel = document.getElementById("chPic2");
-var imel1 = document.getElementById("chPic1");
-var imR2 = document.getElementById("chPicR2");
-var imR1 = document.getElementById("chPicR1");
-var imelt = document.getElementById("tarPt");
-var PICclass=document.getElementById("picT");
-var trp=document.getElementById("tarPid");
-var RBt=document.getElementById("RbotT");
-var LBt=document.getElementById("LbotT");
-var RBtR=document.getElementById("RbotTR");
-var LBtR=document.getElementById("LbotTR");
-var Et=document.getElementsByClassName("endTask");
-var instT=document.getElementById("instructionsT");
-var instTR=document.getElementById("instructionsTR");
-var tarPel=document.getElementById("targetPic");
-var endErT=document.getElementById("endExpReachT");
-var skT=document.getElementById("skip");
-var skTR=document.getElementById("skipR");
-var nxSp=document.getElementById("nextSp");
-var nxIsM = document.getElementById("nextIsM");
-var bc=document.getElementById("conBot");
-var be=document.getElementById("endBot");
-var q1 = document.getElementById("Q1");
-var q2 = document.getElementById("Q2");
-var instQ=document.getElementById("instructionsQ");
-var imelQ = document.getElementById("tarPQ");
-var tarPelQ=document.getElementById("targetPicQ");
-var allQ=document.getElementsByClassName("whichIsCloser");
-var QFclass =document.getElementsByClassName("whichIsCloser_feedback");
-var feedbackQ=document.getElementById("Qfeedback");
-var qcor= document.getElementById("iqcor");
-var qcon= document.getElementById("iqcon");
 
-/*disable the end bottuns*/
-var qb=document.getElementById("qBot");
 /* pictures button objects*/
-var RB=document.getElementById("Rbot");
-var LB=document.getElementById("Lbot");
-
 var pathToImgDir;
 
 /*respone ojsect*/
@@ -414,31 +316,31 @@ var imgFileNamesArr=[]; // the pictures from directory array
 
 
 /*disable the end bottuns*/
-bc.disabled=true;
-be.disabled=true;
+document.getElementById("conBot").disabled=true;
+document.getElementById("endBot").disabled=true;
 /*disable the next bottuns*/
 if (isNestDis==1){
-  qb.disabled=true;
-  skTR.disabled=true;
-  nxIsM.disabled=true;
-  nxSp.disabled=true;
+  document.getElementById("qBot").disabled=true;
+  document.getElementById("skipR").disabled=true;
+  document.getElementById("nextIsM").disabled=true;
+  document.getElementById("nextSp").disabled=true;
 }
 /*trial variable*/
 var totalStep = 0;
 var in1R,in1L,inP,tar1,nSt,rowT,colT;
 
 /*make display elements unseen*/
-cPC.style.display="none";
-trp.style.display="none";
-allQ[0].style.display="none";
-allTask[0].style.display="none";
-gInst[0].style.display="none";
-allLearnRandomWalk.style.display="none";
-allLearnRandomPairs.style.display="none";
-isMc[0].style.display="none";
-PileDiv[0].style.display="none";
-QFclass[0].style.display="none";
-feedbackQ.style.display="none";
+document.getElementById("cPic").style.display="none";
+document.getElementById("tarPid").style.display="none";
+document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+document.getElementsByClassName("navig")[0].style.display="none";
+document.getElementsByClassName("global inst")[0].style.display="none";
+document.getElementById("learnRandomWalk").style.display="none";
+document.getElementById("learnRandomPairs").style.display="none";
+document.getElementsByClassName("isMiddle")[0].style.display="none";
+document.getElementsByClassName("pileDiv")[0].style.display="none";
+document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
+document.getElementById("Qfeedback").style.display="none";
 
 var ndis = 1;
 var subjectId;
@@ -503,13 +405,13 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   save2subjectDetailsAndStartTimeTable(subjectId);
 
   /* change display */
-  startDiv.style.display="none";
-  gInst[0].style.display="inline";
-  stB.style.display="inline";
-  Et[0].style.display="none";
-  PICclass.style.display="inline";
+  document.getElementById("startDiv").style.display="none";
+  document.getElementsByClassName("global inst")[0].style.display="inline";
+  document.getElementById("startTb").style.display="inline";
+  document.getElementsByClassName("endTask")[0].style.display="none";
+  document.getElementById("picT").style.display="inline";
   /* general instructions - the instructions that appears at the start page*/
-  ins1.innerHTML="<b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br> The task is divided into rounds, on each rounds there are 5 parts. <br> Today you will learn two pictures sets. <br> The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br> If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br> In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>Follow the instruction on each part of the game.";//<br>During the first part you will have to determine whether the picture is tilt or not,<br>pay attention to the pictures on the cards and the order in which they are presented, as it will help you in the following  tasks.";
+  document.getElementById("inst1").innerHTML="<b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br> The task is divided into rounds, on each rounds there are 5 parts. <br> Today you will learn two pictures sets. <br> The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br> If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br> In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>Follow the instruction on each part of the game.";//<br>During the first part you will have to determine whether the picture is tilt or not,<br>pay attention to the pictures on the cards and the order in which they are presented, as it will help you in the following  tasks.";
   document.getElementById("targetPic").innerHTML="your target is:<br> ";
 
   //presPic();// for debugging, present all images
@@ -579,9 +481,9 @@ function choosePart(){ // find the task's part in which particpants played with 
   var maxRunsPerTask = maxArr(completedRunsPerTask); // this is where the subject stopped
 
   /* change display*/
-  isMc[0].style.display="none"; // hide isMiddle html elements
-  allTask[0].style.display="none"; // hide navigation task html elements
-  gInst[0].style.display="none"; // hide global instructions html elements
+  document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
+  document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
+  document.getElementsByClassName("global inst")[0].style.display="none"; // hide global instructions html elements
   ncoinT = 0; // how may coins collected until now
   if(completedRunsPerTask[0]==0){ // learning phase
     task.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
