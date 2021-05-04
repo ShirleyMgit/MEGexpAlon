@@ -1,5 +1,4 @@
 function isItMiddle(nn){// is it in the middle task
-	repTmis = 0;
 	var ran1 = Math.random();
 	var ran2 = Math.random();
 	flagSs = -1;//signal that it is not task part - important for response key function
@@ -28,7 +27,7 @@ function isItMiddle(nn){// is it in the middle task
 	document.getElementsByClassName("isMiddle")[0].style.display="inline";
 	ism = Math.floor(Math.random() * (np));
 
-	if(curMp>1){
+	if(exp.curMap>1){
 		[ism1p,ism2p ]=detNextPicExA2(ism,ran1,ArMiss);
 	}else{
 		[ism1p,ism2p ]=detNextPicExA2(ism,ran1,Ar);
@@ -122,7 +121,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
 	}
 	save2isMiddleTable(nrep,RTm,corA);// save data into sql table
 	if (nrep>maxIsM){// if number of trials exceeded maxIsM start navigation task with intial distance 2 between current picture and target picture
-		if(task.curRun<9){
+		if(exp.curRun<9){
 			startNavigTask(2);
 		}else{
 			startWhichIsCloser(0);
@@ -131,7 +130,7 @@ function isItMiddleYN(yn){// check if correct and give feedback
 }
 
 function writeResp(){// go to next task
-	if(task.curRun<9){
+	if(exp.curRun<9){
 		startNavigTask(2);
 	}else{
 		startWhichIsCloser(0);

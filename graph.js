@@ -1,5 +1,5 @@
 function defineGraph(){// create transition structures and define pictures set
-	switch(curMp){//structure
+	switch(exp.curMap){//structure
 		case(0):
 			pathToImgDir = "/MEG/images/set1reg/"; // pictures directory
 			/*graph size*/
@@ -94,7 +94,7 @@ function calDistAdjMat(Ar1){
 function createAr(){
 	/* create transition matrix according to structural form (typeAr)*/
 	/* maxCov is the number of pictures in eacah plock of the learning phase*/
-	switch(typeAr){
+	switch(graph.arrayType){
 		case("HexA"):
 			nb = 6;// number of neibours
 			Ar=createHexNonPer();// non periodic Hexagonal structure
@@ -108,7 +108,7 @@ function createAr(){
 			Ar = createArect();
 		break;
 	}
-	if(curMp==2){
+	if(exp.curMap==2){
 		ArMiss = creatMissArGen(Ar,vnmis,vConmis); //vnmis,vConmis should be defined on main script. Still need to write a function for the missing links questions
 		DistMiss = calDistAdjMat(ArMiss);
 	}

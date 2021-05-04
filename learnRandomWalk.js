@@ -5,12 +5,12 @@ function learnRandomWalkTask(){// learning phase
   learnWalkObj.trial = 0;
 
   /* which map:*/ // Alon: change sso that choosing the map will happen in choosePart()
-  if (task.curRun>1){
-    curMpLast = task.mapsVec[task.curRun-2];
+  if (exp.curRun>1){
+    exp.lastMap = exp.mapsVec[exp.curRun-2];
   }else{
-    curMpLast = -1;
+    exp.lastMap = -1;
   }
-  curMp = task.mapsVec[task.curRun-1];
+  exp.curMap = exp.mapsVec[exp.curRun-1];
 
   defineGraph();// create transition matrixes and define pictures set directory // Alon: move to choosePart
 
@@ -56,7 +56,7 @@ function learnRandomWalkTask(){// learning phase
 
   // Alon: change all this so that it'll be one map per day. On day 3 have a map with missing links.
 
-  if(task.curRun>(maxT)){
+  if(exp.curRun>(exp.maxRun)){
     document.getElementById("newM").style.color="blue";
     document.getElementById("newM").innerHTML="new pictures set <br> experiment ended - thanks!";
   }
@@ -65,14 +65,14 @@ function learnRandomWalkTask(){// learning phase
   document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
   isFround=0;
 
-  //if(curMp!=curMpLast&&curMpLast!=-1){
-  if(curMp!=curMpLast){
+  //if(exp.curMap!=exp.lastMap&&exp.lastMap!=-1){
+  if(exp.curMap!=exp.lastMap){
     isFround=1;
 
     document.getElementById("newM").style.color="red";
     document.getElementById("newM").innerHTML="new pictures set <br> take few minutes to rest";
 
-    switch(task.curRun){// display new/same picture sets message
+    switch(exp.curRun){// display new/same picture sets message
       case 9:
       document.getElementById("newM").style.color="Blue";
       document.getElementById("newM").innerHTML="new pictures set <br> End Day 1";
@@ -97,11 +97,11 @@ function learnRandomWalkTask(){// learning phase
     document.getElementById("newM").style.color="green";
     document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
   }
-  if(task.curRun==1){
+  if(exp.curRun==1){
     isFround=1;  // Alon: can delete?
   }
 
-  if(curMp>maxMap||curMp<0){
+  if(exp.curMap>exp.exp.maxMap||exp.curMap<0){
     alert(" there is a problem with the map index- stop experiment!"); // Alon: can delete?
   }
 
@@ -119,7 +119,7 @@ function conExp(){// continue experiment: check subject response time // Shirey 
   learnWalkObj.trial = learnWalkObj.trial+1;
   /*save responses to an Array*/
   var rt = calResponseTime(thisTime,timeLast);// rsponse time
-  var ans = save2learnRandomWalkTable(subjectId,task.curRun, curMp, learnWalkObj.trial,nodeNumImg1,imgFileNamesArr[nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+  var ans = save2learnRandomWalkTable(subjectId,exp.curRun, exp.curMap, learnWalkObj.trial,nodeNumImg1,imgFileNamesArr[nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
   document.getElementById("chPicCold").src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// old picture
   nodeNumImg1=detNextPicGenA(Math.random(),Ar,nodeNumImg1);// next picture index

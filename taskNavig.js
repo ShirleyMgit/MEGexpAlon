@@ -53,12 +53,12 @@ function startNavigTask(dS){ // formerly called startTask
   nSt = DistM[tar1][inP];
 
 
-  if (curMp!=curMpLast){
+  if (exp.curMap!=exp.lastMap){
     isFround = 1;
   }else{
     isFround = 0;
   }
-  if (task.curRun==1){
+  if (exp.curRun==1){
     document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
   }else{
     document.getElementById("startPic").innerHTML="Your current card:<br>";
@@ -143,7 +143,7 @@ function conExpT(cpic){// check subject choices
   document.getElementById("dispPc").style.backgroundColor="red";
 
   /*checking reaching to target or too many trials*/
-  if ((inP==tar1)||nthis>=maxTask){
+  if ((inP==tar1)||nthis>=navigObj.maxSteps){
     flagSs=2;
     save2navigTable(Tchoice,nGood,nGoodInD,corTask,RTt);// save to sql table
     document.getElementsByClassName("endTask")[0].style.display="inline";
@@ -153,7 +153,7 @@ function conExpT(cpic){// check subject choices
     document.getElementById("chPic1").style.display="none";
     document.getElementById("tarPt").style.display="none";
     document.getElementById("currPt").style.display="none";
-    if(nthis<maxTask){// end trial if number of steps exceeded max Task number of steps
+    if(nthis<navigObj.maxSteps){// end trial if number of steps exceeded max Task number of steps
       document.getElementById("endExpReachT").innerHTML = "<b> target has been reached,<br> number of step= "+c.toString()+"<br>";
     }else{
       document.getElementById("endExpReachT").innerHTML = "<b> too many steps";
@@ -194,7 +194,7 @@ function conExpT(cpic){// check subject choices
     ncolCrc = ncolCrc-1;
     corTask = 0;
   }
-  if (task.curRun==1){
+  if (exp.curRun==1){
     document.getElementById("ncoinP").style.display="inline";
     document.getElementById("myCanvas").style.display="inline"
     document.getElementById("ncoinP").innerHTML=ncoin+" coins";
@@ -220,7 +220,7 @@ function conExpT(cpic){// check subject choices
   document.getElementById("chPic1").style.display="none";
   document.getElementById("chPic2").src = pathToImgDir + imgFileNamesArr[in1R];
   document.getElementById("chPic1").src = pathToImgDir + imgFileNamesArr[in1L];
-  if (task.curRun==1){
+  if (exp.curRun==1){
     document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
   }else{
     document.getElementById("startPic").innerHTML="Your current card:<br>";

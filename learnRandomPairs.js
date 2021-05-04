@@ -2,12 +2,12 @@
 function learnRandomPairsTask(fc){
 
   /* Load The Picture Array:*/
-  if (task.curRun>0){
-    curMpLast = task.mapsVec[task.curRun-2];
+  if (exp.curRun>0){
+    exp.lastMap = exp.mapsVec[exp.curRun-2];
   }else{
-    curMpLast = -1;
+    exp.lastMap = -1;
   }
-  curMp = task.mapsVec[task.curRun-1];
+  exp.curMap = exp.mapsVec[exp.curRun-1];
 
   chooseLearning_walkOrPairs();// create transition matrixes and define pictures set directory
 
@@ -52,7 +52,7 @@ function learnRandomPairsTask(fc){
   corR=0;
   var j1,j2,np0;
 
-  if(task.curRun>(maxT)){
+  if(exp.curRun>(exp.maxRun)){
     document.getElementById("newMP").style.color="blue";
     document.getElementById("newMP").innerHTML="new pictures set <br> experiment ended - thanks!";
   }
@@ -61,7 +61,7 @@ function learnRandomPairsTask(fc){
   document.getElementById("newMP").innerHTML="Same pictures set, same game - new trial";
   isFround=0;
 
-  if(curMp!=curMpLast&&curMpLast!=-1){
+  if(exp.curMap!=exp.lastMap&&exp.lastMap!=-1){
     isFround=1;
     document.getElementById("newMP").style.color="red";
     document.getElementById("newMP").innerHTML="new pictures set <br> take few minutes to rest";
@@ -69,11 +69,11 @@ function learnRandomPairsTask(fc){
     document.getElementById("newMP").style.color="green";
     document.getElementById("newMP").innerHTML="Same pictures set, same game - new trial";
   }
-  if(task.curRun==1){
+  if(exp.curRun==1){
     isFround=1;
   }
 
-  if(curMp>maxMap||curMp<0){
+  if(exp.curMap>exp.exp.maxMap||exp.curMap<0){
     alert(" there is a problem with the map index- stop experiment!");
   }
 
@@ -97,7 +97,7 @@ function conExpPair(cpic){
 
   in1P = Math.floor(Math.random() * (np-1));
   ran1 = Math.random();
-  if (task.curRun<9){
+  if (exp.curRun<9){
     in2P=detNextPicGenA(ran1,Ar,in1P);// no missing links
   }else{
     in2P=detNextPicGenA(ran1,ArMiss,in1P);// with missing links
@@ -124,7 +124,7 @@ function conExpPair(cpic){
     endAllTrials_learnRandomPairs(0);
   }
 
-  save2learnRandomPairTable(subjectId,task.curRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+  save2learnRandomPairTable(subjectId,exp.curRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 

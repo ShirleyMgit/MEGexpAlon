@@ -8,7 +8,7 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   //y = y0;
   //x = 0;
   if(nQ==0){
-    numCorrect = 0;
+    whichCloserObj.numCorrect = 0;
   }
   numQ = nQ+1;
   corAs = 0;
@@ -43,13 +43,13 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   for (nr=0;nr<mn;nr++){
     Math.random();
   }
-  evT = calRem(task.curRun,2);
+  evT = calRem(exp.curRun,2);
   /*stimulus blocks*/
   var j1,j2,wCl,flagTs,dis2;
   imq2=-1;
   corAs = 0;
 
-  if(task.curRun<9){// no missing links
+  if(exp.curRun<9){// no missing links
     tarQ = Math.floor(Math.random() * (np));// target index
     ran1 = Math.random();
     if (ran1<0.333){// find the indexes of the pictures to choose from
@@ -133,7 +133,7 @@ function conExpQ(cq){// check subject response
   document.getElementById("iqcor").style.display="none";
   /*  correct / non-correct*/
   if(corAs==cq||corAs==0){
-    numCorrect = numCorrect+1;
+    whichCloserObj.numCorrect = whichCloserObj.numCorrect+1;
     corQ = 1;
   }else{
     corQ = 0;
@@ -160,14 +160,14 @@ function conQ(){// next question or next block
   if (numQ<qend){
     startWhichIsCloser(numQ);
   }else{
-    if(task.curRun<maxT){
-      task.curRun = task.curRun+1;
+    if(exp.curRun<exp.maxRun){
+      exp.curRun = exp.curRun+1;
       numQ = 0;
       flagQ = 2;// so there wont be any response to subject pressing any key (enter/1/2)
       document.getElementsByClassName("whichIsCloser")[0].style.display="none";
       document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="inline";
       document.getElementById("Qfeedback").style.display="inline";
-      precntCor = Math.ceil(100*numCorrect/qend);
+      precntCor = Math.ceil(100*whichCloserObj.numCorrect/qend);
       document.getElementById("Qfeedback").innerHTML = "Thank you, you have done: %" + precntCor + "correct";
     }else{
       document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";

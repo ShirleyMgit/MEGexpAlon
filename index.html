@@ -22,7 +22,7 @@
   <script src="isMiddle_missingLink.js"></script><!--is it in the middle task-->
   <script src="selPileNotTwice.js"></script><!--pile task-->
   <script src="taskNavig.js"></script><!--navigation task-->
-  <script src="whereToGo.js"></script><!-- distance estimation task-->
+  <script src="whichIsCloser.js"></script><!-- distance estimation task-->
   <script src="ajaxFunctions.js"></script>
 </head>
 
@@ -189,12 +189,15 @@ of 2 maps and 7 inference runs of a third map*/
 
 initRand(); // Alon: this fuction doesn't output anything - delete?
 
-// initialise task object.
-var task = {}
+// initialise exp object - holding all the variables abut the entire experiment.
+var exp = {}
 // current run of the entire task. e.g. when some parts have completed x+1 runs and others
-// completed x, task.curRun = x+1. Starts counting from 1, not 0.
-task.curRun = 0;
-task.mapsVec = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2]; //defines the map of each run, 0&1 training, 2 - inference
+// completed x, exp.curRun = x+1. Starts counting from 1, not 0.
+exp.curRun = 0;
+exp.mapsVec = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2]; //defines the map of each run, 0&1 training, 2 - inference
+exp.maxRun = exp.mapsVec.length;
+exp.curMap = -1; // current map
+exp.maxMap = 3; // number of maps
 
 
 // parts (tasks) objects - these will be useful to have better control over global variables
@@ -204,7 +207,7 @@ class partObj {
     this.trial = -1 // current trial. if not currently playing this task part, set to -1. start counting (first trial) from 1, not 0).
   }
 }
-
+// define obejects for the blocks of the different tasks.
 let learnWalkObj = new partObj
 // number of trials in each run. previously called maxCov or maxCovH. for cluster graph, used to be 180 (maxCovC)
 learnWalkObj.maxTrial = 120;
@@ -216,45 +219,34 @@ learnPairsObj.maxTrial = 150;
 let pileObj = new partObj
 let middleObj = new partObj
 let navigObj = new partObj
+// maximum number of steps allowed in navigation. Previously called maxTask.
+navigObj.maxSteps = 200;
+
 let whichCloserObj = new partObj
+whichCloserObj.numCorrect = 0;//number of correct responses in whichIsCloser (distance estimation questions)
 
-
+// graph object
+graph.arrayType = "recA" //"HexA";//"clA";//
 /* variable to change */
 var isNestDis=0;//disable the next button if equal 1
 /*training structural form*/
-var typeAr="recA";//"HexA";//"clA";//
 /*vriables that are specific to the adjacency matrix:*/
 /* graph dimensions are defined in the function defineGraph below*/
 var nRow;
 var nCol;
 var nb;//number of neighbours
 var np;// the number of pictures
-var maxMap = 3;// number of maps
 var npmax=36;// maximal number of pictures in an array (map)
 var vnmis; // mising links nodes
 var vConmis;// the nodes that are connected to the nodes of the missing links nodes
 
-var nT0 = 7;
-var nT1 = 15;
-var curMp = -1;// current map
 var maxdS = 4;
 var qend = 24;//20;//45;//34 - mis, 11 regular. number of distance estimation questions
-var ncycle = 4;//number of cycles per set
+
 /* parameters for cluster Arch fixed neighbors*/
 var nc = 5;// number of clusters in the community structure graph
 var ninc = 7;// number of nodes in each cluster
 var Ar,DistM,ArMiss;// transition matrix and distance estimation
-var flagNR1 = 1;//number of cycle of 2 maps - 2 cycle per map
-var flagNR2 = 1;//number of cycle of 2 maps - 2 cycle per map
-var NumRep=2;
-var maxRoundH = 4;
-var maxRoundC = 5;
-var maxTask = 200;// maximum number of steps in the distance estimation task
-var maxT = task.mapsVec.length;//NumRep*maxRound*maxMap +maxRound*maxMap/2;
-var nRepTask = 3;
-var numdS=3;
-var dsMin = 2;
-var numCorrect;//number of correct responses in distance estimation questions
 /*max displays during the learning phase in each block*/
 
 var maxIsM=15;//10;
@@ -360,7 +352,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   var j1,j2,j3;
   var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current graph. their tags are the indeces of the file names in imgFileNamesArr
   var nmmax,nodeNum;
-  nmmax = maxMap;
+  nmmax = exp.maxMap;
   var nn,vn=[]; // vn: vector of numbers.
   var vn01=[];
   var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
@@ -486,15 +478,15 @@ function choosePart(){ // find the task's part in which particpants played with 
   document.getElementsByClassName("global inst")[0].style.display="none"; // hide global instructions html elements
   ncoinT = 0; // how may coins collected until now
   if(completedRunsPerTask[0]==0){ // learning phase
-    task.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
+    exp.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
     learnRandomWalkTask();
   }else{
-    task.curRun = maxRunsPerTask; // task.curRun global that counts the runs - how many times did all the blocks/tasks complete.
-    curMp = task.mapsVec[task.curRun-1]; // current map (-1 because task.curRun starts at 1 and indeces start at 0)
-    if (task.curRun>1){
-      curMpLast = task.mapsVec[task.curRun-2]; // curMpLast is the map before current one, perhaps can delete
+    exp.curRun = maxRunsPerTask; // exp.curRun global that counts the runs - how many times did all the blocks/tasks complete.
+    exp.curMap = exp.mapsVec[exp.curRun-1]; // current map (-1 because exp.curRun starts at 1 and indeces start at 0)
+    if (exp.curRun>1){
+      exp.lastMap = exp.mapsVec[exp.curRun-2]; // exp.lastMap is the map before current one, perhaps can delete
     }else{
-      curMpLast = -1;
+      exp.lastMap = -1;
     }
 
     // from here, go backwards in the order of tasks, and check where tehe suject stopped
@@ -504,12 +496,12 @@ function choosePart(){ // find the task's part in which particpants played with 
       numQ = getTrialNumFromTable("whichIsCloserTable",subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
       ncoin=numCoin("whichIsCloserTable",subjectId); // check the number of coines that was earned until now
       if (numQ<qend){// continue distance estimation task
-        numCorrect = calCorQ("whichIsCloserTable",subjectId);// number of correct answers
+        whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",subjectId);// number of correct answers
         defineGraph();
         startWhichIsCloser(numQ);
       }else{// start learning phase of the next run
-        task.curRun = task.curRun+1;
-        if(task.curRun>8){// 8 learning trials on day 1, then start inference part
+        exp.curRun = exp.curRun+1;
+        if(exp.curRun>8){ // 8 learning trials on day 1 & 2, then start inference part on day 3
           learnRandomPairsTask();// learning from pairs
         }else{
           learnRandomWalkTask();// learning from random walk
@@ -519,7 +511,7 @@ function choosePart(){ // find the task's part in which particpants played with 
 
       if (completedRunsPerTask[3]==maxRunsPerTask){
         defineGraph();
-        if(task.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
+        if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
           cds = TaskdS(subjectId); // TaskdS: find the last initial distnace in navigation task.
           if (cds == maxdS){// start distance estimation questions
             numQ=0;
@@ -527,7 +519,6 @@ function choosePart(){ // find the task's part in which particpants played with 
           }else{// continue with navigation task
             ncoin=numCoin("navigTable",subjectId);
             var ntn = getTrialNumFromTable("navigTable",subjectId);
-            repTmis = Math.floor(ntn/numdS); // delete? check if used
             startNavigTask(cds+1);
           }
         }else{
@@ -541,7 +532,7 @@ function choosePart(){ // find the task's part in which particpants played with 
           if(nrep<maxIsM){
             isItMiddle(0);
           }else{
-            if(task.curRun<9){
+            if(exp.curRun<9){
               startNavigTask(2);
             }else{
               startWhichIsCloser(0);
@@ -575,7 +566,7 @@ function choosePart(){ // find the task's part in which particpants played with 
 
 }
 function chooseLearning_walkOrPairs(){ // formerly called chooseCoverStaff
-  if (task.curRun>8){
+  if (exp.curRun>8){
     learnRandomPairsTask(0);
   }else{
     learnRandomWalkTask(0);
