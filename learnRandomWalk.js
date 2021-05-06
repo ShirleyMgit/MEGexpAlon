@@ -105,9 +105,9 @@ function learnRandomWalkTask(){// learning phase
     alert(" there is a problem with the map index- stop experiment!"); // Alon: can delete?
   }
 
-  nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
-  document.getElementById("chPicC1").src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// first image
-  //covRpArr.push(nodeNumImg1);
+  learnWalkObj.nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
+  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// first image
+  //covRpArr.push(learnWalkObj.nodeNumImg1);
   timeLast = new Date();
 }
 
@@ -119,14 +119,14 @@ function conExp(){// continue experiment: check subject response time // Shirey 
   learnWalkObj.trial = learnWalkObj.trial+1;
   /*save responses to an Array*/
   var rt = calResponseTime(thisTime,timeLast);// rsponse time
-  var ans = save2learnRandomWalkTable(subjectId,exp.curRun, exp.curMap, learnWalkObj.trial,nodeNumImg1,imgFileNamesArr[nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+  var ans = save2learnRandomWalkTable(subjectId,exp.curRun, exp.curMap, learnWalkObj.trial,learnWalkObj.nodeNumImg1,exp.imgFileNamesArr[learnWalkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
-  document.getElementById("chPicCold").src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// old picture
-  nodeNumImg1=detNextPicGenA(Math.random(),Ar,nodeNumImg1);// next picture index
+  document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// old picture
+  learnWalkObj.nodeNumImg1=detNextPicGenA(Math.random(),Ar,learnWalkObj.nodeNumImg1);// next picture index
 
-  //covRpArr.push(nodeNumImg1);
+  //covRpArr.push(learnWalkObj.nodeNumImg1);
 
-  document.getElementById("chPicC1").src = pathToImgDir + imgFileNamesArr[nodeNumImg1];// next picture
+  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// next picture
   timeLast = new Date();
   // end part after learnWalkObj.maxTrial observations
   if(learnWalkObj.trial>learnWalkObj.maxTrial){

@@ -65,11 +65,11 @@ function startNavigTask(dS){ // formerly called startTask
   }
 
   /*taret picture*/
-  document.getElementById("tarPt").src = pathToImgDir + imgFileNamesArr[tar1];
+  document.getElementById("tarPt").src = exp.pathToImgDir + exp.imgFileNamesArr[tar1];
   document.getElementById("tarPt").style.display="inline";
 
   /*current picture*/
-  document.getElementById("currPt").src=pathToImgDir + imgFileNamesArr[inP];
+  document.getElementById("currPt").src=exp.pathToImgDir + exp.imgFileNamesArr[inP];
 
   /* indexes cards/pictures to choose from*/
   do{
@@ -87,10 +87,10 @@ function startNavigTask(dS){ // formerly called startTask
   inLlast = in1L;
   inRlast = in1R;
   /* pictures to choose from*/
-  document.getElementById("chPic1").src = pathToImgDir + imgFileNamesArr[in1L];
+  document.getElementById("chPic1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1L];
   document.getElementById("chPic1").style.display="inline";
 
-  document.getElementById("chPic2").src = pathToImgDir + imgFileNamesArr[in1R];
+  document.getElementById("chPic2").src = exp.pathToImgDir + exp.imgFileNamesArr[in1R];
   document.getElementById("chPic2").style.display="inline";
 
   document.getElementById("picT").style.display="inline";
@@ -109,12 +109,12 @@ function conExpT(cpic){// check subject choices
   var RTt = calResponseTime(thisTime,timeLast);
   if (cpic==1){//LEFT HAS BEEN CHOSEN
     inP = in1L;
-    document.getElementById("currPt").src=pathToImgDir + imgFileNamesArr[inP];
+    document.getElementById("currPt").src=exp.pathToImgDir + exp.imgFileNamesArr[inP];
     Tchoice = 1;
   }else{
     if(cpic==2){
       inP = in1R;
-      document.getElementById("currPt").src=pathToImgDir + imgFileNamesArr[inP];
+      document.getElementById("currPt").src=exp.pathToImgDir + exp.imgFileNamesArr[inP];
       Tchoice = 2;
     }else{
       Tchoice = 0;
@@ -218,8 +218,8 @@ function conExpT(cpic){// check subject choices
 
   document.getElementById("chPic2").style.display="none";
   document.getElementById("chPic1").style.display="none";
-  document.getElementById("chPic2").src = pathToImgDir + imgFileNamesArr[in1R];
-  document.getElementById("chPic1").src = pathToImgDir + imgFileNamesArr[in1L];
+  document.getElementById("chPic2").src = exp.pathToImgDir + exp.imgFileNamesArr[in1R];
+  document.getElementById("chPic1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1L];
   if (exp.curRun==1){
     document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
   }else{

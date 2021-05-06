@@ -198,6 +198,7 @@ exp.mapsVec = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2]; //defines the map of each run, 0&
 exp.maxRun = exp.mapsVec.length;
 exp.curMap = -1; // current map
 exp.maxMap = 3; // number of maps
+exp.imgFileNamesArr=[]; // the pictures from directory array
 
 
 // parts (tasks) objects - these will be useful to have better control over global variables
@@ -232,8 +233,8 @@ var isNestDis=0;//disable the next button if equal 1
 /*training structural form*/
 /*vriables that are specific to the adjacency matrix:*/
 /* graph dimensions are defined in the function defineGraph below*/
-var nRow;
-var nCol;
+var graph.nRow;
+var graph.nCol;
 var nb;//number of neighbours
 var np;// the number of pictures
 var npmax=36;// maximal number of pictures in an array (map)
@@ -278,7 +279,7 @@ var cgetR = 0.4;
 var thisTC=-1;
 
 /* pictures button objects*/
-var pathToImgDir;
+var exp.pathToImgDir;
 
 /*respone ojsect*/
 var resCArr=[];//the array of resCover
@@ -301,10 +302,6 @@ var timeLast,timeLast_sec,timeLast_min,timeLast_hr;//to track response time
 var endR=0;
 var c,cend,flagSs,corR=0;
 var inP1,inP,inPr;
-var dtT;
-var stTarr;
-var flip =0;
-var imgFileNamesArr=[]; // the pictures from directory array
 
 
 /*disable the end bottuns*/
@@ -350,7 +347,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
   /*create/retrive MAPS and save in sql table*/
   var j1,j2,j3;
-  var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current graph. their tags are the indeces of the file names in imgFileNamesArr
+  var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current graph. their tags are the indeces of the file names in exp.imgFileNamesArr
   var nmmax,nodeNum;
   nmmax = exp.maxMap;
   var nn,vn=[]; // vn: vector of numbers.
@@ -374,16 +371,16 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
   // check if the images array already exists. If it does, return it in an array .
   // If it doesn't, return -1
-  imgFileNamesArr = checkIfSubjectMapExists(subjectId);
+  exp.imgFileNamesArr = checkIfSubjectMapExists(subjectId);
   // If images array does not exist, create it (randomely assign images files to graph nodes - i.e. the emissions matrix)
-  if (imgFileNamesArr[0]==-1){ // does not exists
-    imgFileNamesArr=[];
+  if (exp.imgFileNamesArr[0]==-1){ // does not exists
+    exp.imgFileNamesArr=[];
     for (j1=0; j1<npmax;j1++){
       nn = nn-1;
       nodeNum = j1+1;
       nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
       imgFileName = "pic" + vn1[j1].toString() + ".jpg"
-      imgFileNamesArr.push(imgFileName);
+      exp.imgFileNamesArr.push(imgFileName);
       // save to SQL. vn1[j1] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
       save2imagesFilesTable(imgFileName,nodeStr); // in ajaxFunctions.js
       // discard the number already used
@@ -413,18 +410,18 @@ function presPic(){
   /*display the pictures array -  for debugging*/
   var disPic = 0;
   var j,picSrc,isLine,leftP,leftP0,rightP=0;
-  var pathToImgDir = "/MEG/images/set1reg/";
+  var exp.pathToImgDir = "/MEG/images/set1reg/";
   var imH = 120;
   var dpL = 20;
   var dpR = 20;
-  leftP0 = Math.ceil(nCol/2)*imH;
+  leftP0 = Math.ceil(graph.nCol/2)*imH;
   leftP = leftP0;
   document.write("<div class='dispPicArr'>");
   for(j=0;j<npmax;j++){
-    picSrc = pathToImgDir+ imgFileNamesArr[j];
+    picSrc = exp.pathToImgDir+ exp.imgFileNamesArr[j];
     document.write("<img border ='5px solid gray' height='"+imH+"'px width='"+imH+"px' position='relative' left="+leftP+"px right="+rightP+"px src='"+picSrc+">");
-    isLine = Math.ceil((j+1)/nCol);
-    isLine = (isLine)*nCol-j-1;
+    isLine = Math.ceil((j+1)/graph.nCol);
+    isLine = (isLine)*graph.nCol-j-1;
     leftP = leftP+dpL;
     if(isLine==0){
       document.write("<br>");
@@ -435,7 +432,7 @@ function presPic(){
 }
 
 function checkIfSubjectMapExists(){
-  var map=[]; // map is an array mapping image files to node numbers - imgFileNamesArr
+  var map=[]; // map is an array mapping image files to node numbers - exp.imgFileNamesArr
   var j;
   var xhttp;
   xhttp = new XMLHttpRequest();

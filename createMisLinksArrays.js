@@ -16,18 +16,18 @@ function creatMissArGen(Ar,vnmis,vConmis){// general function to introduce missi
         break;
       }
     }
-    nnb0 = Ar[a].length;// number of neighbours in the original array
+    graph.numNghbrOrigAr = Ar[a].length;// number of neighbours in the original array
     if (flag==0){// no missing link - copy neighbours
-      nnb = nnb0;
+      nnb = graph.numNghbrOrigAr;
       Armiss[a].push( new Array(nnb));
       for (j=0;j<nnb;j++){
         Armiss[a][j] = Ar[a][j];
       }
     }else{// there are missing links
-      nnb = nnb0-vConmis[c].length;
+      nnb = graph.numNghbrOrigAr-vConmis[c].length;
       Armiss[a].push( new Array(nnb));
       b=0;
-      for (j=0;j<nnb0;j++){
+      for (j=0;j<graph.numNghbrOrigAr;j++){
         flag2 = 0;
         for(k=0;k<vConmis[c].length;k++){// check if node Arp[a][j] is a miising neighbour, if it is make flag2 equal 1
           if (Ar[a][j]==vConmis[c][k]){

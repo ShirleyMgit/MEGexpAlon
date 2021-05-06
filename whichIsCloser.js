@@ -114,12 +114,12 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   }
   /*the picture*/
   /*the target picture*/
-  document.getElementById("tarPQ").src = pathToImgDir + imgFileNamesArr[tarQ];
+  document.getElementById("tarPQ").src = exp.pathToImgDir + exp.imgFileNamesArr[tarQ];
   document.getElementById("tarPQ").style.display="inline";
   /* the other pictures*/
-  document.getElementById("Q1").src = pathToImgDir + imgFileNamesArr[imq1];
+  document.getElementById("Q1").src = exp.pathToImgDir + exp.imgFileNamesArr[imq1];
   document.getElementById("Q1").style.display="inline";
-  document.getElementById("Q2").src = pathToImgDir + imgFileNamesArr[imq2];
+  document.getElementById("Q2").src = exp.pathToImgDir + exp.imgFileNamesArr[imq2];
   document.getElementById("Q2").style.display="inline";
 
   timeLast = new Date();

@@ -51,11 +51,11 @@ function whichPile(nn){// piles task
 	inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,Ar1);
 	inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,Ar1);
 
-	document.getElementById("imCp11").src = pathToImgDir + imgFileNamesArr[inPp11];//the first picture 1 pile
-	document.getElementById("imCp21").src = pathToImgDir + imgFileNamesArr[inPp21];//the first picture 2 pile
+	document.getElementById("imCp11").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp11];//the first picture 1 pile
+	document.getElementById("imCp21").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp21];//the first picture 2 pile
 
-	document.getElementById("imCp12").src = pathToImgDir + imgFileNamesArr[inPp12];//the 2 picture 1 pile
-	document.getElementById("imCp22").src = pathToImgDir + imgFileNamesArr[inPp22];//the 2 picture 2 pile
+	document.getElementById("imCp12").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp12];//the 2 picture 1 pile
+	document.getElementById("imCp22").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp22];//the 2 picture 2 pile
 
 	while (inPp23==inPp13){
 		var A23L;
@@ -78,8 +78,8 @@ function whichPile(nn){// piles task
 	}
 
 	if (conSP==1){
-		document.getElementById("imCp13").src = pathToImgDir + imgFileNamesArr[inPp13];//the 3 picture 1 pile
-		document.getElementById("imCp23").src = pathToImgDir + imgFileNamesArr[inPp23];//the 3 picture 2 pile
+		document.getElementById("imCp13").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp13];//the 3 picture 1 pile
+		document.getElementById("imCp23").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp23];//the 3 picture 2 pile
 		var all1pile = [inPp11,inPp12,inPp13];
 		var all2pile = [inPp21,inPp22,inPp23];
 		document.getElementById("imCp14").src = "/MEG/images/whitePic.jpg";
@@ -101,7 +101,7 @@ function whichPile(nn){// piles task
 			whichPile(0);
 		}else{
 
-			document.getElementById("wCp").src=pathToImgDir + imgFileNamesArr[inPisP];//the q pic
+			document.getElementById("wCp").src=exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the q pic
 
 			/*need to check wether the picture is not a neighbour of both of them or if exists in one of the piles*/
 			if(wP==1){// I am not sure whether I sould put Ar or ArMiss here...
@@ -186,15 +186,15 @@ function whichPileAns(ansP){// check particpants answer
 	}
 	document.getElementById("isCorRSp").style.display= "inline";
 	if (wP==1){// put the picture in the correct pile
-		document.getElementById("imCp14").src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture 1 pile
+		document.getElementById("imCp14").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 1 pile
 		document.getElementById("imCp24").src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
 	}else{
 		if(wP==2){
 			document.getElementById("imCp14").src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
-			document.getElementById("imCp24").src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture 2 pile
+			document.getElementById("imCp24").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 2 pile
 		}else{
-			document.getElementById("imCp14").src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture both pile
-			document.getElementById("imCp24").src = pathToImgDir + imgFileNamesArr[inPisP];//the 4 picture both pile
+			document.getElementById("imCp14").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
+			document.getElementById("imCp24").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
 		}
 	}
 	document.getElementById("EconSp").style.display="inline"

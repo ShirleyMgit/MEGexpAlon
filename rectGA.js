@@ -1,57 +1,57 @@
 function createArect(){
 	var a,a1,b,rn1a;
 	var nb=4;// number of neighbours - not on nodes at the adges
-	var n0=nRow*nCol;// total states
+	var n0=graph.nRow*graph.nCol;// total states
 	var Ar=[[]];
 	for(a=0;a<n0;a++){
 		//Ar.push([]);
 		a1 = a+1;
-		rn1a = rem(a1,nCol);//collumn
-		if((rn1a>1)&&(a1>nCol)&&(a1<=n0-nCol)){//not on the edge
+		rn1a = rem(a1,graph.nCol);//collumn
+		if((rn1a>1)&&(a1>graph.nCol)&&(a1<=n0-graph.nCol)){//not on the edge
 			Ar[a].push( new Array(4));
 			Ar[a][0] = a-1;
 			Ar[a][1] = a+1;
-			Ar[a][2] = a+nCol;
-			Ar[a][3] = a-nCol;
+			Ar[a][2] = a+graph.nCol;
+			Ar[a][3] = a-graph.nCol;
 		}else{
-			if(a1<=nCol){//first row
+			if(a1<=graph.nCol){//first row
 				if(rn1a>1){
 					Ar[a].push( new Array(3));
 					Ar[a][0] = a-1;
 					Ar[a][1] = a+1;
-					Ar[a][2] = a+nCol;
+					Ar[a][2] = a+graph.nCol;
 				}else{
 					switch(rn1a){
 						case 0:// last column
 						Ar[a].push( new Array(2));
 						Ar[a][0]=a-1;
-						Ar[a][1]=a+nCol;
+						Ar[a][1]=a+graph.nCol;
 						break;
 						case 1:// first column
 						Ar[a].push( new Array(2));
 						Ar[a][0]=a+1;
-						Ar[a][1]=a+nCol;
+						Ar[a][1]=a+graph.nCol;
 						break;
 					}
 				}
 			}else{// not first row
-				if(a1>n0-nCol){//last row
+				if(a1>n0-graph.nCol){//last row
 					if(rn1a>1){// not first/last column
 						Ar[a].push( new Array(3));
 						Ar[a][0] = a-1;
 						Ar[a][1] = a+1;
-						Ar[a][2] = a-nCol;
+						Ar[a][2] = a-graph.nCol;
 					}else{
 						switch(rn1a){
 							case 0://last column
 							Ar[a].push( new Array(2));
 							Ar[a][0]=a-1;
-							Ar[a][1]=a-nCol;
+							Ar[a][1]=a-graph.nCol;
 							break;
 							case 1://first column
 							Ar[a].push( new Array(2));
 							Ar[a][0]=a+1;
-							Ar[a][1]=a-nCol;
+							Ar[a][1]=a-graph.nCol;
 							break;
 						}
 					}
@@ -60,14 +60,14 @@ function createArect(){
 						case 0://last column
 						Ar[a].push( new Array(3));
 						Ar[a][0]=a-1;
-						Ar[a][1]=a-nCol;
-						Ar[a][2]=a+nCol;
+						Ar[a][1]=a-graph.nCol;
+						Ar[a][2]=a+graph.nCol;
 						break;
 						case 1://first row
 						Ar[a].push( new Array(3));
 						Ar[a][0]=a+1;
-						Ar[a][1]=a-nCol;
-						Ar[a][2]=a+nCol;
+						Ar[a][1]=a-graph.nCol;
+						Ar[a][2]=a+graph.nCol;
 						break;
 					}
 				}
