@@ -44,10 +44,6 @@ function learnRandomWalkTask(){// learning phase
   //covRpArr = [];
   document.getElementById("learnRandomWalk").style.display="inline";
 
-  /* response object*/ // Alon: can delete? check if used
-  var resCover={choice:[],rTime:[]};
-  resCArr.push(resCover);
-
   /*create a 1D array of pictures (start with regular grid):*/
   var a=1;
   var cn,isin;

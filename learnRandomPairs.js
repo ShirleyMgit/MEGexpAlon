@@ -42,10 +42,6 @@ function learnRandomPairsTask(fc){
   document.getElementsByClassName("navig")[0].style.display="none";
   allLearnRandomPair.style.display="inline";
 
-  /* response object*/
-  var resCover={choice:[],rTime:[]};
-  resCArr.push(resCover);
-
   /*create a 1D array of pictures (start with regular grid):*/
   var a=1;
   var ran1,cn,isin;
