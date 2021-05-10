@@ -110,7 +110,6 @@ function clearCanvas(myCanvas,x,y){
 	ctx.clearRect(0, 0, x, y);
 	ctx.fill();
 }
-document.onkeydown = checkKeyT; // Alon: look how Mona does this
 
 function checkKeyT(e) {// subject key choice to functions responses
 	if (e.keyCode == '13'&&flagIsM==-1&&flagSp==2&&flagSs==-1&&flagQ==1){//enter
@@ -158,17 +157,7 @@ function checkKeyT(e) {// subject key choice to functions responses
 		}
 	}
 
-	if(flagCov==1&&flagIsM==-1&&flagSs==2&&flagSp==2){//for the cover - learning phase
-		if (e.keyCode == '89'){//y
-			conExp(1);
-		}
-		if (e.keyCode == '78'){//n
-			conExp(0);
-		}
-		if (e.keyCode == '13'){//enter
-			conExp(0);
-		}
-	}
+
 	if(flagCovP==1&&flagCov==0&&flagIsM==-1&&flagSs==2&&flagSp==2){//for the learning from pair phase
 		if (e.keyCode == '13'){//enter
 			conExpPair(0);

@@ -17,7 +17,9 @@ function learnRandomWalkTask(){// learning phase
   ncoinSc = ncoin; // change coins to number
   y = y0; // Alon: delete?
   document.getElementById("chPicCold").src = [];
-  clearCanvas(document.getElementById("myCanvas"),300,450);
+  clearCanvas(document.getElementById("myCanvas"),300,450); // this is in utilities.js
+  document.onkeydown = checkKey_learnWalk; // Alon: moved this from "clearCanvas". not sure why there's no () at the end, but left it as it was. 
+
   ncoinT=0;
 
   // all the followings are flags that signal the current part // Alon & Shirley: change to a single variable tracking which task is currently played
@@ -106,6 +108,20 @@ function learnRandomWalkTask(){// learning phase
   //covRpArr.push(learnWalkObj.nodeNumImg1);
   timeLast = new Date();
 }
+
+function checkKey_learnWalk(e) {
+  if (e.keyCode == '89'){//y
+    conExp(1);
+  }
+  if (e.keyCode == '78'){//n
+    conExp(0);
+  }
+  if (e.keyCode == '13'){//enter
+    conExp(0);
+  }
+}
+
+
 
 function conExp(){// continue experiment: check subject response time // Shirey to fix in response function
   document.getElementById("endThanksT").innerHTML = "";
