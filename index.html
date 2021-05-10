@@ -15,7 +15,7 @@
   <!-- tasks part functions-->
   <script src="graph.js"></script><!--define maps dimentions and missing links-->
   <script src="rectGA.js"></script><!--create rectangular transition matrix-->
-  <script src="createMissLinkArGen.js"></script><!-- missing links array-->
+  <script src="createMissLinksArrays.js"></script><!-- missing links array-->
   <script src="utilities.js"></script><!--helper functions-->
   <script src="learnRandomWalk.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called cover-->
   <script src="learnRandomPairs.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPair-->
@@ -227,14 +227,15 @@ let whichCloserObj = new partObj
 whichCloserObj.numCorrect = 0;//number of correct responses in whichIsCloser (distance estimation questions)
 
 // graph object
+var graph = {};
 graph.arrayType = "recA" //"HexA";//"clA";//
 /* variable to change */
 var isNestDis=0;//disable the next button if equal 1
 /*training structural form*/
 /*vriables that are specific to the adjacency matrix:*/
 /* graph dimensions are defined in the function defineGraph below*/
-var graph.nRow;
-var graph.nCol;
+graph.nRow;
+graph.nCol;
 var nb;//number of neighbours
 var np;// the number of pictures
 var npmax=36;// maximal number of pictures in an array (map)
@@ -279,7 +280,7 @@ var cgetR = 0.4;
 var thisTC=-1;
 
 /* pictures button objects*/
-var exp.pathToImgDir;
+exp.pathToImgDir;
 
 /*respone ojsect*/
 var resTArr=[];//the array of resTASK
@@ -331,7 +332,6 @@ document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none
 document.getElementById("Qfeedback").style.display="none";
 
 var ndis = 1;
-var subjectId;
 /*array pictures objects - maps*/
 var nmap=1;
 
@@ -339,9 +339,9 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   /* subject first name*/
   var subjectId0 = document.getElementById("subjectId").value;
   if(subjectId0.endsWith("\n")||subjectId0.endsWith(" ")){
-    subjectId = subjectId0.slice(0,subjectId0.length - 1);
+    exp.subjectId = subjectId0.slice(0,subjectId0.length - 1);
   }else{
-    subjectId = subjectId0;
+    exp.subjectId = subjectId0;
   }
 
   /*create/retrive MAPS and save in sql table*/
@@ -370,7 +370,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
   // check if the images array already exists. If it does, return it in an array .
   // If it doesn't, return -1
-  exp.imgFileNamesArr = checkIfSubjectMapExists(subjectId);
+  exp.imgFileNamesArr = checkIfSubjectMapExists(exp.subjectId);
   // If images array does not exist, create it (randomely assign images files to graph nodes - i.e. the emissions matrix)
   if (exp.imgFileNamesArr[0]==-1){ // does not exists
     exp.imgFileNamesArr=[];
@@ -390,7 +390,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
     clear1dArr(vn);
   }
 
-  save2subjectDetailsAndStartTimeTable(subjectId);
+  save2subjectDetailsAndStartTimeTable();
 
   /* change display */
   document.getElementById("startDiv").style.display="none";
@@ -409,7 +409,7 @@ function presPic(){
   /*display the pictures array -  for debugging*/
   var disPic = 0;
   var j,picSrc,isLine,leftP,leftP0,rightP=0;
-  var exp.pathToImgDir = "/MEG/images/set1reg/";
+  exp.pathToImgDir = "/MEG/images/set1reg/";
   var imH = 120;
   var dpL = 20;
   var dpR = 20;
@@ -449,7 +449,7 @@ function checkIfSubjectMapExists(){
       }
     }
   };
-  xhttp.open("GET", "checkIfSubjectMapExists.php?q="+subjectId, false);
+  xhttp.open("GET", "checkIfSubjectMapExists.php?q="+exp.subjectId, false);
   xhttp.send();
   return map;
 }
@@ -460,11 +460,11 @@ function choosePart(){ // find the task's part in which particpants played with 
 
   // Alon: check if can converge learnRandomWalkTable learnRandomPairsTable to one table
 
-  completedRunsPerTask[0] = getRunNumFromTable("learnRandomWalkTable",subjectId); // function getRunNumFromTable is in ajaxFunctions.js, getRunNumFromTable gives the current run of each task
-  completedRunsPerTask[1] = getRunNumFromTable("isInPileTable",subjectId);
-  completedRunsPerTask[2] = getRunNumFromTable("isMiddleTable",subjectId);
-  completedRunsPerTask[3] = getRunNumFromTable("navigTable",subjectId);
-  completedRunsPerTask[4] = getRunNumFromTable("whichIsCloserTable",subjectId);
+  completedRunsPerTask[0] = getRunNumFromTable("learnRandomWalkTable"); // function getRunNumFromTable is in ajaxFunctions.js, getRunNumFromTable gives the current run of each task
+  completedRunsPerTask[1] = getRunNumFromTable("isInPileTable");
+  completedRunsPerTask[2] = getRunNumFromTable("isMiddleTable");
+  completedRunsPerTask[3] = getRunNumFromTable("navigTable");
+  completedRunsPerTask[4] = getRunNumFromTable("whichIsCloserTable");
 
   var maxRunsPerTask = maxArr(completedRunsPerTask); // this is where the subject stopped
 
@@ -489,10 +489,10 @@ function choosePart(){ // find the task's part in which particpants played with 
 
     if(completedRunsPerTask[4]==maxRunsPerTask){
       // if the connection was terminated in the midle of a task, start again from the last trial
-      numQ = getTrialNumFromTable("whichIsCloserTable",subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-      ncoin=numCoin("whichIsCloserTable",subjectId); // check the number of coines that was earned until now
+      numQ = getTrialNumFromTable("whichIsCloserTable",exp.subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+      ncoin=numCoin("whichIsCloserTable",exp.subjectId); // check the number of coines that was earned until now
       if (numQ<qend){// continue distance estimation task
-        whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",subjectId);// number of correct answers
+        whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",exp.subjectId);// number of correct answers
         defineGraph();
         startWhichIsCloser(numQ);
       }else{// start learning phase of the next run
@@ -508,13 +508,13 @@ function choosePart(){ // find the task's part in which particpants played with 
       if (completedRunsPerTask[3]==maxRunsPerTask){
         defineGraph();
         if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
-          cds = TaskdS(subjectId); // TaskdS: find the last initial distnace in navigation task.
+          cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
           if (cds == maxdS){// start distance estimation questions
             numQ=0;
             startWhichIsCloser(numQ);
           }else{// continue with navigation task
-            ncoin=numCoin("navigTable",subjectId);
-            var ntn = getTrialNumFromTable("navigTable",subjectId);
+            ncoin=numCoin("navigTable",exp.subjectId);
+            var ntn = getTrialNumFromTable("navigTable",exp.subjectId);
             startNavigTask(cds+1);
           }
         }else{
@@ -522,8 +522,8 @@ function choosePart(){ // find the task's part in which particpants played with 
         }
       }else{ // maxRunsPerTask was not whichIsCloser and not Navigation
         if(completedRunsPerTask[2]==maxRunsPerTask){// go to is it in the middle part
-          nrep=getTrialNumFromTable("isMiddleTable",subjectId);
-          ncoin=numCoin("isMiddleTable",subjectId);
+          nrep=getTrialNumFromTable("isMiddleTable",exp.subjectId);
+          ncoin=numCoin("isMiddleTable",exp.subjectId);
           defineGraph();
           if(nrep<maxIsM){
             isItMiddle(0);
@@ -537,8 +537,8 @@ function choosePart(){ // find the task's part in which particpants played with 
 
         }else{
           if(completedRunsPerTask[1]==maxRunsPerTask){// go to which pile part
-            thisT = getTrialNumFromTable("isInPileTable",subjectId);// read the number of trials that the subject have allready played in this block from the sql table
-            ncoin=numCoin("isInPileTable",subjectId);
+            thisT = getTrialNumFromTable("isInPileTable",exp.subjectId);// read the number of trials that the subject have allready played in this block from the sql table
+            ncoin=numCoin("isInPileTable",exp.subjectId);
             defineGraph();
             if(thisT<maxPile){
               whichPile(0);
@@ -546,12 +546,12 @@ function choosePart(){ // find the task's part in which particpants played with 
               isItMiddle(1);
             }
           }else{// continue phase learning task
-            ncoin=numCoin("navigTable",subjectId);
+            ncoin=numCoin("navigTable",exp.subjectId);
             if (maxRunsPerTask>8){
-              thisTC = getTrialNumFromTable("learnRandomPairsTable",subjectId);
+              thisTC = getTrialNumFromTable("learnRandomPairsTable",exp.subjectId);
               learnRandomPairsTask(thisTC);// learning from pairs
             }else{
-              thisTC = getTrialNumFromTable("learnRandomWalkTable",subjectId);
+              thisTC = getTrialNumFromTable("learnRandomWalkTable",exp.subjectId);
               learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
             }
           }

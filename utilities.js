@@ -40,40 +40,27 @@ function rem(N,di){
 
 /*calculate response time*/
 function calResponseTime(thisTimef,lastTime){
-	var dmin=thisTimef.getMinutes()-lastTime.getMinutes();
+	var dMin=thisTimef.getMinutes()-lastTime.getMinutes();
 	var dSec=thisTimef.getSeconds()-lastTime.getSeconds();
 	var dHr=Math.abs(thisTimef.getHours()-lastTime.getHours());
-	var dms=thisTimef.getMilliseconds()-lastTime.getMilliseconds();
-	var Rsec;
-	if (dmin<0){
-		dmin = dmin+60;
+	var dMs=thisTimef.getMilliseconds()-lastTime.getMilliseconds();
+	var rtInSec;
+	if (dMin<0){
+		dMin = dMin+60;
 		dHr = dHr-1;
 	}
 	if (dSec<0){
 		dSec = dSec+60;
-		dmin = dmin-1;
+		dMin = dMin-1;
 	}
-	if (dms<0){
-		dms = dms+1000;
+	if (dMs<0){
+		dMs = dMs+1000;
 		dSec = dSec-1;
 	}
-	dms = dms/1000;
-	Rsec = dHr*3600+dmin*60+dSec+dms;
-	return Rsec;
+	rtInSec = dHr*3600+dMin*60+dSec+dMs/1000;
+	return rtInSec;
 }
 function myTimeout(a){
-}
-
-
-function initRand(){
-	/*initilzation of the random generator:*/
-	var d = new Date();
-	var mn = d.getMinutes();
-	var nr;
-	mn = Math.floor(mn/2);
-	for (nr==0;nr++;nr<mn){
-		Math.random();
-	}
 }
 
 /*plot,delete,replot a circle (the coins)*/

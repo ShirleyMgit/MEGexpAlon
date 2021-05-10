@@ -18,13 +18,13 @@ function getTrialNumFromTable(tableName,name){// counts the number of repeatitio
 			}
 		}
 	};
-	xhttp.open("GET", "getRunAndTrialNumber.php?tableN="+tableName+"&subjectId="+subjectId, false);
+	xhttp.open("GET", "getRunAndTrialNumber.php?tableN="+tableName+"&subjectId="+exp.subjectId, false);
 	xhttp.send();
 	return trialNum;
 }
 
 
-function getRunNumFromTable(tableName,subjectId){ // check the number of runs already completed for a task.
+function getRunNumFromTable(tableName){ // check the number of runs already completed for a task.
 	var num;
 	var xhttp;
 	xhttp = new XMLHttpRequest();
@@ -39,7 +39,7 @@ function getRunNumFromTable(tableName,subjectId){ // check the number of runs al
 			}
 		}
 	};
-	xhttp.open("GET", "getRunAndTrialNumber.php?tableName="+tableName+"&subjectId="+subjectId, false);
+	xhttp.open("GET", "getRunAndTrialNumber.php?tableName="+tableName+"&subjectId="+exp.subjectId, false);
 	xhttp.send();
 	return num;
 }
@@ -114,13 +114,13 @@ function save2imagesFilesTable(imgFileName,nodeNumber){ // save in sql table
 	$.ajax({
 		type:'POST',
 		url: 'save2imagesFilesTable.php',
-		data: {subjectId: subjectId, imgFileName: imgFileName, nodeNumber:nodeNumber},
+		data: {subjectId: exp.subjectId, imgFileName: imgFileName, nodeNumber:nodeNumber},
 		async: false,
 		dataType:'json'
 	});
 }
 
-function save2subjectDetailsAndStartTimeTable(subjectId){//
+function save2subjectDetailsAndStartTimeTable(){//
 	var d1 = new Date();
 	var m = d1.getMonth()+1;
 	var dd = d1.getDate();//it was getDat()+1 until12/4/17 and was chaged to getDate
@@ -130,7 +130,7 @@ function save2subjectDetailsAndStartTimeTable(subjectId){//
 	$.ajax({
 		type:'POST',
 		url: 'save2subjectDetailsAndStartTimeTable.php',
-		data: {subjectId:subjectId,tc:t,dc:dd,mc:m},
+		data: {subjectId:exp.subjectId,tc:t,dc:dd,mc:m},
 		async: false,
 		dataType:'json',
 		success: function() {

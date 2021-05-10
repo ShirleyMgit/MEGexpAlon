@@ -69,7 +69,7 @@ function learnRandomPairsTask(fc){
     isFround=1;
   }
 
-  if(exp.curMap>exp.exp.maxMap||exp.curMap<0){
+  if(exp.curMap>exp.maxMap||exp.curMap<0){
     alert(" there is a problem with the map index- stop experiment!");
   }
 
@@ -120,7 +120,7 @@ function conExpPair(cpic){
     endAllTrials_learnRandomPairs(0);
   }
 
-  save2learnRandomPairTable(subjectId,exp.curRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+  save2learnRandomPairTable(exp.subjectId,exp.curRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
 }
 
 

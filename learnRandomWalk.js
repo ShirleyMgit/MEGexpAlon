@@ -14,11 +14,10 @@ function learnRandomWalkTask(){// learning phase
 
   defineGraph();// create transition matrixes and define pictures set directory // Alon: move to choosePart
 
-  ncoinSc = ncoin; // change coins to number
   y = y0; // Alon: delete?
   document.getElementById("chPicCold").src = [];
   clearCanvas(document.getElementById("myCanvas"),300,450); // this is in utilities.js
-  document.onkeydown = checkKey_learnWalk; // Alon: moved this from "clearCanvas". not sure why there's no () at the end, but left it as it was. 
+  document.onkeydown = checkKey_learnWalk; // Alon: moved this from "clearCanvas". not sure why there's no () at the end, but left it as it was.
 
   ncoinT=0;
 
@@ -33,6 +32,7 @@ function learnRandomWalkTask(){// learning phase
 
   /* Print instructions*/
   document.getElementById("instructions").innerHTML="Try to remember the associations between the pictures that appears one after the other.<br> A picture can be associated to more than one/two pictures. <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
+
   /* manage dispaly*/
   document.getElementById("myCanvas").style.display="inline"
   document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
@@ -41,19 +41,11 @@ function learnRandomWalkTask(){// learning phase
   document.getElementsByClassName("whichIsCloser")[0].style.display="none";
   document.getElementsByClassName("navig")[0].style.display="none";
   document.getElementById("dispPc").style.display="none";
-
-  initRand();//initilzation of random generator
-  //covRpArr = [];
   document.getElementById("learnRandomWalk").style.display="inline";
-
-  /*create a 1D array of pictures (start with regular grid):*/
-  var a=1;
-  var cn,isin;
-  corR=0;
-  var j1,j2,np0;
 
   // Alon: change all this so that it'll be one map per day. On day 3 have a map with missing links.
 
+  // innerHTML code
   if(exp.curRun>(exp.maxRun)){
     document.getElementById("newM").style.color="blue";
     document.getElementById("newM").innerHTML="new pictures set <br> experiment ended - thanks!";
@@ -99,47 +91,35 @@ function learnRandomWalkTask(){// learning phase
     isFround=1;  // Alon: can delete?
   }
 
-  if(exp.curMap>exp.exp.maxMap||exp.curMap<0){
+  if(exp.curMap>exp.maxMap||exp.curMap<0){
     alert(" there is a problem with the map index- stop experiment!"); // Alon: can delete?
   }
 
   learnWalkObj.nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
   document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// first image
   //covRpArr.push(learnWalkObj.nodeNumImg1);
-  timeLast = new Date();
+  learnWalkObj.imgPresentTime = new Date();
 }
 
 function checkKey_learnWalk(e) {
-  if (e.keyCode == '89'){//y
-    conExp(1);
-  }
-  if (e.keyCode == '78'){//n
-    conExp(0);
-  }
+  // only proceed if subject pressed enter.
   if (e.keyCode == '13'){//enter
-    conExp(0);
+    conExp_learnWalk();
   }
 }
 
-
-
-function conExp(){// continue experiment: check subject response time // Shirey to fix in response function
-  document.getElementById("endThanksT").innerHTML = "";
-  var tlap=1500;
-  var thisTime = new Date();
+function conExp_learnWalk(){// continue experiment: check subject response time // Shirey to fix in response function
+  var buttonPressTime = new Date();
   //increase trial. increase before saving so that it will start from 1 (not 0), but still index
   learnWalkObj.trial = learnWalkObj.trial+1;
   /*save responses to an Array*/
-  var rt = calResponseTime(thisTime,timeLast);// rsponse time
-  var ans = save2learnRandomWalkTable(subjectId,exp.curRun, exp.curMap, learnWalkObj.trial,learnWalkObj.nodeNumImg1,exp.imgFileNamesArr[learnWalkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+  var rt = calResponseTime(buttonPressTime,learnWalkObj.imgPresentTime);// response time
+  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, learnWalkObj.trial,learnWalkObj.nodeNumImg1,exp.imgFileNamesArr[learnWalkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
   document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// old picture
   learnWalkObj.nodeNumImg1=detNextPicGenA(Math.random(),Ar,learnWalkObj.nodeNumImg1);// next picture index
-
-  //covRpArr.push(learnWalkObj.nodeNumImg1);
-
   document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// next picture
-  timeLast = new Date();
+  learnWalkObj.imgPresentTime = new Date();
   // end part after learnWalkObj.maxTrial observations
   if(learnWalkObj.trial>learnWalkObj.maxTrial){
     learnWalkObj.trial=-1;
