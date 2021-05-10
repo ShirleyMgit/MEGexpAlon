@@ -13,7 +13,6 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   numQ = nQ+1;
   corAs = 0;
   clearCanvas(document.getElementById("myCanvas"),300,450);
-  ncoinT=0;
   flagC=0;
   flagSs=-1;
   flagSp=2;//signal that it is not pile part - importent for subject response function
@@ -138,9 +137,11 @@ function conExpQ(cq){// check subject response
   }else{
     corQ = 0;
   }
-  document.getElementById("ncoinP").style.display="none";
+
+  //Alon & Shirley: need to add something here to display the score
+  // document.getElementById("ncoinP").style.display="none";
   document.getElementById("myCanvas").style.display="none"
-  document.getElementById("ncoinP").innerHTML=ncoin+" coins";
+  // document.getElementById("ncoinP").innerHTML=ncoin+" coins";
 
   save2whichIsCloserTable(cq,imq1,imq2,corQ,RTq);// save data in sql table
 

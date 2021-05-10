@@ -15,12 +15,11 @@ if ($conn->connect_error) {
 
 mysqli_select_db($conn,"alonbara_meg");
 
-$name1 = $_GET['Fname'];
-$TableN = $_GET['tableN'];
-
+$subjectId = $_GET['subjectId'];
+$tableName = $_GET['tableName'];
 
 // Perform Query
-$sql = "SELECT ncoin FROM $TableN WHERE Name='$name1'";
+$sql = "SELECT totalScore FROM $tableName WHERE Name='$subjectId'";
 $result = mysqli_query ($conn,$sql);
 //echo mysqli_error();
 

@@ -12,14 +12,9 @@ function learnRandomWalkTask(){// learning phase
   }
   exp.curMap = exp.mapsVec[exp.curRun-1];
 
-  defineGraph();// create transition matrixes and define pictures set directory // Alon: move to choosePart
-
-  y = y0; // Alon: delete?
   document.getElementById("chPicCold").src = [];
   clearCanvas(document.getElementById("myCanvas"),300,450); // this is in utilities.js
   document.onkeydown = checkKey_learnWalk; // Alon: moved this from "clearCanvas". not sure why there's no () at the end, but left it as it was.
-
-  ncoinT=0;
 
   // all the followings are flags that signal the current part // Alon & Shirley: change to a single variable tracking which task is currently played
   flagC=0;

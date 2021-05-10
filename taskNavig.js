@@ -171,35 +171,38 @@ function conExpT(cpic){// check subject choices
   [in1L,in1R]=detNextPicExAnoR(inP,ran1,Ar,inRlast,inLlast);//find next indexes for options
 
   /* taking/adding coins (should appear just in the first block - otherwise they learn good and bed choices (- like a non-first order relation)*/
+  // Alon & Shirley: need to write something here for changing the score, in the meantime I commented out what was before
   if((nSt<LastnSt)||(nSt==LastnSt&&nStR>LastnSt&&nStL>LastnSt)||(nStR>LastnSt&&nStL>LastnSt&&cpic==0)){//CHECKING IF IT WAS A GOOD CHOICE, staying at the same distance is a good choice if it is the only avialable choice
-    ncoin = ncoin+1;
-    ncoinT = ncoinT+1;
-    corTask = 1;
-    if (nthis<80){
-      if (flagC==0){
-        plotCircle(document.getElementById("myCanvas"),y,"blue",x);
-      }else{
-        replotCircle(document.getElementById("myCanvas"),y,x);
-      }
-      y = y-dy;
-    }
+    // ncoin = ncoin+1;
+    // ncoinT = ncoinT+1;
+    // corTask = 1;
+    // if (nthis<80){
+    //   if (flagC==0){
+    //     plotCircle(document.getElementById("myCanvas"),y,"blue",x);
+    //   }else{
+    //     replotCircle(document.getElementById("myCanvas"),y,x);
+    //   }
+    //   y = y-dy;
+    // }
 
   }else{
-    if (ncoinT>0){
-      y = y+dy;
-      ncoinT = ncoinT-1;
-    }
-    ncoin = ncoin-1;
-    clearCircle(document.getElementById("myCanvas"),y,x);
-    ncolCrc = ncolCrc-1;
-    corTask = 0;
-  }
+  //   if (ncoinT>0){
+  //     y = y+dy;
+  //     ncoinT = ncoinT-1;
+  //   }
+  //   ncoin = ncoin-1;
+  //   clearCircle(document.getElementById("myCanvas"),y,x);
+  //   ncolCrc = ncolCrc-1;
+  //   corTask = 0;
+  // }
+
+  // Alon & Shirley: need to write something here for displaying the score when we want it to be displayed. in the meantime it's commented out.
   if (exp.curRun==1){
-    document.getElementById("ncoinP").style.display="inline";
+    // document.getElementById("ncoinP").style.display="inline";
     document.getElementById("myCanvas").style.display="inline"
-    document.getElementById("ncoinP").innerHTML=ncoin+" coins";
+    // document.getElementById("ncoinP").innerHTML=ncoin+" coins";
   }else{
-    document.getElementById("ncoinP").style.display="none";
+    // document.getElementById("ncoinP").style.display="none";
     document.getElementById("myCanvas").style.display="none";
   }
   if(y<=0){

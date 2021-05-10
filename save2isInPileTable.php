@@ -23,10 +23,10 @@ $pic23 = stripslashes(htmlspecialchars($_POST['in23']));
 $pic4 = stripslashes(htmlspecialchars($_POST['inQ']));
 $wPile= stripslashes(htmlspecialchars($_POST['wP']));
 $RTp = stripslashes(htmlspecialchars($_POST['RT']));
-$nC = stripslashes(htmlspecialchars($_POST['ncoin']));
+$totalScore = stripslashes(htmlspecialchars($_POST['totalScore']));
 
 $stmt = $db->prepare("INSERT INTO isInPileTable VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
-$stmt->bind_param("siiiiiiiiiiiiidi", $Fname,$Tr,$m,$nR,$isC,$isinO,$pic11,$pic12,$pic13,$pic21,$pic22,$pic23,$pic4,$wPile,$RTp,$nC);//s=string, i=integer, d=double
+$stmt->bind_param("siiiiiiiiiiiiidi", $Fname,$Tr,$m,$nR,$isC,$isinO,$pic11,$pic12,$pic13,$pic21,$pic22,$pic23,$pic4,$wPile,$RTp,$totalScore);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(

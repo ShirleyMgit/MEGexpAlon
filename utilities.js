@@ -63,33 +63,6 @@ function calResponseTime(thisTimef,lastTime){
 function myTimeout(a){
 }
 
-/*plot,delete,replot a circle (the coins)*/
-function plotCircle(myCanvas,y,colr,x){
-	var ctx = myCanvas.getContext("2d");
-	ctx.globalCompositeOperation = 'source-over';
-	ctx.beginPath();
-	ctx.arc(220-x, y, sz, 0, 2 * Math.PI);
-	ctx.stroke();
-	ctx.fillStyle = colr;
-	ctx.fill();
-}
-function replotCircle(myCanvas,y,x){
-	var ctx = myCanvas.getContext("2d");
-	ctx.globalCompositeOperation = 'source-over';
-	ctx.beginPath();
-	ctx.arc(220-x, y, sz, 0, 2 * Math.PI);
-	ctx.fill();
-	flagC=0;
-}
-function clearCircle(myCanvas,y,x){
-	var ctx = myCanvas.getContext("2d");
-	ctx.globalCompositeOperation = 'destination-out';
-	ctx.beginPath();
-	//ctx.arc(220-x, y, 15, 0, 2 * Math.PI);
-	ctx.arc(220-x, y, sz, 0, 2 * Math.PI);
-	ctx.fill();
-	flagC=1;
-}
 function clearCanvas(myCanvas,x,y){
 	var ctx = myCanvas.getContext("2d");
 	ctx.globalCompositeOperation = 'destination-out';

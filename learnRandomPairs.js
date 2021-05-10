@@ -13,7 +13,6 @@ function learnRandomPairsTask(fc){
 
   y = y0;
   clearCanvas(document.getElementById("myCanvas"),300,450);
-  ncoinT=0;
   flagC=0;
   flagT=0;
   flagIsM=-1;//signal that it is not IsM part
@@ -24,7 +23,6 @@ function learnRandomPairsTask(fc){
   flagQ = -1;
   thisTCp = fc;
 
-  saveStartTime(ncoin,subjectId);
   document.getElementsByClassName("whichIsCloser")[0].style.display="none";
   document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
   document.getElementById("Qfeedback").style.display="none";

@@ -148,10 +148,6 @@
     </div></center>
   </div>
 
-  <!--the coins-->
-  <canvas id="myCanvas" width="450" height="450" ></canvas>
-  <p id="nCoinP" style="position:fixed; bottom:10px; right:180px;color:blue"></p>
-
   <center><p id="endThanksT"></p></center>
   <div id="LbotT" ></div> <div id="RbotT"></div>
 
@@ -199,6 +195,7 @@ exp.maxRun = exp.mapsVec.length;
 exp.curMap = -1; // current map
 exp.maxMap = 3; // number of maps
 exp.imgFileNamesArr=[]; // the pictures from directory array
+exp.totalScore = 0; // total points earned.
 
 
 // parts (tasks) objects - these will be useful to have better control over global variables
@@ -233,7 +230,7 @@ graph.arrayType = "recA" //"HexA";//"clA";//
 var isNestDis=0;//disable the next button if equal 1
 /*training structural form*/
 /*vriables that are specific to the adjacency matrix:*/
-/* graph dimensions are defined in the function defineGraph below*/
+/* graph dimensions are defined in the function defineGraph */
 graph.nRow;
 graph.nCol;
 var nb;//number of neighbours
@@ -266,9 +263,7 @@ var sz = 20;//cycle size
 var flagC=0,y = 425,dy=0.9*sz;//cirlce height
 var x = -5,dx=sz*2+5;
 var y0 = y;//intial hight for the cycles
-var maxCoin = 140;//maximum number of coins that can be earn in each part
 var minTr = 0;//minimum trial to activate the "next" button
-var ncoin=0;
 var nSD = 2;//number of trials in which distance is given
 var nall=50;//number of pictures in the directory;
 var nstruct = 2;//number of different map with the same structure
@@ -472,7 +467,9 @@ function choosePart(){ // find the task's part in which particpants played with 
   document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
   document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
   document.getElementsByClassName("global inst")[0].style.display="none"; // hide global instructions html elements
-  ncoinT = 0; // how may coins collected until now
+
+  defineGraph();
+
   if(completedRunsPerTask[0]==0){ // learning phase
     exp.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
     learnRandomWalkTask();
@@ -489,11 +486,10 @@ function choosePart(){ // find the task's part in which particpants played with 
 
     if(completedRunsPerTask[4]==maxRunsPerTask){
       // if the connection was terminated in the midle of a task, start again from the last trial
-      numQ = getTrialNumFromTable("whichIsCloserTable",exp.subjectId); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-      ncoin=numCoin("whichIsCloserTable",exp.subjectId); // check the number of coines that was earned until now
+      numQ = getTrialNumFromTable("whichIsCloserTable"); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+      exp.totalScore=getScore("whichIsCloserTable"); // check the number of points that was earned until now
       if (numQ<qend){// continue distance estimation task
         whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",exp.subjectId);// number of correct answers
-        defineGraph();
         startWhichIsCloser(numQ);
       }else{// start learning phase of the next run
         exp.curRun = exp.curRun+1;
@@ -506,15 +502,14 @@ function choosePart(){ // find the task's part in which particpants played with 
     }else{
 
       if (completedRunsPerTask[3]==maxRunsPerTask){
-        defineGraph();
         if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
           cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
           if (cds == maxdS){// start distance estimation questions
             numQ=0;
             startWhichIsCloser(numQ);
           }else{// continue with navigation task
-            ncoin=numCoin("navigTable",exp.subjectId);
-            var ntn = getTrialNumFromTable("navigTable",exp.subjectId);
+            exp.totalScore=getScore("navigTable");
+            var ntn = getTrialNumFromTable("navigTable");
             startNavigTask(cds+1);
           }
         }else{
@@ -522,9 +517,8 @@ function choosePart(){ // find the task's part in which particpants played with 
         }
       }else{ // maxRunsPerTask was not whichIsCloser and not Navigation
         if(completedRunsPerTask[2]==maxRunsPerTask){// go to is it in the middle part
-          nrep=getTrialNumFromTable("isMiddleTable",exp.subjectId);
-          ncoin=numCoin("isMiddleTable",exp.subjectId);
-          defineGraph();
+          nrep=getTrialNumFromTable("isMiddleTable");
+          exp.totalScore=getScore("isMiddleTable");
           if(nrep<maxIsM){
             isItMiddle(0);
           }else{
@@ -537,22 +531,21 @@ function choosePart(){ // find the task's part in which particpants played with 
 
         }else{
           if(completedRunsPerTask[1]==maxRunsPerTask){// go to which pile part
-            thisT = getTrialNumFromTable("isInPileTable",exp.subjectId);// read the number of trials that the subject have allready played in this block from the sql table
-            ncoin=numCoin("isInPileTable",exp.subjectId);
-            defineGraph();
+            thisT = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have allready played in this block from the sql table
+            exp.totalScore=getScore("isInPileTable");
             if(thisT<maxPile){
               whichPile(0);
             }else{
               isItMiddle(1);
             }
           }else{// continue phase learning task
-            ncoin=numCoin("navigTable",exp.subjectId);
+            exp.totalScore=getScore("navigTable");
             if (maxRunsPerTask>8){
-              thisTC = getTrialNumFromTable("learnRandomPairsTable",exp.subjectId);
-              learnRandomPairsTask(thisTC);// learning from pairs
+              thisTC = getTrialNumFromTable("learnRandomPairsTable");
+              learnRandomPairsTask();// learning from pairs
             }else{
-              thisTC = getTrialNumFromTable("learnRandomWalkTable",exp.subjectId);
-              learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
+              thisTC = getTrialNumFromTable("learnRandomWalkTable");
+              learnRandomWalkTask(); //learning from random walk (consecutive pairs)
             }
           }
         }
@@ -563,9 +556,9 @@ function choosePart(){ // find the task's part in which particpants played with 
 }
 function chooseLearning_walkOrPairs(){ // formerly called chooseCoverStaff
   if (exp.curRun>8){
-    learnRandomPairsTask(0);
+    learnRandomPairsTask();
   }else{
-    learnRandomWalkTask(0);
+    learnRandomWalkTask();
   }
 }
 

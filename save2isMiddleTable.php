@@ -18,10 +18,10 @@ $p3 = stripslashes(htmlspecialchars($_POST['pic3']));
 $isMid = stripslashes(htmlspecialchars($_POST['isitM']));
 $isC = stripslashes(htmlspecialchars($_POST['corR']));
 $RTm = stripslashes(htmlspecialchars($_POST['rt']));
-$nC = stripslashes(htmlspecialchars($_POST['ncoin']));
+$totalScore = stripslashes(htmlspecialchars($_POST['totalScore']));
 
 $stmt = $db->prepare("INSERT INTO isMiddleTable VALUE(?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
-$stmt->bind_param("siiiiiiiidi", $Fname,$Tr,$m,$nR,$p1,$p2,$p3,$isMid,$isC,$RTm,$nC);//s=string, i=integer, d=double
+$stmt->bind_param("siiiiiiiidi", $Fname,$Tr,$m,$nR,$p1,$p2,$p3,$isMid,$isC,$RTm,$totalScore);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(
