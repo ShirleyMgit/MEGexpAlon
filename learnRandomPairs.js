@@ -1,16 +1,6 @@
 
 function learnRandomPairsTask(fc){
 
-  /* Load The Picture Array:*/
-  if (exp.curRun>0){
-    exp.lastMap = exp.mapsVec[exp.curRun-2];
-  }else{
-    exp.lastMap = -1;
-  }
-  exp.curMap = exp.mapsVec[exp.curRun-1];
-
-  chooseLearning_walkOrPairs();// create transition matrixes and define pictures set directory
-
   y = y0;
   clearCanvas(document.getElementById("myCanvas"),300,450);
   flagC=0;

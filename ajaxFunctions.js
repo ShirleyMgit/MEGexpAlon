@@ -24,7 +24,7 @@ function getTrialNumFromTable(tableName){// counts the number of repeatitions in
 }
 
 
-function getRunNumFromTable(tableName){ // check the number of runs already completed for a task.
+function getRunNumFromTable(tableName){ // check the run number of the last trial saved to the table
 	var num;
 	var xhttp;
 	xhttp = new XMLHttpRequest();

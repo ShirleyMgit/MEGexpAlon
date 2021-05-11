@@ -162,7 +162,6 @@ function conQ(){// next question or next block
     startWhichIsCloser(numQ);
   }else{
     if(exp.curRun<exp.maxRun){
-      exp.curRun = exp.curRun+1;
       numQ = 0;
       flagQ = 2;// so there wont be any response to subject pressing any key (enter/1/2)
       document.getElementsByClassName("whichIsCloser")[0].style.display="none";
@@ -170,9 +169,6 @@ function conQ(){// next question or next block
       document.getElementById("Qfeedback").style.display="inline";
       precntCor = Math.ceil(100*whichCloserObj.numCorrect/qend);
       document.getElementById("Qfeedback").innerHTML = "Thank you, you have done: %" + precntCor + "correct";
-    }else{
-      document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
-      document.getElementsByClassName("whichIsCloser")[0].style.display="none";
     }
 
   }

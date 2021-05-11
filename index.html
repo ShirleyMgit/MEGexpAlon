@@ -172,7 +172,7 @@
   <center><div class="whichIsCloser_feedback">
     <p id="Qfeedback"></p>
     <button type="button" id="nextBlock"
-    onclick="chooseLearning_walkOrPairs(0)">Continue</button>
+    onclick="chooseNewRunLearningTaskOrEndExp()">Continue</button>
   </div></center>
 
 
@@ -448,17 +448,17 @@ function checkIfSubjectMapExists(){
 
 function choosePart(){ // find the task's part in which particpants played with before taking a break. This is only called at the beginning of the session.
   var n;
-  var completedRunsPerTask=[];
+  var runNumOfLastTrialSaved2table=[];
 
   // Alon: check if can converge learnRandomWalkTable learnRandomPairsTable to one table
 
-  completedRunsPerTask[0] = getRunNumFromTable("learnRandomWalkTable"); // function getRunNumFromTable is in ajaxFunctions.js, getRunNumFromTable gives the current run of each task
-  completedRunsPerTask[1] = getRunNumFromTable("isInPileTable");
-  completedRunsPerTask[2] = getRunNumFromTable("isMiddleTable");
-  completedRunsPerTask[3] = getRunNumFromTable("navigTable");
-  completedRunsPerTask[4] = getRunNumFromTable("whichIsCloserTable");
+  runNumOfLastTrialSaved2table[0] = getRunNumFromTable("learnRandomWalkTable"); // function getRunNumFromTable is in ajaxFunctions.js, getRunNumFromTable gives the current run of each task
+  runNumOfLastTrialSaved2table[1] = getRunNumFromTable("isInPileTable");
+  runNumOfLastTrialSaved2table[2] = getRunNumFromTable("isMiddleTable");
+  runNumOfLastTrialSaved2table[3] = getRunNumFromTable("navigTable");
+  runNumOfLastTrialSaved2table[4] = getRunNumFromTable("whichIsCloserTable");
 
-  var maxRunsPerTask = maxArr(completedRunsPerTask); // this is where the subject stopped
+  var maxRunsPerTask = maxArr(runNumOfLastTrialSaved2table); // this is where the subject stopped
 
   /* change display*/
   document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
@@ -467,95 +467,90 @@ function choosePart(){ // find the task's part in which particpants played with 
 
   defineGraph();
 
-  if(completedRunsPerTask[0]==0){ // learning phase
+  // if there are no completed trials of learnRandomWalk yet, start intiialise variables and start learnRandomWalk task.
+  // this is what will usually happen when a subject first starts the experiment.
+  if (runNumOfLastTrialSaved2table[0]==0){
     exp.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
-    learnRandomWalkTask();
-  }else{
+    exp.lastMap = -1;
+    exp.curMap = exp.mapsVec[0];
+    learnRandomWalkTask(0); // 0 is for starting from trial 0.
+  } else { // if some tasks have already been completed, find the last one that was completed and
     exp.curRun = maxRunsPerTask; // exp.curRun global that counts the runs - how many times did all the blocks/tasks complete.
     exp.curMap = exp.mapsVec[exp.curRun-1]; // current map (-1 because exp.curRun starts at 1 and indeces start at 0)
-    if (exp.curRun>1){
+    if (exp.curRun>1) {
       exp.lastMap = exp.mapsVec[exp.curRun-2]; // exp.lastMap is the map before current one, perhaps can delete
-    }else{
+    } else {
       exp.lastMap = -1;
     }
 
-    // from here, go backwards in the order of tasks, and check where tehe suject stopped
+    // from here, go backwards in the order of tasks, and check where the subject stopped
 
-    if(completedRunsPerTask[4]==maxRunsPerTask){
-      // if the connection was terminated in the midle of a task, start again from the last trial
+    if(runNumOfLastTrialSaved2table[4]==maxRunsPerTask){ // last recorded trial was of whichIsCloser task
       numQ = getTrialNumFromTable("whichIsCloserTable"); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
       exp.totalScore=getScore("whichIsCloserTable"); // check the number of points that was earned until now
-      if (numQ<qend){// continue distance estimation task
-        whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",exp.subjectId);// number of correct answers
+      if (numQ<qend){ // if the connection was terminated in the middle of whichIsCloser task, continue from the last trial
+        whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",exp.subjectId); // number of correct answers
         startWhichIsCloser(numQ);
-      }else{// start learning phase of the next run
-        exp.curRun = exp.curRun+1;
-        if(exp.curRun>8){ // 8 learning trials on day 1 & 2, then start inference part on day 3
-          learnRandomPairsTask();// learning from pairs
-        }else{
-          learnRandomWalkTask();// learning from random walk
-        }
+      } else { // if whichIsCloser has completed, start learning phase of the next run. check if should learn from walk or pairs, depending on run number.
+        chooseNewRunLearningTaskOrEndExp(0) // 0 is for starting from trial 0.
       }
-    }else{
-
-      if (completedRunsPerTask[3]==maxRunsPerTask){
-        if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
-          cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
-          if (cds == maxdS){// start distance estimation questions
-            numQ=0;
-            startWhichIsCloser(numQ);
-          }else{// continue with navigation task
-            exp.totalScore=getScore("navigTable");
-            var ntn = getTrialNumFromTable("navigTable");
-            startNavigTask(cds+1);
-          }
+    } else if (runNumOfLastTrialSaved2table[3]==maxRunsPerTask){ // last recorded trial was of Navigation task
+      if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
+        cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
+        if (cds == maxdS){ // is navigation taks has completed, go to whichIsCloser task.
+          numQ=0;
+          startWhichIsCloser(numQ);
+        }else { // if the connection was terminated in the middle of navigation task, continue from the last trial
+          exp.totalScore=getScore("navigTable");
+          var ntn = getTrialNumFromTable("navigTable");
+          startNavigTask(cds+1);
+        }
+      } else { // if exp.curRun>8, skip navigation task and go to whichIsClose
+        startWhichIsCloser(0);
+      }
+    } else if (runNumOfLastTrialSaved2table[2]==maxRunsPerTask) { // last recorded trial was of isItMiddle task
+      nrep=getTrialNumFromTable("isMiddleTable");
+      exp.totalScore=getScore("isMiddleTable");
+      if(nrep<maxIsM){ // if isItMiddle was not completed, start from the last trial
+        isItMiddle(0); //***** Alon: what is the 0 here? shouldn't it be nrep (num of trials completed)? in the function it's called "nn"
+      } else { // itMiddle was completed go to the next task
+        if(exp.curRun<9){
+          startNavigTask(2);
         }else{
           startWhichIsCloser(0);
         }
-      }else{ // maxRunsPerTask was not whichIsCloser and not Navigation
-        if(completedRunsPerTask[2]==maxRunsPerTask){// go to is it in the middle part
-          nrep=getTrialNumFromTable("isMiddleTable");
-          exp.totalScore=getScore("isMiddleTable");
-          if(nrep<maxIsM){
-            isItMiddle(0);
-          }else{
-            if(exp.curRun<9){
-              startNavigTask(2);
-            }else{
-              startWhichIsCloser(0);
-            }
-          }
+      }
 
-        }else{
-          if(completedRunsPerTask[1]==maxRunsPerTask){// go to which pile part
-            thisT = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have allready played in this block from the sql table
-            exp.totalScore=getScore("isInPileTable");
-            if(thisT<maxPile){
-              whichPile(0);
-            }else{
-              isItMiddle(1);
-            }
-          }else{// continue phase learning task
-            exp.totalScore=getScore("navigTable");
-            if (maxRunsPerTask>8){
-              thisTC = getTrialNumFromTable("learnRandomPairsTable");
-              learnRandomPairsTask();// learning from pairs
-            }else{
-              thisTC = getTrialNumFromTable("learnRandomWalkTable");
-              learnRandomWalkTask(); //learning from random walk (consecutive pairs)
-            }
-          }
-        }
+    } else if(runNumOfLastTrialSaved2table[1]==maxRunsPerTask) { // last recorded trial was of piles task
+      thisT = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have already played in this run from the sql table
+      exp.totalScore=getScore("isInPileTable");
+      if(thisT<maxPile){ // if isInPile task was not completed
+        whichPile(0);
+      } else { // if isInPile task was completed
+        isItMiddle(1);
+      }
+    } else if(runNumOfLastTrialSaved2table[0]==maxRunsPerTask) { // last recorded trial was of learning task
+      exp.totalScore=getScore("whichIsCloserTable"); // there's no score change in the learning phase so get score from the last task of the previous run
+      if (exp.curRun>8) {
+        thisTC = getTrialNumFromTable("learnRandomPairsTable");
+        learnRandomPairsTask(thisTC);// learning from pairs
+      } else {
+        thisTC = getTrialNumFromTable("learnRandomWalkTable");
+        learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
       }
     }
   }
-
 }
-function chooseLearning_walkOrPairs(){ // formerly called chooseCoverStaff
-  if (exp.curRun>8){
-    learnRandomPairsTask();
-  }else{
-    learnRandomWalkTask();
+function chooseNewRunLearningTaskOrEndExp(0){ // formerly called chooseCoverStaff
+  exp.curRun = exp.curRun + 1
+
+  if (exp.curRun>exp.maxRun){ // end experiment
+    document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
+    document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+  } else if (exp.curRun>8 && exp.curRun<=exp.maxRun){ // inference (late) runs - learn from random pairs, not from a walk on graph
+    learnRandomPairsTask(0); // early runs - learn from a random walk on the graph.
+  } else if (exp.curRun<9){
+    learnRandomWalkTask(0);
   }
 }
 

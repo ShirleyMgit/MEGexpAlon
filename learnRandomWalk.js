@@ -1,16 +1,8 @@
 
-function learnRandomWalkTask(){// learning phase
+function learnRandomWalkTask(trial){// learning phase
 
   // Alon: think if this should be changed to get the trial from the table, in case subjects return to the task after disconnecting
-  lrnWlkObj.trial = 0;
-
-  /* which map:*/ // Alon: change sso that choosing the map will happen in choosePart()
-  if (exp.curRun>1){
-    exp.lastMap = exp.mapsVec[exp.curRun-2];
-  }else{
-    exp.lastMap = -1;
-  }
-  exp.curMap = exp.mapsVec[exp.curRun-1];
+  lrnWlkObj.trial = trial;
 
   document.getElementById("chPicCold").src = [];
   clearCanvas(document.getElementById("myCanvas"),300,450); // this is in utilities.js
@@ -81,10 +73,6 @@ function learnRandomWalkTask(){// learning phase
     document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
   }
 
-  if(exp.curMap>exp.maxMap||exp.curMap<0){
-    alert(" there is a problem with the map index- stop experiment!"); // Alon: can delete?
-  }
-
   lrnWlkObj.nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
   document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// first image
   //covRpArr.push(lrnWlkObj.nodeNumImg1);
@@ -117,12 +105,9 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
   }
 }
 
-
 /* end learnRandomWalk task part*/
 function endAllTrials_learnRandomWalk(){
-
   corR=0;
   document.getElementById("learnRandomWalk").style.display="none";
   whichPile(1);
-
 }
