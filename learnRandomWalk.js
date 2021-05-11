@@ -2,7 +2,7 @@
 function learnRandomWalkTask(){// learning phase
 
   // Alon: think if this should be changed to get the trial from the table, in case subjects return to the task after disconnecting
-  learnWalkObj.trial = 0;
+  lrnWlkObj.trial = 0;
 
   /* which map:*/ // Alon: change sso that choosing the map will happen in choosePart()
   if (exp.curRun>1){
@@ -90,10 +90,10 @@ function learnRandomWalkTask(){// learning phase
     alert(" there is a problem with the map index- stop experiment!"); // Alon: can delete?
   }
 
-  learnWalkObj.nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
-  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// first image
-  //covRpArr.push(learnWalkObj.nodeNumImg1);
-  learnWalkObj.imgPresentTime = new Date();
+  lrnWlkObj.nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
+  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// first image
+  //covRpArr.push(lrnWlkObj.nodeNumImg1);
+  lrnWlkObj.imgPresentTime = new Date();
 }
 
 function checkKey_learnWalk(e) {
@@ -106,18 +106,18 @@ function checkKey_learnWalk(e) {
 function conExp_learnWalk(){// continue experiment: check subject response time // Shirey to fix in response function
   var buttonPressTime = new Date();
   //increase trial. increase before saving so that it will start from 1 (not 0), but still index
-  learnWalkObj.trial = learnWalkObj.trial+1;
+  lrnWlkObj.trial = lrnWlkObj.trial+1;
   /*save responses to an Array*/
-  var rt = calResponseTime(buttonPressTime,learnWalkObj.imgPresentTime);// response time
-  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, learnWalkObj.trial,learnWalkObj.nodeNumImg1,exp.imgFileNamesArr[learnWalkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+  var rt = calResponseTime(buttonPressTime,lrnWlkObj.imgPresentTime);// response time
+  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, lrnWlkObj.trial,lrnWlkObj.nodeNumImg1,exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
 
-  document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// old picture
-  learnWalkObj.nodeNumImg1=detNextPicGenA(Math.random(),Ar,learnWalkObj.nodeNumImg1);// next picture index
-  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[learnWalkObj.nodeNumImg1];// next picture
-  learnWalkObj.imgPresentTime = new Date();
-  // end part after learnWalkObj.maxTrial observations
-  if(learnWalkObj.trial>learnWalkObj.maxTrial){
-    learnWalkObj.trial=-1;
+  document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// old picture
+  lrnWlkObj.nodeNumImg1=detNextPicGenA(Math.random(),Ar,lrnWlkObj.nodeNumImg1);// next picture index
+  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// next picture
+  lrnWlkObj.imgPresentTime = new Date();
+  // end part after lrnWlkObj.maxTrial observations
+  if(lrnWlkObj.trial>lrnWlkObj.maxTrial){
+    lrnWlkObj.trial=-1;
     endAllTrials_learnRandomWalk();
   }
 }
