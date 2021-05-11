@@ -34,7 +34,6 @@ function learnRandomPairsTask(fc){
   document.getElementsByClassName("navig")[0].style.display="none";
   document.getElementById("dispPc").style.display="none";
   document.getElementById("conCP").style.display="none";
-  initRand();//initilzation of random generator
   /*array of all presentation*/
   covRpArr = [];
   document.getElementsByClassName("navig")[0].style.display="none";
