@@ -52,18 +52,13 @@ function learnRandomPairsTask(fc){
 
   document.getElementById("newMP").style.color="green";
   document.getElementById("newMP").innerHTML="Same pictures set, same game - new trial";
-  isFround=0;
 
   if(exp.curMap!=exp.lastMap&&exp.lastMap!=-1){
-    isFround=1;
     document.getElementById("newMP").style.color="red";
     document.getElementById("newMP").innerHTML="new pictures set <br> take few minutes to rest";
   }else{
     document.getElementById("newMP").style.color="green";
     document.getElementById("newMP").innerHTML="Same pictures set, same game - new trial";
-  }
-  if(exp.curRun==1){
-    isFround=1;
   }
 
   if(exp.curMap>exp.maxMap||exp.curMap<0){

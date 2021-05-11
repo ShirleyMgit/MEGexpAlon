@@ -53,11 +53,6 @@ function startNavigTask(dS){ // formerly called startTask
   nSt = DistM[tar1][inP];
 
 
-  if (exp.curMap!=exp.lastMap){
-    isFround = 1;
-  }else{
-    isFround = 0;
-  }
   if (exp.curRun==1){
     document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
   }else{

@@ -48,11 +48,9 @@ function learnRandomWalkTask(){// learning phase
 
   document.getElementById("newM").style.color="green";
   document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
-  isFround=0;
 
   //if(exp.curMap!=exp.lastMap&&exp.lastMap!=-1){
   if(exp.curMap!=exp.lastMap){
-    isFround=1;
 
     document.getElementById("newM").style.color="red";
     document.getElementById("newM").innerHTML="new pictures set <br> take few minutes to rest";
@@ -81,9 +79,6 @@ function learnRandomWalkTask(){// learning phase
   }else{
     document.getElementById("newM").style.color="green";
     document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
-  }
-  if(exp.curRun==1){
-    isFround=1;  // Alon: can delete?
   }
 
   if(exp.curMap>exp.maxMap||exp.curMap<0){
