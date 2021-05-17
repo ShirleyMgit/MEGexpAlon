@@ -73,9 +73,11 @@ function learnRandomWalkTask(trial){// learning phase
     document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
   }
 
-  lrnWlkObj.nodeNumImg1 = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
-  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// first image
-  //covRpArr.push(lrnWlkObj.nodeNumImg1);
+  lrnWlkObj.nodeNumImgOld = []
+  lrnWlkObj.nodeNumImgNew = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
+  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew];// first image
+  document.getElementById("chPicCold").src = exp.pathToImgDir + '../whitePic.jpg' // first image
+
   lrnWlkObj.imgPresentTime = new Date();
 }
 
@@ -90,13 +92,13 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
   var buttonPressTime = new Date();
   //increase trial. increase before saving so that it will start from 1 (not 0), but still index
   lrnWlkObj.trial = lrnWlkObj.trial+1;
-  /*save responses to an Array*/
   var rt = calResponseTime(buttonPressTime,lrnWlkObj.imgPresentTime);// response time
-  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, lrnWlkObj.trial,lrnWlkObj.nodeNumImg1,exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
-
-  document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// old picture
-  lrnWlkObj.nodeNumImg1=detNextPicGenA(Math.random(),Ar,lrnWlkObj.nodeNumImg1);// next picture index
-  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1];// next picture
+  // save to sql table
+  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, lrnWlkObj.trial,lrnWlkObj.nodeNumImgOld,lrnWlkObj.nodeNumImgNew,exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+  lrnWlkObj.nodeNumImgOld = lrnWlkObj.nodeNumImgNew;
+  lrnWlkObj.nodeNumImgNew=detNextPicGenA(Math.random(),Ar,lrnWlkObj.nodeNumImgNew);// next picture index
+  document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgOld];// old picture
+  document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew];// next picture
   lrnWlkObj.imgPresentTime = new Date();
   // end part after lrnWlkObj.maxTrial observations
   if(lrnWlkObj.trial>lrnWlkObj.maxTrial){

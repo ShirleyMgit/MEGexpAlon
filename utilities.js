@@ -117,12 +117,6 @@ function checkKeyT(e) {// subject key choice to functions responses
 		}
 	}
 
-
-	if(flagCovP==1&&flagCov==0&&flagIsM==-1&&flagSs==2&&flagSp==2){//for the learning from pair phase
-		if (e.keyCode == '13'){//enter
-			conExpPair(0);
-		}
-	}
 	if(flagSp==0&&e.keyCode=='13'&&flagIsM==-1){// for piles task
 		whichPile(0);
 	}

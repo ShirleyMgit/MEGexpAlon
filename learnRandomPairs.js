@@ -1,18 +1,15 @@
 
-function learnRandomPairsTask(fc){
+function learnRandomPairsTask(trial){
 
-  y = y0;
-  clearCanvas(document.getElementById("myCanvas"),300,450);
-  flagC=0;
-  flagT=0;
-  flagIsM=-1;//signal that it is not IsM part
-  flagCovP=1;
-  flagCov=0;
+  clearCanvas(document.getElementById("myCanvas"),300,450); // in utilities.js
+  document.onkeydown = checkKey_learnPairs; // Alon: moved this from "clearCanvas". not sure why there's no () at the end, but left it as it was.
+
   flagSs=2;
   flagSp=2
-  flagQ = -1;
-  thisTCp = fc;
 
+  lrnPrsObj.trial = trial;
+
+  // Stop display of previous part
   document.getElementsByClassName("whichIsCloser")[0].style.display="none";
   document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
   document.getElementById("Qfeedback").style.display="none";
@@ -20,13 +17,14 @@ function learnRandomPairsTask(fc){
   /* Print instructions*/
   document.getElementById("instructionsP").innerHTML="Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br> Press enter to see the next card.";//<b>Is this picture tilt? </br>you get an extra point for any correct answer</br>";
 
+  // make sure that displays of other part s ar eoff. DELETE?
   document.getElementsByClassName("isMiddle")[0].style.display="none";
   document.getElementsByClassName("navig")[0].style.display="none";
   document.getElementById("dispPc").style.display="none";
   document.getElementById("conCP").style.display="none";
-  /*array of all presentation*/
-  covRpArr = [];
   document.getElementsByClassName("navig")[0].style.display="none";
+
+  /*array of all presentation*/
   allLearnRandomPair.style.display="inline";
 
   /*create a 1D array of pictures (start with regular grid):*/
@@ -59,19 +57,25 @@ function learnRandomPairsTask(fc){
   timeLast = new Date();
   conExpPair(0);
 }
+function checkKey_learnPairs(e) {
+  // only proceed if subject pressed enter.
+  if (e.keyCode == '13') {//enter
+    conExpPair();
+  }
+}
 
-function conExpPair(cpic){
+
+function conExpPair(){
   document.getElementById("endThanksT").innerHTML = "";
   document.getElementById("PicPC1").style.display="none"
   document.getElementById("PicPC2").style.display="none"
   document.getElementById("conCP").style.display="none"
-  var tlap=1500;
-  var thisTime = new Date();
+  var buttonPressTime = new Date();
   var cor;
-  thisTCp =thisTCp+1;
+  lrnPrsObj.trial =lrnPrsObj.trial+1;
 
   /*save responses to an Array*/
-  var RT = calResponseTime(thisTime,timeLast);
+  var RT = calResponseTime(buttonPressTime,timeLast);
 
   in1P = Math.floor(Math.random() * (np-1));
   ran1 = Math.random();
@@ -84,7 +88,7 @@ function conExpPair(cpic){
   document.getElementById("PicPC1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1P];
   document.getElementById("PicPC2").src = exp.pathToImgDir + exp.imgFileNamesArr[in2P];
 
-  if (thisTCp>0){
+  if (lrnPrsObj.trial>0){
     document.getElementById("conCP").style.display="inline";
     setTimeout(function(){ document.getElementById("conCP").style.display="none";},500);
     setTimeout(function(){document.getElementById("PicPC1").style.display="inline"; document.getElementById("PicPC2").style.display="inline";},500);
@@ -93,16 +97,15 @@ function conExpPair(cpic){
     document.getElementById("PicPC1").style.display="inline";
     document.getElementById("PicPC2").style.display="inline";
   }
-  covRpArr.push(in1P);
 
   ran1 = Math.random();
   timeLast = new Date();
-  if(thisTCp>maxCovP){
-    thisTCp=-1;
+  if(lrnPrsObj.trial>maxCovP){
+    lrnPrsObj.trial=-1;
     endAllTrials_learnRandomPairs(0);
   }
 
-  save2learnRandomPairTable(exp.subjectId,exp.curRun,in1P,in2P,RT,thisTCp,"learnRandomPairsTable");
+  save2learnRandomPairTable(exp.subjectId,exp.curRun,in1P,in2P,RT,lrnPrsObj.trial,"learnRandomPairsTable");
 }
 
 
@@ -110,7 +113,7 @@ function conExpPair(cpic){
 function endAllTrials_learnRandomPairs(endB){
 
   corR=0;
-  thisTCp = 0;
+  lrnPrsObj.trial = 0;
   allLearnRandomPair.style.display="none";
   whichPile(1);
 
