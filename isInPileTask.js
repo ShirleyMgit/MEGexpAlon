@@ -10,6 +10,7 @@ function whichPile(nn){// piles task
 	flagSp = 10;
 	flagTr=1;//can get an answer
 
+
 	/* manage display*/
 	document.getElementsByClassName("pileDiv")[0].style.display="block";
 	document.getElementById("EconSp").style.dispaly="none";
@@ -35,21 +36,22 @@ function whichPile(nn){// piles task
 	thisT = thisT+1;// count trials
 
 	/* choose sequences (piles) pictures*/
-	inPp11 = Math.floor(Math.random() * (np));
-	inPp21 = Math.floor(Math.random() * (np));
+	inPp11 = Math.floor(Math.random() * (G.nNodes));
+	inPp21 = Math.floor(Math.random() * (G.nNodes));
 	while(inPp11==inPp21){
-		inPp21 = Math.floor(Math.random() * (np));
+		inPp21 = Math.floor(Math.random() * (G.nNodes));
 	}
-	var Ar1;
+	// set the (local) transition matrix to work with from the global G obj - either the full or missing links matrix.
+	var transMat;
 	if (exp.curRun<9){
-		Ar1 = Ar;
+		transMat = G.transMat;
 	}else{
-		Ar1 = ArMiss;
+		transMat = G.transMatMiss;
 	}
-	inPp12=detNextPicGenA(Math.random(),Ar1,inPp11);
-	inPp22=detNextPicGenA(Math.random(),Ar1,inPp21);
-	inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,Ar1);
-	inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,Ar1);
+	inPp12=detNextPicGenA(Math.random(),transMat,inPp11);
+	inPp22=detNextPicGenA(Math.random(),transMat,inPp21);
+	inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,transMat);
+	inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,transMat);
 
 	document.getElementById("imCp11").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp11];//the first picture 1 pile
 	document.getElementById("imCp21").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp21];//the first picture 2 pile
@@ -60,14 +62,14 @@ function whichPile(nn){// piles task
 	while (inPp23==inPp13){
 		var A23L;
 		var A13L;
-		A23L = Ar1[inPp23].length;
-		A13L = Ar1[inPp13].length;
+		A23L = transMat[inPp23].length;
+		A13L = transMat[inPp13].length;
 		if (A23L >2){
-			inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,Ar1);
+			inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,transMat);
 
 		}else{
 			if (A13L>2){
-				inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,Ar1);
+				inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,transMat);
 
 			}else{
 				thisT=thisT-1;
@@ -88,10 +90,10 @@ function whichPile(nn){// piles task
 		var ran1 = Math.random();
 
 		if(ran1<0.5){// find the question picture - should make sure the other pile has no missing link with it.
-			inPisP=detNextPicGenAnoP1P2P3inBoth(Math.random(),Ar1,all1pile,all2pile,DistM);
+			inPisP=detNextPicGenAnoP1P2P3inBoth(Math.random(),transMat,all1pile,all2pile,G.distMat);
 			wP = 1;
 		}else{
-			inPisP=detNextPicGenAnoP1P2P3inBoth(Math.random(),Ar1,all2pile,all1pile,DistM);
+			inPisP=detNextPicGenAnoP1P2P3inBoth(Math.random(),transMat,all2pile,all1pile,G.distMat);
 			wP = 2;
 
 		}
@@ -104,7 +106,7 @@ function whichPile(nn){// piles task
 			document.getElementById("wCp").src=exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the q pic
 
 			/*need to check wether the picture is not a neighbour of both of them or if exists in one of the piles*/
-			if(wP==1){// I am not sure whether I sould put Ar or ArMiss here...
+			if(wP==1){// I am not sure whether I sould put Ar or G.transMatMiss here...
 				if(inPisP==inPp21||inPisP==inPp22||inPisP==inPp23){
 					isinOther=1;
 					isN=-1;

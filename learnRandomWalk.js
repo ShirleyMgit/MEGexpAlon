@@ -74,7 +74,7 @@ function learnRandomWalkTask(trial){// learning phase
   }
 
   lrnWlkObj.nodeNumImgOld = []
-  lrnWlkObj.nodeNumImgNew = Math.floor(Math.random() * (np-1)); //first image index // np is size of map (number of states/nodes)
+  lrnWlkObj.nodeNumImgNew = Math.floor(Math.random() * (G.nNodes-1)); //first image index // G.nNodes is size of map (number of states/nodes)
   document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew];// first image
   document.getElementById("chPicCold").src = exp.pathToImgDir + '../whitePic.jpg' // first image
 
@@ -96,7 +96,7 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
   // save to sql table
   save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, lrnWlkObj.trial,lrnWlkObj.nodeNumImgOld,lrnWlkObj.nodeNumImgNew,exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
   lrnWlkObj.nodeNumImgOld = lrnWlkObj.nodeNumImgNew;
-  lrnWlkObj.nodeNumImgNew=detNextPicGenA(Math.random(),Ar,lrnWlkObj.nodeNumImgNew);// next picture index
+  lrnWlkObj.nodeNumImgNew=detNextPicGenA(G.transMat,lrnWlkObj.nodeNumImgNew);// next picture index
   document.getElementById("chPicCold").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgOld];// old picture
   document.getElementById("chPicC1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew];// next picture
   lrnWlkObj.imgPresentTime = new Date();

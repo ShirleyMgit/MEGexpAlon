@@ -1,6 +1,4 @@
 function isItMiddle(nn){// is it in the middle task
-	var ran1 = Math.random();
-	var ran2 = Math.random();
 	flagSs = -1;//signal that it is not task part - important for response key function
 	flagSp=2;
 	flagCov = 0;//signal that it is not in the cover part
@@ -25,21 +23,21 @@ function isItMiddle(nn){// is it in the middle task
 	document.getElementsByClassName("pileDiv")[0].style.display="none";
 	document.getElementsByClassName("navig")[0].style.display="none";
 	document.getElementsByClassName("isMiddle")[0].style.display="inline";
-	ism = Math.floor(Math.random() * (np));
+	ism = Math.floor(Math.random() * (G.nNodes));
 
 	if(exp.curMap>1){
-		[ism1p,ism2p ]=detNextPicExA2(ism,ran1,ArMiss);
+		[ism1p,ism2p ]=detNextPicExA2(ism,G.transMatMiss);
 	}else{
-		[ism1p,ism2p ]=detNextPicExA2(ism,ran1,Ar);
+		[ism1p,ism2p ]=detNextPicExA2(ism,G.transMat);
 	}
 
 	var ismnew=ism;
 	var nbism,j,j2,flagNb=0;
 	ys=1;
-	if(ran2<0.5){//make it not in the middle
+	if(Math.random()<0.5){//make it not in the middle
 		ys=0;
 		while(ismnew==ism1p||ism2p==ismnew||ism==ismnew||flagNb==1){//fixed for fixed Ar - I want it not to be a neighbour of both of them on the complete graph
-			ismnew = Math.floor(Math.random() * (np));
+			ismnew = Math.floor(Math.random() * (G.nNodes));
 			nbism = Ar[ismnew];
 			flagNb=0;
 			for(j=0;j<nbism.length;j++){

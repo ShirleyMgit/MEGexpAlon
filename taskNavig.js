@@ -48,9 +48,9 @@ function startNavigTask(dS){ // formerly called startTask
 
   /*stimulus blocks*/
   var j1,j2;
-  inP = Math.floor(Math.random() * (np));//current picture index
-  tar1 = findTargGen(dS,inP,DistM);//target picture index
-  nSt = DistM[tar1][inP];
+  inP = Math.floor(Math.random() * (G.nNodes));//current picture index
+  tar1 = findTargGen(dS,inP,G.distMat);//target picture index
+  nSt = G.distMat[tar1][inP];
 
 
   if (exp.curRun==1){
@@ -116,8 +116,8 @@ function conExpT(cpic){// check subject choices
     }
   }
   /*checking how many good choices exists*/
-  nStL = DistM[tar1][in1L];// number of steps from 1 choice
-  nStR = DistM[tar1][in1R];// number of steps from the second choice
+  nStL = G.distMat[tar1][in1L];// number of steps from 1 choice
+  nStR = G.distMat[tar1][in1R];// number of steps from the second choice
 
   LastnSt = nSt;
   if((nStR>LastnSt&&nStL>LastnSt)||(nStR<LastnSt&&nStL>=LastnSt)||(nStR>=LastnSt&&nStL<LastnSt)){
@@ -131,7 +131,7 @@ function conExpT(cpic){// check subject choices
   }
 
   ran1 = Math.random();
-  nSt = DistM[tar1][inP];
+  nSt = G.distMat[tar1][inP];
   /*change things that are displayed on the screen*/
   document.getElementById("skip").style.display="none";
   document.getElementById("dispPc").style.display="inline";

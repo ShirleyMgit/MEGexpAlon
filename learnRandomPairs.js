@@ -77,12 +77,11 @@ function conExpPair(){
   /*save responses to an Array*/
   var RT = calResponseTime(buttonPressTime,timeLast);
 
-  in1P = Math.floor(Math.random() * (np-1));
-  ran1 = Math.random();
+  in1P = Math.floor(Math.random() * (G.nNodes-1));
   if (exp.curRun<9){
-    in2P=detNextPicGenA(ran1,Ar,in1P);// no missing links
+    in2P=detNextPicGenA(G.transMat,in1P);// no missing links
   }else{
-    in2P=detNextPicGenA(ran1,ArMiss,in1P);// with missing links
+    in2P=detNextPicGenA(G.transMatMiss,in1P);// with missing links
   }
   /* the 2 pictures*/
   document.getElementById("PicPC1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1P];

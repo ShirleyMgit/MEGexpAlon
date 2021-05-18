@@ -49,23 +49,23 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
   corAs = 0;
 
   if(exp.curRun<9){// no missing links
-    tarQ = Math.floor(Math.random() * (np));// target index
+    tarQ = Math.floor(Math.random() * (G.nNodes));// target index
     ran1 = Math.random();
     if (ran1<0.333){// find the indexes of the pictures to choose from
-      imq1 = findTargGen(2,tarQ,DistM);
-      imq2 = findTargGen(4,tarQ,DistM);
+      imq1 = findTargGen(2,tarQ,G.distMat);
+      imq2 = findTargGen(4,tarQ,G.distMat);
     }else{
       if(ran1<0.6667){
-        imq1 = findTargGen(2,tarQ,DistM);
-        imq2 = findTargGen(3,tarQ,DistM);
+        imq1 = findTargGen(2,tarQ,G.distMat);
+        imq2 = findTargGen(3,tarQ,G.distMat);
       }else{
-        imq1 = findTargGen(3,tarQ,DistM);
-        imq2 = findTargGen(4,tarQ,DistM);
+        imq1 = findTargGen(3,tarQ,G.distMat);
+        imq2 = findTargGen(4,tarQ,G.distMat);
       }
     }
 
-    var nS1 = DistM[tarQ][imq1];
-    var nS2 = DistM[tarQ][imq2];
+    var nS1 = G.distMat[tarQ][imq1];
+    var nS2 = G.distMat[tarQ][imq2];
 
     if (nS1<nS2){
       corAs=1;
@@ -80,20 +80,20 @@ function startWhichIsCloser(nQ){//distance estimation, formerly called startQust
     var ranD = Math.random();
     var imv;
     corAs = 1;// the missing link connection is defined to be image 1 - I then switch them 50% of the time
-    lenMS = vnmis.length;
+    lenMS = G.nodesWithMissLink.length;
     ind = Math.floor(Math.random() * (lenMS));// index for choosing target
-    tarQ = vnmis[ind];// the target index
-    lenMS2 = vConmis[ind].length;
-    ind2 = Math.floor(Math.random() * (lenMS2));// index for choosing the unconnected node (3 away on the missing link graph but 1 away on the complete graph);
+    tarQ = G.nodesWithMissLink[ind];// the target index
+    lenMS2 = G.whichLinkIsMiss[ind].length;
+    ind2 = Math.floor(Math.random() * (lenMS2));// index for choosing the unconnected node (3 away on the missing link G.but 1 away on the complete G.;
     if(ranD<0.75){//change 1->3
-      imq1 = vConmis[ind][ind2];
-      imq2 = findTargGenWithMis(3,tarQ,DistM);//find an image with distance 3 both on the omplete and missing link graphs
+      imq1 = G.whichLinkIsMiss[ind][ind2];
+      imq2 = findTargGenWithMis(3,tarQ,G.distMat,G.distMatMiss);//find an image with distance 3 both on the omplete and missing link G.
     }else{//change 2->4
-      imq0 = vConmis[ind][ind2];
-      nnbN = ArMiss[imq0].length
+      imq0 = G.whichLinkIsMiss[ind][ind2];
+      nnbN = G.transMatMiss[imq0].length
       ind3 = Math.floor(Math.random() * (nnbN));
-      imq1 = ArMiss[imq0][ind3];// this should be 2 away from the target.
-      imq2 = findTargGenWithMis(4,tarQ,DistM);//find an image with distance 4 both on the omplete and missing link graphs
+      imq1 = G.transMatMiss[imq0][ind3];// this should be 2 away from the target.
+      imq2 = findTargGenWithMis(4,tarQ,G.distMat,G.distMatMiss);//find an image with distance 4 both on the omplete and missing link G.
     }
   }
   /* change between the pictures*/

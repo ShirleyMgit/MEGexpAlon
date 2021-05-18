@@ -1,13 +1,13 @@
 /* other functions*/
 // for each new cluster a function that calculates the distace should be added
 
-function clear1dArr(Arr){// clear array
-	var len = Arr.length;
+function clear1dArr(inputAr){// clear array
+	var len = inputAr.length;
 	var jn;
 	for (jn=0;jn<len;jn++){
-		Arr.pop();
+		inputAr.pop();
 	}
-	return Arr;
+	return inputAr;
 }
 
 function maxArr(points){//find maximum of array
@@ -21,17 +21,26 @@ function minArr(points){//find minimum of array
 	return points[0];
 }
 
-function sumArray(Ar){
+function sumArray(inputAr){
 	var j;
 	var sumA = 0;
-	var len = Ar.length;
+	var len = inputAr.length;
 	for(j=0;j<len;j++){
-		sumA+=Ar[j];
+		sumA+=inputAr[j];
 	}
 	return sumA;
 }
 
 function rem(N,di){
+	var m,r;
+	m = Math.floor(N/di);
+	r = N-m*di;
+	return r;
+}
+
+function rem(N,di){
+	// remainder function: same as what % does.
+
 	var m,r;
 	m = Math.floor(N/di);
 	r = N-m*di;
@@ -133,31 +142,31 @@ function checkKeyT(e) {// subject key choice to functions responses
 	}
 }
 
-function detNextPicGenAnoP2(ran1,in1,p2,Ar1){//fixed for corrected Ar
+function detNextPicGenAnoP2(ran1,in1,p2,transMat){//fixed for corrected Ar
 
 	/*returns a neibor of in1 which is not p2*/
-	var nbI = Ar1[in1].length;
+	var nbI = transMat[in1].length;
 	var j,nbInew=[];
 	for(j=0;j<nbI;j++){
-		if(Ar1[in1][j]!=p2){
-			nbInew.push(Ar1[in1][j]);
+		if(transMat[in1][j]!=p2){
+			nbInew.push(transMat[in1][j]);
 		}
 	}
 	var nin = Math.floor((nbI-1)*ran1);
-	if(ran1==1){//for the very rare case that ran1==1, 2D array: the second dimention starts from 1...
+	if(ran1==1){//for the very rare case that ran1==1, 2D array: the second dimension starts from 1...
 		nin=nbI-2;
 	}
 	var nxp=nbInew[nin];
 	return nxp;
 }
 
-function isAneighbor(in1,in2,Ar1){//fixed for corrected Ar
+function isAneighbor(in1,in2,transMat){//fixed for corrected Ar
 	/*is in1 in2 neighbors? return 0 - not a neighbor or 1 - is a neibor*/
-	var nbI = Ar1[in1].length;//number of neighbourse of that node
+	var nbI = transMat[in1].length;//number of neighbourse of that node
 	var j,isN;
 	isN = 0;
 	for(j=0;j<nbI;j++){
-		if(Ar1[in1][j]==in2){
+		if(transMat[in1][j]==in2){
 			isN=1;
 			break;
 		}
@@ -167,19 +176,19 @@ function isAneighbor(in1,in2,Ar1){//fixed for corrected Ar
 
 function detNextPicGenAnoP2Gen(ran1,in1,in0){//fixed for corrected Ar
 	/*This function select a neiboughr of in1 which is not a neighbor of in0.*/
-	var nbI = Ar[in1].length;
-	var nbI0 = Ar[in0].length;
+	var nbI = G.transMat[in1].length;
+	var nbI0 = G.transMat[in0].length;
 	var flagN=0;
 	var j,j2,nbInew=[];
 	for(j=0;j<nbI;j++){
 		flagN=0;
 		for(j2=0;j2<nbI0;j2++){
-			if(Ar[in1][j]==Ar[in0][j2]){
+			if(G.transMat[in1][j]==G.transMat[in0][j2]){
 				flagN=1;
 			}
 		}
-		if(Ar[in1][j]!=in0&&flagN==0){
-			nbInew.push(Ar[in1][j]);
+		if(G.transMat[in1][j]!=in0&&flagN==0){
+			nbInew.push(G.transMat[in1][j]);
 		}
 	}
 	var lenN = nbInew.length;
@@ -190,9 +199,9 @@ function detNextPicGenAnoP2Gen(ran1,in1,in0){//fixed for corrected Ar
 	return nbInew[nin];
 }
 
-function detNextPicExA2(in0,ran1,Ar1){//fixes for corrected Ar
+function detNextPicExA2(in0,ran1,transMat){//fixes for corrected Ar
 	//This function chose 2 different neighbours of in0, Ar is the array of neighbours indexes, ran1 is a random number between 0-1
-	var nbI = Ar1[in0];//the neighbourse of that node
+	var nbI = transMat[in0];//the neighbourse of that node
 	var nb=[];
 	var j,in1;
 	var leb=nbI.length;
@@ -214,9 +223,9 @@ function detNextPicExA2(in0,ran1,Ar1){//fixes for corrected Ar
 	return [in1,in2];;
 }
 
-function detNextPicExAnoR(in0,ran1,Ar1,inR,inL){//fixes for corrected Ar
+function detNextPicExAnoR(in0,ran1,transMat,inR,inL){//fixes for corrected Ar
 	//This function chose 2 different neighbours of in0, Ar is the array of neighbours indexes, ran1 is a random number between 0-1
-	var nbI = Ar1[in0];//the neighbourse of that node
+	var nbI = transMat[in0];//the neighbourse of that node
 	var nbnoR=[];
 	var nb=[];
 	var j,in1;
@@ -254,7 +263,7 @@ function detNextPicExAnoR(in0,ran1,Ar1,inR,inL){//fixes for corrected Ar
 	return [in1,in2];;
 }
 
-function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fixed for corrected Ar
+function detNextPicGenAnoP1P2P3inBoth(ran1,transMat,allPile1,allPile2,DistFull){//fixed for corrected Ar
 	/*This function finds the next forth picture in Hamiltonian path - good for all structures*/
 	var in23 = allPile2[2];
 	var in22 = allPile2[1];
@@ -262,11 +271,11 @@ function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fix
 	var in13 = allPile1[2];
 	var in12 = allPile1[1];
 	var in11 = allPile1[0];
-	var nbI = Ar1[in13].length;
+	var nbI = transMat[in13].length;
 	var j,nbInew=[];
 	for(j=0;j<nbI;j++){
-		if(Ar1[in13][j]!=in12&&Ar1[in13][j]!=in11&&Ar1[in13][j]!=in21&&Ar1[in13][j]!=in22&&Ar1[in13][j]!=in23&&DistFull[Ar1[in13][j]][in23]>1){// the last inequality makes sure that the pictures is not connected to the other pile with a missing link
-			nbInew.push(Ar1[in13][j]);
+		if(transMat[in13][j]!=in12&&transMat[in13][j]!=in11&&transMat[in13][j]!=in21&&transMat[in13][j]!=in22&&transMat[in13][j]!=in23&&DistFull[transMat[in13][j]][in23]>1){// the last inequality makes sure that the pictures is not connected to the other pile with a missing link
+			nbInew.push(transMat[in13][j]);
 		}
 	}
 	var nbInL = nbInew.length;
@@ -282,13 +291,13 @@ function detNextPicGenAnoP1P2P3inBoth(ran1,Ar1,allPile1,allPile2,DistFull){//fix
 	}
 	return nxp;
 }
-function detNextPicGenA(ran1,Ar1,in1){//fixed for corrected Ar
-	var nbI = Ar1[in1].length;
+function detNextPicGenA(ran1,transMat,node){//fixed for corrected Ar
+	var nbI = transMat[node].length;
 	var nin = Math.floor(nbI*ran1);
 	if(nin==nbI){//for the very rare case that ran1==1, 2D array: the second dimention startsdetNextPicGenA from 1...
 		nin=nbI-1;
 	}
-	var nxp=Ar1[in1][nin];
+	var nxp=transMat[node][nin];
 	return nxp;
 }
 
@@ -316,38 +325,36 @@ function multiplyMatrices(m1, m2) {//Not My Code
 }
 
 
-function findTargGen(dS,inP,DistM0){
-	var Dinp = DistM0[inP];
+function findTargGen(dS,inP,distMat){
+	var Dinp = distMat[inP];
 	var DdS =[];
 	var j,lenS=0;
-	for(j=0;j<np;j++){
+	for(j=0;j<G.nNodes;j++){
 		if(Dinp[j]==dS){
 			DdS.push(j);
 			lenS = lenS+1;
 		}
 	}
-	var ran1 = Math.random();
-	var tind = Math.floor(lenS*ran1);
+	var tind = Math.floor(lenS*Math.random());
 	if(tind==lenS){
 		tind=lenS-1;
 	}
 	var targ = DdS[tind];
 	return targ;
 }
-function findTargGenWithMis(dS,inP,DistM0){
-	var Dinp = DistM0[inP];
-	var DinpMiss = DistMiss[inP];
+function findTargGenWithMis(dS,inP,distMat,distMatMiss){
+	var Dinp = distMat[inP];
+	var DinpMiss = distMatMiss[inP];
 	var DdS =[];
 	var j,targ,lenS=0;
-	for(j=0;j<np;j++){
+	for(j=0;j<G.nNodes;j++){
 		if(Dinp[j]==dS&&DinpMiss[j]==dS){
 			DdS.push(j);
 			lenS = lenS+1;
 		}
 	}
-	var ran1 = Math.random();
 	if(lenS>0){
-		var tind = Math.floor(lenS*ran1);
+		var tind = Math.floor(lenS*Math.random());
 		if(tind==lenS){
 			tind=lenS-1;
 		}

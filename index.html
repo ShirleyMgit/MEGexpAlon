@@ -14,12 +14,10 @@
 
   <!-- tasks part functions-->
   <script src="graph.js"></script><!--define maps dimentions and missing links-->
-  <script src="rectGA.js"></script><!--create rectangular transition matrix-->
-  <script src="createMissLinksArrays.js"></script><!-- missing links array-->
   <script src="utilities.js"></script><!--helper functions-->
   <script src="learnRandomWalk.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called cover-->
   <script src="learnRandomPairs.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPair-->
-  <script src="isMiddle_missingLink.js"></script><!--is it in the middle task-->
+  <script src="isMiddle.js"></script><!--is it in the middle task-->
   <script src="selPileNotTwice.js"></script><!--pile task-->
   <script src="taskNavig.js"></script><!--navigation task-->
   <script src="whichIsCloser.js"></script><!-- distance estimation task-->
@@ -194,7 +192,7 @@ exp.curMap = -1; // current map
 exp.maxMap = 3; // number of maps
 exp.imgFileNamesArr=[]; // the pictures from directory array
 exp.totalScore = 0; // total points earned.
-
+exp.maxNumNodes=36; // maximal number of nodes/pictures in an array (map)
 
 // parts (tasks) objects - these will be useful to have better control over global variables
 
@@ -205,7 +203,7 @@ class partObj {
 }
 // define obejects for the blocks of the different tasks.
 let lrnWlkObj = new partObj
-// number of trials in each run. previously called maxCov or maxCovH. for cluster graph, used to be 180 (maxCovC)
+// number of trials in each run. previously called maxCov or maxCovH. for cluster G. used to be 180 (maxCovC)
 lrnWlkObj.maxTrial = 120;
 
 let lrnPrsObj = new partObj
@@ -221,21 +219,16 @@ navigObj.maxSteps = 200;
 let whichCloserObj = new partObj
 whichCloserObj.numCorrect = 0;//number of correct responses in whichIsCloser (distance estimation questions)
 
-// graph object
-var graph = {};
-graph.arrayType = "recA" //"HexA";//"clA";//
+// G.object
+var G= {};
+G.arrayType = "recA" //"HexA";//"clA";//
 /* variable to change */
 var isNestDis=0;//disable the next button if equal 1
 /*training structural form*/
 /*vriables that are specific to the adjacency matrix:*/
-/* graph dimensions are defined in the function defineGraph */
-graph.nRow;
-graph.nCol;
+/* G.dimensions are defined in the function defineGraph */
+
 var nb;//number of neighbours
-var np;// the number of pictures
-var npmax=36;// maximal number of pictures in an array (map)
-var vnmis; // mising links nodes
-var vConmis;// the nodes that are connected to the nodes of the missing links nodes
 
 var maxdS = 4;
 var qend = 24;//20;//45;//34 - mis, 11 regular. number of distance estimation questions
@@ -243,7 +236,6 @@ var qend = 24;//20;//45;//34 - mis, 11 regular. number of distance estimation qu
 /* parameters for cluster Arch fixed neighbors*/
 var nc = 5;// number of clusters in the community structure graph
 var ninc = 7;// number of nodes in each cluster
-var Ar,DistM,ArMiss;// transition matrix and distance estimation
 /*max displays during the learning phase in each block*/
 
 var maxIsM=15;//10;
@@ -338,7 +330,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
   /*create/retrive MAPS and save in sql table*/
   var j1,j2,j3;
-  var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current graph. their tags are the indeces of the file names in exp.imgFileNamesArr
+  var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current G. their tags are the indeces of the file names in exp.imgFileNamesArr
   var nmmax,nodeNum;
   nmmax = exp.maxMap;
   var nn,vn=[]; // vn: vector of numbers.
@@ -350,7 +342,7 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
   nn = nall;// nall is the number of pictures in the directory
 
   // sample without replacement indeces for pictures, store in vn1
-  for (j3=0;j3<=npmax;j3++){ // npmax is the length of the largest map of the experiment
+  for (j3=0;j3<=exp.maxNumNodes;j3++){ // exp.maxNumNodes is the length of the largest map of the experiment
     // get a random index between 1 and nall, and populate vn1 with it
     np0 = Math.floor(Math.random() * (nn));
     vn1.push(vn01[np0]);
@@ -358,15 +350,15 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
     vn01.splice(np0, 1);
     nn = nn-1;
   }
-  nn = npmax;
+  nn = exp.maxNumNodes;
 
   // check if the images array already exists. If it does, return it in an array .
   // If it doesn't, return -1
   exp.imgFileNamesArr = checkIfSubjectMapExists(exp.subjectId);
-  // If images array does not exist, create it (randomely assign images files to graph nodes - i.e. the emissions matrix)
+  // If images array does not exist, create it (randomely assign images files to G.nodes - i.e. the emissions matrix)
   if (exp.imgFileNamesArr[0]==-1){ // does not exists
     exp.imgFileNamesArr=[];
-    for (j1=0; j1<npmax;j1++){
+    for (j1=0; j1<exp.maxNumNodes;j1++){
       nn = nn-1;
       nodeNum = j1+1;
       nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
@@ -405,14 +397,14 @@ function presPic(){
   var imH = 120;
   var dpL = 20;
   var dpR = 20;
-  leftP0 = Math.ceil(graph.nCol/2)*imH;
+  leftP0 = Math.ceil(G.nCol/2)*imH;
   leftP = leftP0;
   document.write("<div class='dispPicArr'>");
-  for(j=0;j<npmax;j++){
+  for(j=0;j<exp.maxNumNodes;j++){
     picSrc = exp.pathToImgDir+ exp.imgFileNamesArr[j];
     document.write("<img border ='5px solid gray' height='"+imH+"'px width='"+imH+"px' position='relative' left="+leftP+"px right="+rightP+"px src='"+picSrc+">");
-    isLine = Math.ceil((j+1)/graph.nCol);
-    isLine = (isLine)*graph.nCol-j-1;
+    isLine = Math.ceil((j+1)/G.nCol);
+    isLine = (isLine)*G.nCol-j-1;
     leftP = leftP+dpL;
     if(isLine==0){
       document.write("<br>");
@@ -435,7 +427,7 @@ function checkIfSubjectMapExists(){
         map[0]=-1;
       }else{ // if exists, build map array
         // loop through images. Start at 1 because the first column in data[0] is subjectId.
-        for(j=1;j<=npmax;j++){
+        for(j=1;j<=exp.maxNumNodes;j++){
           map[j-1]=data[0][j]; // data[0] is a single row of SQL table, j indexes it.
         }
       }
@@ -548,7 +540,7 @@ function chooseNewRunLearningTaskOrEndExp(0){ // formerly called chooseCoverStaf
     document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
     document.getElementsByClassName("whichIsCloser")[0].style.display="none";
   } else if (exp.curRun>8 && exp.curRun<=exp.maxRun){ // inference (late) runs - learn from random pairs, not from a walk on graph
-    learnRandomPairsTask(0); // early runs - learn from a random walk on the graph.
+    learnRandomPairsTask(0); // early runs - learn from a random walk on the G.
   } else if (exp.curRun<9){
     learnRandomWalkTask(0);
   }
