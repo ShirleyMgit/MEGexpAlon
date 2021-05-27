@@ -33,6 +33,8 @@ function calDistAdjMat(transMat){
 	var D=[[]];
 	var A = [[]];
 	var An = [[]];
+	// Alon: in the first part of the function numZ counts the number of zeros in A (which is also A^n (An) for n=1).
+	// I'm not sure why it is usedd to get ito the while loop at the end of the function, where An is calculated.
 	var numZ = 0;
 	/*Initilizing D*/
 	for (iNode=0;iNode<nNodes;iNode++){//initialization - just neighbours
@@ -72,18 +74,24 @@ function calDistAdjMat(transMat){
 	// An[i,j]==1 means that D[]i,j]==n
 
 	var n=2; // increased steps (this is the n of A^n)
+	// Loop over n (increase n  by 1 every while loop). break the loop once numZ==nNodes
+	// (note that it's initialized as numZ=nNodes, so the loop will break when there
+	// are no more 0s at all in An)
+	// Alon & Shirley: I understand how this loop works after you enter it. I don't understand when
+	// should you not enter it at all (i.e. if if [number of 0s in A] <= nNodes )
 	while (numZ>nNodes){
+		// Alon: I think the reason to initialise numZ = nNodes is because there are always 0s on the diagonal of An
 		numZ = nNodes;
 		// calculate A^n
 		An = multiplyMatrices(An,A);
 		// add entries to D according to An
 		for (iNode=0;iNode<nNodes;iNode++){
 			for (jNode=0;jNode<nNodes;jNode++){
-				if(iNode!=jNode){
+				if(iNode!=jNode){ // off-diagonal elements
 					if(D[iNode][jNode]==0){
-						if(An[iNode][jNode]!=0){
+						if(An[iNode][jNode]!=0){ // distance between nodes is n
 							D[iNode][jNode]=n;
-						}else{
+						}else{ // An[iNode][jNode] is still 0 - distance between iNode and jNode is larger than n.
 							numZ = numZ+1;
 						}
 					}
