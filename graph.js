@@ -28,53 +28,61 @@ function defineGraph(){// create transition structures and define pictures set
 
 
 function calDistAdjMat(transMat){
-	var i,j,m,lenB,flagNb,numZ;
+	var iNode,jNode,iNghbr,iNodeNghbrs,nNghbrs,flagNghbr;
 	var nNodes = transMat.length;
 	var D=[[]];
 	var A = [[]];
 	var An = [[]];
-	numZ = 0;
+	var numZ = 0;
 	/*Initilizing D*/
-	for (i=0;i<nNodes;i++){//initialization - just neighbours
-		var nB = transMat[i];
-		lenB = nB.length;
-		D[i].push( new Array(nNodes));
-		A[i].push( new Array(nNodes));
-		An[i].push( new Array(nNodes));
-		for (j=0;j<nNodes;j++){
-			flagNb = 0;
-			for (m=0;m<lenB;m++){
-				if(nB[m]==j){
-					flagNb=1;
-					D[i][j]=1;
-					A[i][j]=1;
-					An[i][j]=1;
+	for (iNode=0;iNode<nNodes;iNode++){//initialization - just neighbours
+		var nodeNghbrs = transMat[iNode]; // vector of neighbours of node iNode
+			nNghbrs =nodeNghbrs.length;
+		D[iNode].push( new Array(nNodes));
+		A[iNode].push( new Array(nNodes));
+		An[iNode].push( new Array(nNodes));
+		for (jNode=0;jNode<nNodes;jNode++){
+			flagNghbr = 0;
+			for (iNghbr=0;iNghbr<nNghbrs;iNghbr++){
+				// check if jNode is a neighbour of iNode
+				if nodeNghbrs[iNghbr]==jNode){
+					flagNghbr=1;
+					D[iNode][jNode]=1;
+					A[iNode][jNode]=1;
+					An[iNode][jNode]=1;
 					break;
 				}
 			}
-			if (flagNb==0){
-				D[i][j]=0;
-				A[i][j]=0;
-				An[i][j]=0;
+			if (flagNghbr==0){
+				D[iNode][jNode]=0;
+				A[iNode][jNode]=0;
+				An[iNode][jNode]=0;
 				numZ = numZ+1;
 			}
 		}
-		if(i<nNodes-1){
+		// add placeholder for next node
+		if(iNode<nNodes-1){
 			D.push([]);
 			A.push([]);
 			An.push([]);
 		}
 	}
-	var n=2;
+
+	// to calculate D, we will now calculate A^n for increasing n.
+	// An[i,j]==1 means that D[]i,j]==n
+
+	var n=2; // increased steps (this is the n of A^n)
 	while (numZ>nNodes){
 		numZ = nNodes;
+		// calculate A^n
 		An = multiplyMatrices(An,A);
-		for (i=0;i<nNodes;i++){
-			for (j=0;j<nNodes;j++){
-				if(i!=j){
-					if(D[i][j]==0){
-						if(An[i][j]!=0){
-							D[i][j]=n;
+		// add entries to D according to An
+		for (iNode=0;iNode<nNodes;iNode++){
+			for (jNode=0;jNode<nNodes;jNode++){
+				if(iNode!=jNode){
+					if(D[iNode][jNode]==0){
+						if(An[iNode][jNode]!=0){
+							D[iNode][jNode]=n;
 						}else{
 							numZ = numZ+1;
 						}
