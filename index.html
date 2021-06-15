@@ -14,19 +14,21 @@
 
   <!-- tasks part functions-->
   <script src="graph.js"></script><!--define maps dimentions and missing links-->
+  <script src="graphProgressionFuncs.js"></script><!--define maps dimentions and missing links-->
   <script src="utilities.js"></script><!--helper functions-->
   <script src="learnRandomWalk.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called cover-->
   <script src="learnRandomPairs.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPair-->
   <script src="isMiddle.js"></script><!--is it in the middle task-->
-  <script src="selPileNotTwice.js"></script><!--pile task-->
+  <script src="isInPileTask.js"></script><!--pile task; previously called setPileNotTwice.js-->
   <script src="taskNavig.js"></script><!--navigation task-->
   <script src="whichIsCloser.js"></script><!-- distance estimation task-->
   <script src="ajaxFunctions.js"></script>
 </head>
 
 <body>
-<!--start-->
+<canvas id="myCanvas" width="450" height="450" ></canvas>
 
+<!--start-->
 <!--subject details:-->
 <center><div id="startDiv" style="background-color: powderblue;">
   <p style="font-size: 20px"><b>Welcome</b><br> please enter your details.</p>
@@ -263,7 +265,7 @@ var cgetR = 0.4;
 var thisTC=-1;
 
 /* pictures button objects*/
-exp.pathToImgDir;
+exp.pathToImgDir="/MEG/images/set1reg/";
 
 /*respone ojsect*/
 var resTArr=[];//the array of resTASK
@@ -455,15 +457,17 @@ function choosePart(){ // find the task's part in which particpants played with 
   document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
   document.getElementsByClassName("global inst")[0].style.display="none"; // hide global instructions html elements
 
-  defineGraph();
-
   // if there are no completed trials of learnRandomWalk yet, start intiialise variables and start learnRandomWalk task.
   // this is what will usually happen when a subject first starts the experiment.
   if (runNumOfLastTrialSaved2table[0]==0){
     exp.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
     exp.lastMap = -1;
     exp.curMap = exp.mapsVec[0];
+    // define graph (according to exp.curMap) - transition and adjacency matrices.
+    defineGraph();
+    // start first task - learnRandomWalk
     learnRandomWalkTask(0); // 0 is for starting from trial 0.
+
   } else { // if some tasks have already been completed, find the last one that was completed and
     exp.curRun = maxRunsPerTask; // exp.curRun global that counts the runs - how many times did all the blocks/tasks complete.
     exp.curMap = exp.mapsVec[exp.curRun-1]; // current map (-1 because exp.curRun starts at 1 and indeces start at 0)
@@ -472,6 +476,8 @@ function choosePart(){ // find the task's part in which particpants played with 
     } else {
       exp.lastMap = -1;
     }
+    // define graph (according to exp.curMap) - transition and adjacency matrices.
+    defineGraph();
 
     // from here, go backwards in the order of tasks, and check where the subject stopped
 
@@ -531,7 +537,7 @@ function choosePart(){ // find the task's part in which particpants played with 
     }
   }
 }
-function chooseNewRunLearningTaskOrEndExp(0){ // formerly called chooseCoverStaff
+function chooseNewRunLearningTaskOrEndExp(){ // formerly called chooseCoverStaff
   exp.curRun = exp.curRun + 1
 
   if (exp.curRun>exp.maxRun){ // end experiment

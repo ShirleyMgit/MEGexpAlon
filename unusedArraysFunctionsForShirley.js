@@ -383,3 +383,53 @@ function creatMissArHexPair(Ar){// create hexagonal array with missing links pro
 	}
 	return Armiss;
 }
+
+
+/*define borer color*/
+function defBorderA(im,tar,nCol,nNodes){
+	var crNd1 = tar+1;
+	var crNdCol1 = rem(crNd1,nCol);
+
+	if((crNdCol1>1)&&(crNd1>nCol)&&(crNd1<=nNodes-nCol)){//not on the edge
+		im.style.borderColor="Gray";
+	}else{
+		if(crNd1<=nCol){//first raw
+			if(crNdCol1>1){
+				im.style.borderColor="Red";
+			}else{
+				switch(crNdCol1){
+					case 0://left up corner
+					im.style.borderColor="Purple";
+					break;
+					case 1://right up corner
+					im.style.borderColor="orange";
+					break;
+				}
+			}
+		}else{
+			if(crNd1>nNodes-nCol){//last raw
+				if(crNdCol1>1){
+					im.style.borderColor="Green";
+				}else{
+					switch(crNdCol1){
+						case 0:
+						im.style.borderColor="Cyan";
+						break;
+						case 1://low right
+						im.style.borderColor="GreenYellow";
+						break;
+					}
+				}
+			}else{
+				switch(crNdCol1){
+					case 0://left
+					im.style.borderColor="Blue";
+					break;
+					case 1://right
+					im.style.borderColor="Yellow";
+					break;
+				}
+			}
+		}
+	}
+}

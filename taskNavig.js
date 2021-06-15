@@ -181,52 +181,53 @@ function conExpT(cpic){// check subject choices
     // }
 
   }else{
-  //   if (ncoinT>0){
-  //     y = y+dy;
-  //     ncoinT = ncoinT-1;
-  //   }
-  //   ncoin = ncoin-1;
-  //   clearCircle(document.getElementById("myCanvas"),y,x);
-  //   ncolCrc = ncolCrc-1;
-  //   corTask = 0;
-  // }
+    //   if (ncoinT>0){
+    //     y = y+dy;
+    //     ncoinT = ncoinT-1;
+    //   }
+    //   ncoin = ncoin-1;
+    //   clearCircle(document.getElementById("myCanvas"),y,x);
+    //   ncolCrc = ncolCrc-1;
+    //   corTask = 0;
+    // }
 
-  // Alon & Shirley: need to write something here for displaying the score when we want it to be displayed. in the meantime it's commented out.
-  if (exp.curRun==1){
-    // document.getElementById("ncoinP").style.display="inline";
-    document.getElementById("myCanvas").style.display="inline"
-    // document.getElementById("ncoinP").innerHTML=ncoin+" coins";
-  }else{
-    // document.getElementById("ncoinP").style.display="none";
-    document.getElementById("myCanvas").style.display="none";
+    // Alon & Shirley: need to write something here for displaying the score when we want it to be displayed. in the meantime it's commented out.
+    if (exp.curRun==1){
+      // document.getElementById("ncoinP").style.display="inline";
+      document.getElementById("myCanvas").style.display="inline"
+      // document.getElementById("ncoinP").innerHTML=ncoin+" coins";
+    }else{
+      // document.getElementById("ncoinP").style.display="none";
+      document.getElementById("myCanvas").style.display="none";
+    }
+    if(y<=0){
+      x = x+dx;
+      y = y0;
+    }
+    if(y>y0&&ncolCrc>1){
+      x = x-dx;
+      y = 0;
+    }
+    save2navigTable(Tchoice,nGood,-2,corTask,RTt);// save choces etc into the sql table
+    c = c+1;
+
+    var tlap = Math.floor((Math.random() * 1000) + 750);
+    setTimeout(myTimeout, tlap,3);
+
+    document.getElementById("chPic2").style.display="none";
+    document.getElementById("chPic1").style.display="none";
+    document.getElementById("chPic2").src = exp.pathToImgDir + exp.imgFileNamesArr[in1R];
+    document.getElementById("chPic1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1L];
+    if (exp.curRun==1){
+      document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
+    }else{
+      document.getElementById("startPic").innerHTML="Your current card:<br>";
+    }
+    flagTr=1;
+
+    timeLast = new Date();
+
   }
-  if(y<=0){
-    x = x+dx;
-    y = y0;
-  }
-  if(y>y0&&ncolCrc>1){
-    x = x-dx;
-    y = 0;
-  }
-  save2navigTable(Tchoice,nGood,-2,corTask,RTt);// save choces etc into the sql table
-  c = c+1;
-
-  var tlap = Math.floor((Math.random() * 1000) + 750);
-  setTimeout(myTimeout, tlap,3);
-
-  document.getElementById("chPic2").style.display="none";
-  document.getElementById("chPic1").style.display="none";
-  document.getElementById("chPic2").src = exp.pathToImgDir + exp.imgFileNamesArr[in1R];
-  document.getElementById("chPic1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1L];
-  if (exp.curRun==1){
-    document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
-  }else{
-    document.getElementById("startPic").innerHTML="Your current card:<br>";
-  }
-  flagTr=1;
-
-  timeLast = new Date();
-
 }
 function dispPic(){
   document.getElementById("chPic2").style.display="inline";

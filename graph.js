@@ -47,7 +47,7 @@ function calDistAdjMat(transMat){
 			flagNghbr = 0;
 			for (iNghbr=0;iNghbr<nNghbrs;iNghbr++){
 				// check if jNode is a neighbour of iNode
-				if nodeNghbrs[iNghbr]==jNode){
+				if (nodeNghbrs[iNghbr]==jNode){
 					flagNghbr=1;
 					D[iNode][jNode]=1;
 					A[iNode][jNode]=1;
@@ -196,63 +196,12 @@ function createTransMatRect() { // previously called createArect
 				break;
 			}
 		}
-	}
-
-	if (crNd<G.nNodes-1) { // add placeholder for next node.
-		transMat.push([]);
+		if (crNd<G.nNodes-1) { // add placeholder for next node.
+			transMat.push([]);
+		}
 	}
 	return transMat
 }
-
-/*define borer color*/
-function defBorderA(im,tar,G.nCol,G.nNodes){
-	var crNd1 = tar+1;
-	var crNdCol1 = rem(crNd1,G.nCol);
-
-	if((crNdCol1>1)&&(crNd1>G.nCol)&&(crNd1<=G.nNodes-G.nCol)){//not on the edge
-		im.style.borderColor="Gray";
-	}else{
-		if(crNd1<=G.nCol){//first raw
-			if(crNdCol1>1){
-				im.style.borderColor="Red";
-			}else{
-				switch(crNdCol1){
-					case 0://left up corner
-					im.style.borderColor="Purple";
-					break;
-					case 1://right up corner
-					im.style.borderColor="orange";
-					break;
-				}
-			}
-		}else{
-			if(crNd1>G.nNodes-G.nCol){//last raw
-				if(crNdCol1>1){
-					im.style.borderColor="Green";
-				}else{
-					switch(crNdCol1){
-						case 0:
-						im.style.borderColor="Cyan";
-						break;
-						case 1://low right
-						im.style.borderColor="GreenYellow";
-						break;
-					}
-				}
-			}else{
-				switch(crNdCol1){
-					case 0://left
-					im.style.borderColor="Blue";
-					break;
-					case 1://right
-					im.style.borderColor="Yellow";
-					break;
-				}
-			}
-		}
-	}
-}
-
 
 
 function deleteMissLinks(transMat,nodesWithMissLink,whichLinkIsMiss){// general function to introduce missing link
