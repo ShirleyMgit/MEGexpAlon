@@ -25,7 +25,7 @@ if (strcmp($nodeNumber,"node1")==0){ //insert new row with participant's name (i
   $sql1 = mysqli_query($conn,"INSERT INTO imagesFilesTable (subjectId) VALUES ('$subjectId')");
   echo "wrote subjectId";
 }
-$sql2 = mysqli_query ($conn,"UPDATE imagesFilesTable SET $nodeNumber = $imgFileName WHERE subjectId='$subjectId'");
+$sql2 = mysqli_query ($conn,"UPDATE imagesFilesTable SET $nodeNumber = '$imgFileName' WHERE subjectId='$subjectId'");
 
 $conn->close();
 ?>

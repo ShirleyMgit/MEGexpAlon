@@ -1,11 +1,13 @@
+// pick one neighbour randomely
 function detNextPicGenA(transMat,node){ //fixed for corrected Ar
-	var nbI = transMat[node].length;
-	var nin = Math.floor(nbI*Math.random());
-	var nxp=transMat[node][nin];
-	return nxp;
+	var nNghbrs = transMat[node].length;
+	var randNghbrInd = Math.floor(nNghbrs*Math.random());
+	var nxtNode=transMat[node][randNghbrInd];
+	return nxtNode;
 }
 
-function detNextPicGenAnoP2(in1,p2,transMat){//fixed for corrected Ar
+// Return neighbour of in1 whidh is not p2
+function detNextPicGenAnoP2(in1,p2,transMat){
 
 	/*returns a neibor of in1 which is not p2*/
 	var nbI = transMat[in1].length;
@@ -16,11 +18,11 @@ function detNextPicGenAnoP2(in1,p2,transMat){//fixed for corrected Ar
 		}
 	}
 	var nin = Math.floor((nbI-1)*Math.random());
-	var nxp=nbInew[nin];
-	return nxp;
+	var nxtNodeInd=nbInew[nin];
+	return nxtNodeInd;
 }
 
-function isAneighbor(in1,in2,transMat){//fixed for corrected Ar
+function isAneighbor(in1,in2,transMat){
 	/*is in1 in2 neighbors? return 0 - not a neighbor or 1 - is a neibor*/
 	var nbI = transMat[in1].length;//number of neighbourse of that node
 	var j,isN;
@@ -34,7 +36,8 @@ function isAneighbor(in1,in2,transMat){//fixed for corrected Ar
 	return isN;
 }
 
-function detNextPicGenAnoP2Gen(in1,in0){//fixed for corrected Ar
+
+function detNextPicGenAnoP2Gen(in1,in0){
 	/*This function select a neiboughr of in1 which is not a neighbor of in0.*/
 	var nbI = G.transMat[in1].length;
 	var nbI0 = G.transMat[in0].length;
@@ -56,7 +59,7 @@ function detNextPicGenAnoP2Gen(in1,in0){//fixed for corrected Ar
 	return nbInew[nin];
 }
 
-function detNextPicExA2(in0,transMat){//fixes for corrected Ar
+function detNextPicExA2(in0,transMat){
 	//This function chose 2 different neighbours of in0, Ar is the array of neighbours indexes, Math.random() is a random number between 0-1
 	var nbI = transMat[in0];//the neighbourse of that node
 	var nb=[];
@@ -125,6 +128,11 @@ function detNextPicGenAnoP1P2P3inBoth(transMat,allPile1,allPile2,DistFull){//fix
 	var in13 = allPile1[2];
 	var in12 = allPile1[1];
 	var in11 = allPile1[0];
+
+	// Alon: find all neighbours of in13 that are not in any of the piles.
+	// then, also check it is not a neighbour of the other pile on the full graph.. something like this
+
+
 	var nbI = transMat[in13].length;
 	var j,nbInew=[];
 	for(j=0;j<nbI;j++){

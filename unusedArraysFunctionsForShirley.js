@@ -433,3 +433,28 @@ function defBorderA(im,tar,nCol,nNodes){
 		}
 	}
 }
+
+function presPic(){
+  /*display the pictures array -  for debugging*/
+  var disPic = 0;
+  var j,picSrc,isLine,leftP,leftP0,rightP=0;
+  exp.pathToImgDir = "/MEG/images/set1reg/";
+  var imH = 120;
+  var dpL = 20;
+  var dpR = 20;
+  leftP0 = Math.ceil(G.nCol/2)*imH;
+  leftP = leftP0;
+  document.write("<div class='dispPicArr'>");
+  for(j=0;j<exp.maxNumNodes;j++){
+    picSrc = exp.pathToImgDir+ exp.imgFileNamesArr[j];
+    document.write("<img border ='5px solid gray' height='"+imH+"'px width='"+imH+"px' position='relative' left="+leftP+"px right="+rightP+"px src='"+picSrc+">");
+    isLine = Math.ceil((j+1)/G.nCol);
+    isLine = (isLine)*G.nCol-j-1;
+    leftP = leftP+dpL;
+    if(isLine==0){
+      document.write("<br>");
+      leftP = leftP0;
+      rightP = 0;
+    }
+  }
+}

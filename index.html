@@ -26,58 +26,64 @@
 </head>
 
 <body>
+<!-- Alon: delete canvas once all coin-related code is deleted -->
 <canvas id="myCanvas" width="450" height="450" ></canvas>
 
 <!--start-->
 <!--subject details:-->
-<center><div id="startDiv" style="background-color: powderblue;">
-  <p style="font-size: 20px"><b>Welcome</b><br> please enter your details.</p>
+<div id="startDiv">
+  <p><b>Welcome</b><br>please enter your details.</p>
   Prolific subject ID (or your full name if you don't have a subject ID):<br> <input type="text" id="subjectId" value="" ><br><br>
   <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
   for tables for this subject, and if they don't exist, create them.-->
   <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</b></button>
-  <p id = "ms" style="font-size: 20px">The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
-</div> </center>
+  <p>The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
+</div>
 
 <!--task description:-->
 
-<div class="global inst">
-  <p id="inst1"></p>
-  <button type="button" id="startTb"
-  onclick="choosePart()">Start Task</button>
+<div class="globalInstructions">
+  <p>
+    <b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br>
+    The task is divided into rounds, on each rounds there are 5 parts. <br>
+    Today you will learn two pictures sets. <br>
+    The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br>
+    If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br>
+    In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>
+    Follow the instruction on each part of the game.
+  </p>
+  <button type="button" id="startTaskButton" onclick="choosePart()">Start Task</button>
 </div>
 
 <!-- Passive learning from consecutive pairs of stimuli (random walk) -->
 
-<div id="learnRandomWalk">
-
-  <center><div><p class="centerC" id="instructions"> </p>
-    <img id="chPicCold"><img id="chPicC1">
-  </div></center>
-
-  <center><div style="padding-bottom: 4%;"class="pic" id="pic1";>
-  </div></center>
-
-  <center><p id = "newM"></p></center>
-
-  <button type="button" id = "qBot"
-  onclick="endAllTrials_learnRandomWalk(1)">Next Part</button>
+<div id="learnRandomWalk" class="center" >
+  <p id="instructions_learnRandomWalk">
+    Try to remember the associations between the pictures that appears one after the other.<br>
+    A picture can be associated to more than one/two pictures.
+    <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br>
+    Press enter to see the next card."
+  </p>
+  <div id="lrnWlkImagesDiv" class="center">
+    <img id="lrnWlk_imgOld"> <img id="lrnWlk_imgNew">
+  </div>
+  <p id = "newM"></p>
+  <button type="button" id = "endLearnWalkButton" onclick="endAllTrials_learnRandomWalk()">Next Part</button>
 </div>
 
 <!--Passive learning from random (non-consecutive) pairs of stimuli-->
 
 <div id="learnRandomPairs">
 
-  <center><div><p class="centerP" id="instructionsP"> </p>
-    <img id="PicPC1"><img id="PicPC2">
-  </div></center>
-
-  <center><div><p id="conCP">...</p></center>
-    <center><div style="padding-bottom: 8%;"class="pic" id="pic1";>
-    </div></center>
-
-    <center><p id = "newMP"></p></center>
-
+  <div><p class="center" id="instructions_learnRandomPairs">Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br>
+    Press enter to see the next card.</p>
+    <div id="lrnPrsImagesDiv" class="center">
+      <img id="lrnPrs_img1"><img id="lrnPrs_img2">
+    </div>
+  </div>
+  <div>
+    <p id="threeDots_learnRandomPairs">...</p>
+    <p id = "newMP"></p>
   </div>
 
 
@@ -85,7 +91,7 @@
 
   <div class="pileDiv">
     <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
-    <img id="wCp" style="position:relative; bottom:50px;  left:685px;">
+    <img id="pileTarget" style="position:relative; bottom:50px;  left:685px;">
     <center><div><p id="isCorRSp" style="position:relative; bottom:60px; left:200px;"></p><p id="EconSp" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
     <center><div id="allPic" style="display:block; position:relative; bottom:40px;">
       <div id="pile1" style="display:block">
@@ -124,7 +130,7 @@
   <div class="navig">
 
     <!--  define instructions block -->
-    <p class="centerC" id="instructionsT"> </p><p id="instructionsT2"> </p>
+    <p class="center" id="instructionsT"> </p><p id="instructionsT2"> </p>
 
     <center><p id="dispPc">press ENTER to continue</p></center>
     <center><p id="skip">press ENTER to skip</p></center>
@@ -156,7 +162,7 @@
   <div class="whichIsCloser">
 
     <!--  define instructions block -->
-    <p class="centerC" id="instructionsQ"> </p>
+    <p class="center" id="instructionsQ"> </p>
 
     <center><div id="tarPidQ"><p id="targetPicQ"></p><img id="tarPQ"></div></center>
 
@@ -293,7 +299,7 @@ document.getElementById("conBot").disabled=true;
 document.getElementById("endBot").disabled=true;
 /*disable the next bottuns*/
 if (isNestDis==1){
-  document.getElementById("qBot").disabled=true;
+  document.getElementById("endLearnWalkButton").disabled=true;
   document.getElementById("skipR").disabled=true;
   document.getElementById("nextIsM").disabled=true;
   document.getElementById("nextSp").disabled=true;
@@ -307,7 +313,7 @@ document.getElementById("cPic").style.display="none";
 document.getElementById("tarPid").style.display="none";
 document.getElementsByClassName("whichIsCloser")[0].style.display="none";
 document.getElementsByClassName("navig")[0].style.display="none";
-document.getElementsByClassName("global inst")[0].style.display="none";
+document.getElementsByClassName("globalInstructions")[0].style.display="none";
 document.getElementById("learnRandomWalk").style.display="none";
 document.getElementById("learnRandomPairs").style.display="none";
 document.getElementsByClassName("isMiddle")[0].style.display="none";
@@ -378,40 +384,11 @@ function initMapsAndSetDisplay(){ // the first function to be called, formerly c
 
   /* change display */
   document.getElementById("startDiv").style.display="none";
-  document.getElementsByClassName("global inst")[0].style.display="inline";
-  document.getElementById("startTb").style.display="inline";
+  document.getElementsByClassName("globalInstructions")[0].style.display="inline";
+  document.getElementById("startTaskButton").style.display="inline";
   document.getElementsByClassName("endTask")[0].style.display="none";
   document.getElementById("picT").style.display="inline";
-  /* general instructions - the instructions that appears at the start page*/
-  document.getElementById("inst1").innerHTML="<b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br> The task is divided into rounds, on each rounds there are 5 parts. <br> Today you will learn two pictures sets. <br> The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br> If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br> In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>Follow the instruction on each part of the game.";//<br>During the first part you will have to determine whether the picture is tilt or not,<br>pay attention to the pictures on the cards and the order in which they are presented, as it will help you in the following  tasks.";
   document.getElementById("targetPic").innerHTML="your target is:<br> ";
-
-  //presPic();// for debugging, present all images
-}
-
-function presPic(){
-  /*display the pictures array -  for debugging*/
-  var disPic = 0;
-  var j,picSrc,isLine,leftP,leftP0,rightP=0;
-  exp.pathToImgDir = "/MEG/images/set1reg/";
-  var imH = 120;
-  var dpL = 20;
-  var dpR = 20;
-  leftP0 = Math.ceil(G.nCol/2)*imH;
-  leftP = leftP0;
-  document.write("<div class='dispPicArr'>");
-  for(j=0;j<exp.maxNumNodes;j++){
-    picSrc = exp.pathToImgDir+ exp.imgFileNamesArr[j];
-    document.write("<img border ='5px solid gray' height='"+imH+"'px width='"+imH+"px' position='relative' left="+leftP+"px right="+rightP+"px src='"+picSrc+">");
-    isLine = Math.ceil((j+1)/G.nCol);
-    isLine = (isLine)*G.nCol-j-1;
-    leftP = leftP+dpL;
-    if(isLine==0){
-      document.write("<br>");
-      leftP = leftP0;
-      rightP = 0;
-    }
-  }
 }
 
 function checkIfSubjectMapExists(){
@@ -455,7 +432,7 @@ function choosePart(){ // find the task's part in which particpants played with 
   /* change display*/
   document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
   document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
-  document.getElementsByClassName("global inst")[0].style.display="none"; // hide global instructions html elements
+  document.getElementsByClassName("globalInstructions")[0].style.display="none"; // hide global instructions html elements
 
   // if there are no completed trials of learnRandomWalk yet, start intiialise variables and start learnRandomWalk task.
   // this is what will usually happen when a subject first starts the experiment.
@@ -466,7 +443,8 @@ function choosePart(){ // find the task's part in which particpants played with 
     // define graph (according to exp.curMap) - transition and adjacency matrices.
     defineGraph();
     // start first task - learnRandomWalk
-    learnRandomWalkTask(0); // 0 is for starting from trial 0.
+    lrnWlkObj.trial = 1; // start from trial number 1.
+    learnRandomWalkTask();
 
   } else { // if some tasks have already been completed, find the last one that was completed and
     exp.curRun = maxRunsPerTask; // exp.curRun global that counts the runs - how many times did all the blocks/tasks complete.
@@ -518,10 +496,10 @@ function choosePart(){ // find the task's part in which particpants played with 
       }
 
     } else if(runNumOfLastTrialSaved2table[1]==maxRunsPerTask) { // last recorded trial was of piles task
-      thisT = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have already played in this run from the sql table
+      pileObj.trial = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have already played in this run from the sql table
       exp.totalScore=getScore("isInPileTable");
-      if(thisT<maxPile){ // if isInPile task was not completed
-        whichPile(0);
+      if(pileObj.trial<maxPile){ // if isInPile task was not completed
+        whichPile();
       } else { // if isInPile task was completed
         isItMiddle(1);
       }
@@ -538,15 +516,21 @@ function choosePart(){ // find the task's part in which particpants played with 
   }
 }
 function chooseNewRunLearningTaskOrEndExp(){ // formerly called chooseCoverStaff
+  // Stop display of previous part
+  document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+  document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
+  document.getElementById("Qfeedback").style.display="none";
+  // increase run number (whichIsCloser is the last task in each run)
   exp.curRun = exp.curRun + 1
 
   if (exp.curRun>exp.maxRun){ // end experiment
     document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
-    document.getElementsByClassName("whichIsCloser")[0].style.display="none";
   } else if (exp.curRun>8 && exp.curRun<=exp.maxRun){ // inference (late) runs - learn from random pairs, not from a walk on graph
-    learnRandomPairsTask(0); // early runs - learn from a random walk on the G.
+    lrnPrsObj.trial = 1;
+    learnRandomPairsTask(); // early runs - learn from a random walk on the G.
   } else if (exp.curRun<9){
-    learnRandomWalkTask(0);
+    lrnWlkObj.trial = 1; // start from trial number 1.
+    learnRandomWalkTask();
   }
 }
 
