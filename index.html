@@ -19,97 +19,95 @@
   <script src="learnRandomWalk.js"></script><!--learning phase - learn from random walk (consecutive pairs). previously called cover-->
   <script src="learnRandomPairs.js"></script><!--learning phase - learn from random (non-consecutive) pairs. previously called coverPair-->
   <script src="isMiddle.js"></script><!--is it in the middle task-->
-  <script src="isInPileTask.js"></script><!--pile task; previously called setPileNotTwice.js-->
+  <script src="whichPile.js"></script><!--pile task; previously called setPileNotTwice.js-->
   <script src="taskNavig.js"></script><!--navigation task-->
   <script src="whichIsCloser.js"></script><!-- distance estimation task-->
   <script src="ajaxFunctions.js"></script>
 </head>
 
 <body>
-<!-- Alon: delete canvas once all coin-related code is deleted -->
-<canvas id="myCanvas" width="450" height="450" ></canvas>
+  <!-- Alon: delete canvas once all coin-related code is deleted -->
+  <canvas id="myCanvas" width="450" height="450" ></canvas>
 
-<!--start-->
-<!--subject details:-->
-<div id="startDiv">
-  <p><b>Welcome</b><br>please enter your details.</p>
-  Prolific subject ID (or your full name if you don't have a subject ID):<br> <input type="text" id="subjectId" value="" ><br><br>
-  <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
-  for tables for this subject, and if they don't exist, create them.-->
-  <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</b></button>
-  <p>The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
-</div>
-
-<!--task description:-->
-
-<div class="globalInstructions">
-  <p>
-    <b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br>
-    The task is divided into rounds, on each rounds there are 5 parts. <br>
-    Today you will learn two pictures sets. <br>
-    The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br>
-    If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br>
-    In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>
-    Follow the instruction on each part of the game.
-  </p>
-  <button type="button" id="startTaskButton" onclick="choosePart()">Start Task</button>
-</div>
-
-<!-- Passive learning from consecutive pairs of stimuli (random walk) -->
-
-<div id="learnRandomWalk" class="center" >
-  <p id="instructions_learnRandomWalk">
-    Try to remember the associations between the pictures that appears one after the other.<br>
-    A picture can be associated to more than one/two pictures.
-    <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br>
-    Press enter to see the next card."
-  </p>
-  <div id="lrnWlkImagesDiv" class="center">
-    <img id="lrnWlk_imgOld"> <img id="lrnWlk_imgNew">
+  <!--start-->
+  <!--subject details:-->
+  <div id="startDiv">
+    <p><b>Welcome</b><br>please enter your details.</p>
+    Prolific subject ID (or your full name if you don't have a subject ID):<br> <input type="text" id="subjectId" value="" ><br><br>
+    <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
+    for tables for this subject, and if they don't exist, create them.-->
+    <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</b></button>
+    <p>The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
   </div>
-  <p id = "newM"></p>
-  <button type="button" id = "endLearnWalkButton" onclick="endAllTrials_learnRandomWalk()">Next Part</button>
-</div>
 
-<!--Passive learning from random (non-consecutive) pairs of stimuli-->
+  <!--task description:-->
 
-<div id="learnRandomPairs">
+  <div class="globalInstructions">
+    <p>
+      <b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br>
+      The task is divided into rounds, on each rounds there are 5 parts. <br>
+      Today you will learn two pictures sets. <br>
+      The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br>
+      If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br>
+      In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>
+      Follow the instruction on each part of the game.
+    </p>
+    <button type="button" id="startTaskButton" onclick="choosePart()">Start Task</button>
+  </div>
 
-  <div><p class="center" id="instructions_learnRandomPairs">Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br>
-    Press enter to see the next card.</p>
-    <div id="lrnPrsImagesDiv" class="center">
-      <img id="lrnPrs_img1"><img id="lrnPrs_img2">
+  <!-- Passive learning from consecutive pairs of stimuli (random walk) -->
+
+  <div id="learnRandomWalk" class="center" >
+    <p id="instructions_learnRandomWalk">
+      Try to remember the associations between the pictures that appears one after the other.<br>
+      A picture can be associated to more than one/two pictures.
+      <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br>
+      Press enter to see the next card."
+    </p>
+    <div id="lrnWlkImagesDiv" class="center">
+      <img id="lrnWlk_imgOld"> <img id="lrnWlk_imgNew">
     </div>
+    <p id = "newM"></p>
+    <button type="button" id = "endLearnWalkButton" onclick="endAllTrials_learnRandomWalk()">Next Part</button>
   </div>
-  <div>
-    <p id="threeDots_learnRandomPairs">...</p>
-    <p id = "newMP"></p>
+
+  <!--Passive learning from random (non-consecutive) pairs of stimuli-->
+
+  <div id="learnRandomPairs">
+    <div><p class="center" id="instructions_learnRandomPairs">Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br>
+      Press enter to see the next card.</p>
+      <div id="lrnPrsImagesDiv" class="center">
+        <img id="lrnPrs_img1"><img id="lrnPrs_img2">
+      </div>
+    </div>
+    <div>
+      <p id="threeDots_learnRandomPairs">...</p>
+      <p id = "newMP"></p>
+    </div>
   </div>
 
 
   <!--pile task-->
 
-  <div class="pileDiv">
+  <div id="pileDiv" class="center">
     <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
-    <img id="pileTarget" style="position:relative; bottom:50px;  left:685px;">
-    <center><div><p id="isCorRSp" style="position:relative; bottom:60px; left:200px;"></p><p id="EconSp" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
-    <center><div id="allPic" style="display:block; position:relative; bottom:40px;">
-      <div id="pile1" style="display:block">
-        <img id="imCp11"><p></p>
-        <img id="imCp12" style="position:relative; bottom:40px; left:20px;"><p></p>
-        <img id="imCp13" style="position:relative; bottom:80px; left:40px;"><p></p>
-        <img id="imCp14" style="position:relative; bottom:120px; left:60px;"><p></p>
-      </div>
-      <div id="pile2" style="display:block; position:relative; bottom:530px; left:200px;">
-        <img id="imCp21"><p></p>
-        <img id="imCp22" style="position:relative; bottom:40px; left:20px;"><p></p>
-        <img id="imCp23" style="position:relative; bottom:80px; left:40px;"><p></p>
-        <img id="imCp24" style="position:relative; bottom:120px; left:60px;"><p></p>
-      </div>
-    </div></center>
-    <!--<p id="EconSp" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continoue</p>-->
-    <button type="button" id="nextSp" onclick="writeRresSp()">Next Step</button>
+    <img id="pileTarget">
+    <center><div><p id="isCorrectMsg_pile" style="position:relative; bottom:60px; left:200px;"></p><p id="enter2continueMsg_pile" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
+    <div id="pile1" class="center">
+      <img id="pile1Img1"><p></p>
+      <img id="pile1Img2"><p></p>
+      <img id="pile1Img3"><p></p>
+      <img id="pile1Img4"><p></p>
+    </div>
+    <div id="pile2" class="center">
+      <img id="pile2Img1"><p></p>
+      <img id="pile2Img2"><p></p>
+      <img id="pile2Img3"><p></p>
+      <img id="pile2Img4">
+    </div>
   </div>
+  <p id="enter2continueMsg_pile" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continoue</p>
+  <button type="button" id="nextSp" onclick="writeRresSp()">Next Step</button>
 
   <!--is middle task-->
   <div class="isMiddle">
@@ -183,356 +181,356 @@
 
 
 
-<!-- **********************   begin javascript script   ********************-->
+  <!-- **********************   begin javascript script   ********************-->
 
-<script>
-/* the task is organised such that there are 8 learning runs (each is a cycle of all tasks)
-of 2 maps and 7 inference runs of a third map*/
+  <script>
+  /* the task is organised such that there are 8 learning runs (each is a cycle of all tasks)
+  of 2 maps and 7 inference runs of a third map*/
 
-// initialise exp object - holding all the variables abut the entire experiment.
-var exp = {}
-// current run of the entire task. e.g. when some parts have completed x+1 runs and others
-// completed x, exp.curRun = x+1. Starts counting from 1, not 0.
-exp.curRun = 0;
-exp.mapsVec = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2]; //defines the map of each run, 0&1 training, 2 - inference
-exp.maxRun = exp.mapsVec.length;
-exp.curMap = -1; // current map
-exp.maxMap = 3; // number of maps
-exp.imgFileNamesArr=[]; // the pictures from directory array
-exp.totalScore = 0; // total points earned.
-exp.maxNumNodes=36; // maximal number of nodes/pictures in an array (map)
+  // initialise exp object - holding all the variables abut the entire experiment.
+  var exp = {}
+  // current run of the entire task. e.g. when some parts have completed x+1 runs and others
+  // completed x, exp.curRun = x+1. Starts counting from 1, not 0.
+  exp.curRun = 0;
+  exp.mapsVec = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2]; //defines the map of each run, 0&1 training, 2 - inference
+  exp.maxRun = exp.mapsVec.length;
+  exp.curMap = -1; // current map
+  exp.maxMap = 3; // number of maps
+  exp.imgFileNamesArr=[]; // the pictures from directory array
+  exp.totalScore = 0; // total points earned.
+  exp.maxNumNodes=36; // maximal number of nodes/pictures in an array (map)
 
-// parts (tasks) objects - these will be useful to have better control over global variables
+  // parts (tasks) objects - these will be useful to have better control over global variables
 
-class partObj {
-  constructor() {
-    this.trial = -1 // current trial. if not currently playing this task part, set to -1. start counting (first trial) from 1, not 0).
-  }
-}
-// define obejects for the blocks of the different tasks.
-let lrnWlkObj = new partObj
-// number of trials in each run. previously called maxCov or maxCovH. for cluster G. used to be 180 (maxCovC)
-lrnWlkObj.maxTrial = 120;
-
-let lrnPrsObj = new partObj
-// number of trials in each run. previously called maxCovP.
-lrnPrsObj.maxTrial = 150;
-
-let pileObj = new partObj
-let middleObj = new partObj
-let navigObj = new partObj
-// maximum number of steps allowed in navigation. Previously called maxTask.
-navigObj.maxSteps = 200;
-
-let whichCloserObj = new partObj
-whichCloserObj.numCorrect = 0;//number of correct responses in whichIsCloser (distance estimation questions)
-
-// G.object
-var G= {};
-G.arrayType = "recA" //"HexA";//"clA";//
-/* variable to change */
-var isNestDis=0;//disable the next button if equal 1
-/*training structural form*/
-/*vriables that are specific to the adjacency matrix:*/
-/* G.dimensions are defined in the function defineGraph */
-
-var maxdS = 4;
-var qend = 24;//20;//45;//34 - mis, 11 regular. number of distance estimation questions
-
-/* parameters for cluster Arch fixed neighbors*/
-var nc = 5;// number of clusters in the community structure graph
-var ninc = 7;// number of nodes in each cluster
-/*max displays during the learning phase in each block*/
-
-var maxIsM=15;//10;
-var maxPile = 15;
-
-var pileAr;
-var dS;//the initial distance in the navigation task
-/*File Name*/
-var writeFile;
-var payFile;
-var mapFile;
-var presntFile;
-/*general parameters*/
-var sz = 20;//cycle size
-var flagC=0,y = 425,dy=0.9*sz;//cirlce height
-var x = -5,dx=sz*2+5;
-var y0 = y;//intial hight for the cycles
-var minTr = 0;//minimum trial to activate the "next" button
-var nSD = 2;//number of trials in which distance is given
-var nall=50;//number of pictures in the directory;
-var nstruct = 2;//number of different map with the same structure
-var nnT;//which structure should be used
-var twait=500;
-var stType;
-var ncolCrc=1;
-var cgetR = 0.4;
-var thisTC=-1;
-
-/* pictures button objects*/
-exp.pathToImgDir="/MEG/images/set1reg/";
-
-/*respone ojsect*/
-var resTArr=[];//the array of resTASK
-var resIsMArr=[];//the array of IsItMiddle Task
-var resSpArr=[];//the array of which pile Task
-
-/*trial variable*/
-var nRunsNavig = 0;
-var numQ = 0;
-var flagSp=2;
-var flagMV=5;
-var flagSs=-1;
-var flagIsM = 9;
-var flagCov = 0;
-var flagCovP = 0;
-var flagQ=-1;
-var timeLast,timeLast_sec,timeLast_min,timeLast_hr;//to track response time
-var endR=0;
-var c,cend,flagSs,corR=0;
-var inP1,inP,inPr;
-
-
-/*disable the end bottuns*/
-document.getElementById("conBot").disabled=true;
-document.getElementById("endBot").disabled=true;
-/*disable the next bottuns*/
-if (isNestDis==1){
-  document.getElementById("endLearnWalkButton").disabled=true;
-  document.getElementById("skipR").disabled=true;
-  document.getElementById("nextIsM").disabled=true;
-  document.getElementById("nextSp").disabled=true;
-}
-/*trial variable*/
-var totalStep = 0;
-var in1R,in1L,inP,tar1,nSt,rowT,colT;
-
-/*make display elements unseen*/
-document.getElementById("cPic").style.display="none";
-document.getElementById("tarPid").style.display="none";
-document.getElementsByClassName("whichIsCloser")[0].style.display="none";
-document.getElementsByClassName("navig")[0].style.display="none";
-document.getElementsByClassName("globalInstructions")[0].style.display="none";
-document.getElementById("learnRandomWalk").style.display="none";
-document.getElementById("learnRandomPairs").style.display="none";
-document.getElementsByClassName("isMiddle")[0].style.display="none";
-document.getElementsByClassName("pileDiv")[0].style.display="none";
-document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
-document.getElementById("Qfeedback").style.display="none";
-
-var ndis = 1;
-/*array pictures objects - maps*/
-var nmap=1;
-
-function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
-  /* subject first name*/
-  var subjectId0 = document.getElementById("subjectId").value;
-  if(subjectId0.endsWith("\n")||subjectId0.endsWith(" ")){
-    exp.subjectId = subjectId0.slice(0,subjectId0.length - 1);
-  }else{
-    exp.subjectId = subjectId0;
-  }
-
-  /*create/retrive MAPS and save in sql table*/
-  var j1,j2,j3;
-  var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current G. their tags are the indeces of the file names in exp.imgFileNamesArr
-  var nmmax,nodeNum;
-  nmmax = exp.maxMap;
-  var nn,vn=[]; // vn: vector of numbers.
-  var vn01=[];
-  var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
-  for (j3=1;j3<=nall;j3++){
-    vn01.push(j3); // vn01 is a vector 1:nall
-  }
-  nn = nall;// nall is the number of pictures in the directory
-
-  // sample without replacement indeces for pictures, store in vn1
-  for (j3=0;j3<=exp.maxNumNodes;j3++){ // exp.maxNumNodes is the length of the largest map of the experiment
-    // get a random index between 1 and nall, and populate vn1 with it
-    np0 = Math.floor(Math.random() * (nn));
-    vn1.push(vn01[np0]);
-    // discard the used random index
-    vn01.splice(np0, 1);
-    nn = nn-1;
-  }
-  nn = exp.maxNumNodes;
-
-  // check if the images array already exists. If it does, return it in an array .
-  // If it doesn't, return -1
-  exp.imgFileNamesArr = checkIfSubjectMapExists(exp.subjectId);
-  // If images array does not exist, create it (randomely assign images files to G.nodes - i.e. the emissions matrix)
-  if (exp.imgFileNamesArr[0]==-1){ // does not exists
-    exp.imgFileNamesArr=[];
-    for (j1=0; j1<exp.maxNumNodes;j1++){
-      nn = nn-1;
-      nodeNum = j1+1;
-      nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
-      imgFileName = "pic" + vn1[j1].toString() + ".jpg"
-      exp.imgFileNamesArr.push(imgFileName);
-      // save to SQL. vn1[j1] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
-      save2imagesFilesTable(imgFileName,nodeStr); // in ajaxFunctions.js
-      // discard the number already used
-      vn.splice(np0, 1);
+  class partObj {
+    constructor() {
+      this.trial = -1 // current trial. if not currently playing this task part, set to -1. start counting (first trial) from 1, not 0).
     }
   }
-  if (vn.length>0){ // Alon: I don't really understand why you need to do this - you don't use vn again.
-    clear1dArr(vn);
+  // define obejects for the blocks of the different tasks.
+  let lrnWlkObj = new partObj
+  // number of trials in each run. previously called maxCov or maxCovH. for cluster G. used to be 180 (maxCovC)
+  lrnWlkObj.maxTrial = 120;
+
+  let lrnPrsObj = new partObj
+  // number of trials in each run. previously called maxCovP.
+  lrnPrsObj.maxTrial = 150;
+
+  let pileObj = new partObj
+  let middleObj = new partObj
+  let navigObj = new partObj
+  // maximum number of steps allowed in navigation. Previously called maxTask.
+  navigObj.maxSteps = 200;
+
+  let whichCloserObj = new partObj
+  whichCloserObj.numCorrect = 0;//number of correct responses in whichIsCloser (distance estimation questions)
+
+  // G.object
+  var G= {};
+  G.arrayType = "recA" //"HexA";//"clA";//
+  /* variable to change */
+  var isNestDis=0;//disable the next button if equal 1
+  /*training structural form*/
+  /*vriables that are specific to the adjacency matrix:*/
+  /* G.dimensions are defined in the function defineGraph */
+
+  var maxdS = 4;
+  var qend = 24;//20;//45;//34 - mis, 11 regular. number of distance estimation questions
+
+  /* parameters for cluster Arch fixed neighbors*/
+  var nc = 5;// number of clusters in the community structure graph
+  var ninc = 7;// number of nodes in each cluster
+  /*max displays during the learning phase in each block*/
+
+  var maxIsM=15;//10;
+  var maxPile = 15;
+
+  var pileAr;
+  var dS;//the initial distance in the navigation task
+  /*File Name*/
+  var writeFile;
+  var payFile;
+  var mapFile;
+  var presntFile;
+  /*general parameters*/
+  var sz = 20;//cycle size
+  var flagC=0,y = 425,dy=0.9*sz;//cirlce height
+  var x = -5,dx=sz*2+5;
+  var y0 = y;//intial hight for the cycles
+  var minTr = 0;//minimum trial to activate the "next" button
+  var nSD = 2;//number of trials in which distance is given
+  var nall=50;//number of pictures in the directory;
+  var nstruct = 2;//number of different map with the same structure
+  var nnT;//which structure should be used
+  var twait=500;
+  var stType;
+  var ncolCrc=1;
+  var cgetR = 0.4;
+  var thisTC=-1;
+
+  /* pictures button objects*/
+  exp.pathToImgDir="/MEG/images/set1reg/";
+
+  /*respone ojsect*/
+  var resTArr=[];//the array of resTASK
+  var resIsMArr=[];//the array of IsItMiddle Task
+  var resSpArr=[];//the array of which pile Task
+
+  /*trial variable*/
+  var nRunsNavig = 0;
+  var numQ = 0;
+  var flagSp=2;
+  var flagMV=5;
+  var flagSs=-1;
+  var flagIsM = 9;
+  var flagCov = 0;
+  var flagCovP = 0;
+  var flagQ=-1;
+  var timeLast,timeLast_sec,timeLast_min,timeLast_hr;//to track response time
+  var endR=0;
+  var c,cend,flagSs,corR=0;
+  var inP1,inP,inPr;
+
+
+  /*disable the end bottuns*/
+  document.getElementById("conBot").disabled=true;
+  document.getElementById("endBot").disabled=true;
+  /*disable the next bottuns*/
+  if (isNestDis==1){
+    document.getElementById("endLearnWalkButton").disabled=true;
+    document.getElementById("skipR").disabled=true;
+    document.getElementById("nextIsM").disabled=true;
+    document.getElementById("nextSp").disabled=true;
   }
+  /*trial variable*/
+  var totalStep = 0;
+  var in1R,in1L,inP,tar1,nSt,rowT,colT;
 
-  save2subjectDetailsAndStartTimeTable();
-
-  /* change display */
-  document.getElementById("startDiv").style.display="none";
-  document.getElementsByClassName("globalInstructions")[0].style.display="inline";
-  document.getElementById("startTaskButton").style.display="inline";
-  document.getElementsByClassName("endTask")[0].style.display="none";
-  document.getElementById("picT").style.display="inline";
-  document.getElementById("targetPic").innerHTML="your target is:<br> ";
-}
-
-function checkIfSubjectMapExists(){
-  var map=[]; // map is an array mapping image files to node numbers - exp.imgFileNamesArr
-  var j;
-  var xhttp;
-  xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      // if map exists, it is returned in a JSON str. if not, an empty str is returned.
-      var data = JSON.parse(this.responseText);
-      if(data.length==0){ //if map does not exist
-        map[0]=-1;
-      }else{ // if exists, build map array
-        // loop through images. Start at 1 because the first column in data[0] is subjectId.
-        for(j=1;j<=exp.maxNumNodes;j++){
-          map[j-1]=data[0][j]; // data[0] is a single row of SQL table, j indexes it.
-        }
-      }
-    }
-  };
-  xhttp.open("GET", "checkIfSubjectMapExists.php?q="+exp.subjectId, false);
-  xhttp.send();
-  return map;
-}
-
-function choosePart(){ // find the task's part in which particpants played with before taking a break. This is only called at the beginning of the session.
-  var n;
-  var runNumOfLastTrialSaved2table=[];
-
-  // Alon: check if can converge learnRandomWalkTable learnRandomPairsTable to one table
-
-  runNumOfLastTrialSaved2table[0] = getRunNumFromTable("learnRandomWalkTable"); // function getRunNumFromTable is in ajaxFunctions.js, getRunNumFromTable gives the current run of each task
-  runNumOfLastTrialSaved2table[1] = getRunNumFromTable("isInPileTable");
-  runNumOfLastTrialSaved2table[2] = getRunNumFromTable("isMiddleTable");
-  runNumOfLastTrialSaved2table[3] = getRunNumFromTable("navigTable");
-  runNumOfLastTrialSaved2table[4] = getRunNumFromTable("whichIsCloserTable");
-
-  var maxRunsPerTask = maxArr(runNumOfLastTrialSaved2table); // this is where the subject stopped
-
-  /* change display*/
-  document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
-  document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
-  document.getElementsByClassName("globalInstructions")[0].style.display="none"; // hide global instructions html elements
-
-  // if there are no completed trials of learnRandomWalk yet, start intiialise variables and start learnRandomWalk task.
-  // this is what will usually happen when a subject first starts the experiment.
-  if (runNumOfLastTrialSaved2table[0]==0){
-    exp.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
-    exp.lastMap = -1;
-    exp.curMap = exp.mapsVec[0];
-    // define graph (according to exp.curMap) - transition and adjacency matrices.
-    defineGraph();
-    // start first task - learnRandomWalk
-    lrnWlkObj.trial = 1; // start from trial number 1.
-    learnRandomWalkTask();
-
-  } else { // if some tasks have already been completed, find the last one that was completed and
-    exp.curRun = maxRunsPerTask; // exp.curRun global that counts the runs - how many times did all the blocks/tasks complete.
-    exp.curMap = exp.mapsVec[exp.curRun-1]; // current map (-1 because exp.curRun starts at 1 and indeces start at 0)
-    if (exp.curRun>1) {
-      exp.lastMap = exp.mapsVec[exp.curRun-2]; // exp.lastMap is the map before current one, perhaps can delete
-    } else {
-      exp.lastMap = -1;
-    }
-    // define graph (according to exp.curMap) - transition and adjacency matrices.
-    defineGraph();
-
-    // from here, go backwards in the order of tasks, and check where the subject stopped
-
-    if(runNumOfLastTrialSaved2table[4]==maxRunsPerTask){ // last recorded trial was of whichIsCloser task
-      numQ = getTrialNumFromTable("whichIsCloserTable"); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
-      exp.totalScore=getScore("whichIsCloserTable"); // check the number of points that was earned until now
-      if (numQ<qend){ // if the connection was terminated in the middle of whichIsCloser task, continue from the last trial
-        whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",exp.subjectId); // number of correct answers
-        startWhichIsCloser(numQ);
-      } else { // if whichIsCloser has completed, start learning phase of the next run. check if should learn from walk or pairs, depending on run number.
-        chooseNewRunLearningTaskOrEndExp(0) // 0 is for starting from trial 0.
-      }
-    } else if (runNumOfLastTrialSaved2table[3]==maxRunsPerTask){ // last recorded trial was of Navigation task
-      if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
-        cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
-        if (cds == maxdS){ // is navigation taks has completed, go to whichIsCloser task.
-          numQ=0;
-          startWhichIsCloser(numQ);
-        }else { // if the connection was terminated in the middle of navigation task, continue from the last trial
-          exp.totalScore=getScore("navigTable");
-          var ntn = getTrialNumFromTable("navigTable");
-          startNavigTask(cds+1);
-        }
-      } else { // if exp.curRun>8, skip navigation task and go to whichIsClose
-        startWhichIsCloser(0);
-      }
-    } else if (runNumOfLastTrialSaved2table[2]==maxRunsPerTask) { // last recorded trial was of isItMiddle task
-      nrep=getTrialNumFromTable("isMiddleTable");
-      exp.totalScore=getScore("isMiddleTable");
-      if(nrep<maxIsM){ // if isItMiddle was not completed, start from the last trial
-        isItMiddle(0); //***** Alon: what is the 0 here? shouldn't it be nrep (num of trials completed)? in the function it's called "nn"
-      } else { // itMiddle was completed go to the next task
-        if(exp.curRun<9){
-          startNavigTask(2);
-        }else{
-          startWhichIsCloser(0);
-        }
-      }
-
-    } else if(runNumOfLastTrialSaved2table[1]==maxRunsPerTask) { // last recorded trial was of piles task
-      pileObj.trial = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have already played in this run from the sql table
-      exp.totalScore=getScore("isInPileTable");
-      if(pileObj.trial<maxPile){ // if isInPile task was not completed
-        whichPile();
-      } else { // if isInPile task was completed
-        isItMiddle(1);
-      }
-    } else if(runNumOfLastTrialSaved2table[0]==maxRunsPerTask) { // last recorded trial was of learning task
-      exp.totalScore=getScore("whichIsCloserTable"); // there's no score change in the learning phase so get score from the last task of the previous run
-      if (exp.curRun>8) {
-        thisTC = getTrialNumFromTable("learnRandomPairsTable");
-        learnRandomPairsTask(thisTC);// learning from pairs
-      } else {
-        thisTC = getTrialNumFromTable("learnRandomWalkTable");
-        learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
-      }
-    }
-  }
-}
-function chooseNewRunLearningTaskOrEndExp(){ // formerly called chooseCoverStaff
-  // Stop display of previous part
+  /*make display elements unseen*/
+  document.getElementById("cPic").style.display="none";
+  document.getElementById("tarPid").style.display="none";
   document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+  document.getElementsByClassName("navig")[0].style.display="none";
+  document.getElementsByClassName("globalInstructions")[0].style.display="none";
+  document.getElementById("learnRandomWalk").style.display="none";
+  document.getElementById("learnRandomPairs").style.display="none";
+  document.getElementsByClassName("isMiddle")[0].style.display="none";
+  document.getElementById("pileDiv").style.display="none";
   document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
   document.getElementById("Qfeedback").style.display="none";
-  // increase run number (whichIsCloser is the last task in each run)
-  exp.curRun = exp.curRun + 1
 
-  if (exp.curRun>exp.maxRun){ // end experiment
-    document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
-  } else if (exp.curRun>8 && exp.curRun<=exp.maxRun){ // inference (late) runs - learn from random pairs, not from a walk on graph
-    lrnPrsObj.trial = 1;
-    learnRandomPairsTask(); // early runs - learn from a random walk on the G.
-  } else if (exp.curRun<9){
-    lrnWlkObj.trial = 1; // start from trial number 1.
-    learnRandomWalkTask();
+  var ndis = 1;
+  /*array pictures objects - maps*/
+  var nmap=1;
+
+  function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
+    /* subject first name*/
+    var subjectId0 = document.getElementById("subjectId").value;
+    if(subjectId0.endsWith("\n")||subjectId0.endsWith(" ")){
+      exp.subjectId = subjectId0.slice(0,subjectId0.length - 1);
+    }else{
+      exp.subjectId = subjectId0;
+    }
+
+    /*create/retrive MAPS and save in sql table*/
+    var j1,j2,j3;
+    var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current G. their tags are the indeces of the file names in exp.imgFileNamesArr
+    var nmmax,nodeNum;
+    nmmax = exp.maxMap;
+    var nn,vn=[]; // vn: vector of numbers.
+    var vn01=[];
+    var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
+    for (j3=1;j3<=nall;j3++){
+      vn01.push(j3); // vn01 is a vector 1:nall
+    }
+    nn = nall;// nall is the number of pictures in the directory
+
+    // sample without replacement indeces for pictures, store in vn1
+    for (j3=0;j3<=exp.maxNumNodes;j3++){ // exp.maxNumNodes is the length of the largest map of the experiment
+      // get a random index between 1 and nall, and populate vn1 with it
+      np0 = Math.floor(Math.random() * (nn));
+      vn1.push(vn01[np0]);
+      // discard the used random index
+      vn01.splice(np0, 1);
+      nn = nn-1;
+    }
+    nn = exp.maxNumNodes;
+
+    // check if the images array already exists. If it does, return it in an array .
+    // If it doesn't, return -1
+    exp.imgFileNamesArr = checkIfSubjectMapExists(exp.subjectId);
+    // If images array does not exist, create it (randomely assign images files to G.nodes - i.e. the emissions matrix)
+    if (exp.imgFileNamesArr[0]==-1){ // does not exists
+      exp.imgFileNamesArr=[];
+      for (j1=0; j1<exp.maxNumNodes;j1++){
+        nn = nn-1;
+        nodeNum = j1+1;
+        nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
+        imgFileName = "pic" + vn1[j1].toString() + ".jpg"
+        exp.imgFileNamesArr.push(imgFileName);
+        // save to SQL. vn1[j1] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
+        save2imagesFilesTable(imgFileName,nodeStr); // in ajaxFunctions.js
+        // discard the number already used
+        vn.splice(np0, 1);
+      }
+    }
+    if (vn.length>0){ // Alon: I don't really understand why you need to do this - you don't use vn again.
+      clear1dArr(vn);
+    }
+
+    save2subjectDetailsAndStartTimeTable();
+
+    /* change display */
+    document.getElementById("startDiv").style.display="none";
+    document.getElementsByClassName("globalInstructions")[0].style.display="inline";
+    document.getElementById("startTaskButton").style.display="inline";
+    document.getElementsByClassName("endTask")[0].style.display="none";
+    document.getElementById("picT").style.display="inline";
+    document.getElementById("targetPic").innerHTML="your target is:<br> ";
   }
-}
+
+  function checkIfSubjectMapExists(){
+    var map=[]; // map is an array mapping image files to node numbers - exp.imgFileNamesArr
+    var j;
+    var xhttp;
+    xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        // if map exists, it is returned in a JSON str. if not, an empty str is returned.
+        var data = JSON.parse(this.responseText);
+        if(data.length==0){ //if map does not exist
+          map[0]=-1;
+        }else{ // if exists, build map array
+          // loop through images. Start at 1 because the first column in data[0] is subjectId.
+          for(j=1;j<=exp.maxNumNodes;j++){
+            map[j-1]=data[0][j]; // data[0] is a single row of SQL table, j indexes it.
+          }
+        }
+      }
+    };
+    xhttp.open("GET", "checkIfSubjectMapExists.php?q="+exp.subjectId, false);
+    xhttp.send();
+    return map;
+  }
+
+  function choosePart(){ // find the task's part in which particpants played with before taking a break. This is only called at the beginning of the session.
+    var n;
+    var runNumOfLastTrialSaved2table=[];
+
+    // Alon: check if can converge learnRandomWalkTable learnRandomPairsTable to one table
+
+    runNumOfLastTrialSaved2table[0] = getRunNumFromTable("learnRandomWalkTable"); // function getRunNumFromTable is in ajaxFunctions.js, getRunNumFromTable gives the current run of each task
+    runNumOfLastTrialSaved2table[1] = getRunNumFromTable("isInPileTable");
+    runNumOfLastTrialSaved2table[2] = getRunNumFromTable("isMiddleTable");
+    runNumOfLastTrialSaved2table[3] = getRunNumFromTable("navigTable");
+    runNumOfLastTrialSaved2table[4] = getRunNumFromTable("whichIsCloserTable");
+
+    var maxRunsPerTask = maxArr(runNumOfLastTrialSaved2table); // this is where the subject stopped
+
+    /* change display*/
+    document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
+    document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
+    document.getElementsByClassName("globalInstructions")[0].style.display="none"; // hide global instructions html elements
+
+    // if there are no completed trials of learnRandomWalk yet, start intiialise variables and start learnRandomWalk task.
+    // this is what will usually happen when a subject first starts the experiment.
+    if (runNumOfLastTrialSaved2table[0]==0){
+      exp.curRun  = 1; // global that counts the runs - how many times did all the blocks/tasks complete.
+      exp.lastMap = -1;
+      exp.curMap = exp.mapsVec[0];
+      // define graph (according to exp.curMap) - transition and adjacency matrices.
+      defineGraph();
+      // start first task - learnRandomWalk
+      lrnWlkObj.trial = 1; // start from trial number 1.
+      learnRandomWalkTask();
+
+    } else { // if some tasks have already been completed, find the last one that was completed and
+      exp.curRun = maxRunsPerTask; // exp.curRun global that counts the runs - how many times did all the blocks/tasks complete.
+      exp.curMap = exp.mapsVec[exp.curRun-1]; // current map (-1 because exp.curRun starts at 1 and indeces start at 0)
+      if (exp.curRun>1) {
+        exp.lastMap = exp.mapsVec[exp.curRun-2]; // exp.lastMap is the map before current one, perhaps can delete
+      } else {
+        exp.lastMap = -1;
+      }
+      // define graph (according to exp.curMap) - transition and adjacency matrices.
+      defineGraph();
+
+      // from here, go backwards in the order of tasks, and check where the subject stopped
+
+      if(runNumOfLastTrialSaved2table[4]==maxRunsPerTask){ // last recorded trial was of whichIsCloser task
+        numQ = getTrialNumFromTable("whichIsCloserTable"); //read the number of questions that was asked in the current block from the table of the distance estimation task - from sql
+        exp.totalScore=getScore("whichIsCloserTable"); // check the number of points that was earned until now
+        if (numQ<qend){ // if the connection was terminated in the middle of whichIsCloser task, continue from the last trial
+          whichCloserObj.numCorrect = calCorQ("whichIsCloserTable",exp.subjectId); // number of correct answers
+          startWhichIsCloser(numQ);
+        } else { // if whichIsCloser has completed, start learning phase of the next run. check if should learn from walk or pairs, depending on run number.
+          chooseNewRunLearningTaskOrEndExp(0) // 0 is for starting from trial 0.
+        }
+      } else if (runNumOfLastTrialSaved2table[3]==maxRunsPerTask){ // last recorded trial was of Navigation task
+        if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
+          cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
+          if (cds == maxdS){ // is navigation taks has completed, go to whichIsCloser task.
+            numQ=0;
+            startWhichIsCloser(numQ);
+          }else { // if the connection was terminated in the middle of navigation task, continue from the last trial
+            exp.totalScore=getScore("navigTable");
+            var ntn = getTrialNumFromTable("navigTable");
+            startNavigTask(cds+1);
+          }
+        } else { // if exp.curRun>8, skip navigation task and go to whichIsClose
+          startWhichIsCloser(0);
+        }
+      } else if (runNumOfLastTrialSaved2table[2]==maxRunsPerTask) { // last recorded trial was of isItMiddle task
+        nrep=getTrialNumFromTable("isMiddleTable");
+        exp.totalScore=getScore("isMiddleTable");
+        if(nrep<maxIsM){ // if isItMiddle was not completed, start from the last trial
+          isItMiddle(0); //***** Alon: what is the 0 here? shouldn't it be nrep (num of trials completed)? in the function it's called "nn"
+        } else { // itMiddle was completed go to the next task
+          if(exp.curRun<9){
+            startNavigTask(2);
+          }else{
+            startWhichIsCloser(0);
+          }
+        }
+
+      } else if(runNumOfLastTrialSaved2table[1]==maxRunsPerTask) { // last recorded trial was of piles task
+        pileObj.trial = getTrialNumFromTable("isInPileTable");// read the number of trials that the subject have already played in this run from the sql table
+        exp.totalScore=getScore("isInPileTable");
+        if(pileObj.trial<maxPile){ // if isInPile task was not completed
+          whichPile();
+        } else { // if isInPile task was completed
+          isItMiddle(1);
+        }
+      } else if(runNumOfLastTrialSaved2table[0]==maxRunsPerTask) { // last recorded trial was of learning task
+        exp.totalScore=getScore("whichIsCloserTable"); // there's no score change in the learning phase so get score from the last task of the previous run
+        if (exp.curRun>8) {
+          thisTC = getTrialNumFromTable("learnRandomPairsTable");
+          learnRandomPairsTask(thisTC);// learning from pairs
+        } else {
+          thisTC = getTrialNumFromTable("learnRandomWalkTable");
+          learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
+        }
+      }
+    }
+  }
+  function chooseNewRunLearningTaskOrEndExp(){ // formerly called chooseCoverStaff
+    // Stop display of previous part
+    document.getElementsByClassName("whichIsCloser")[0].style.display="none";
+    document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
+    document.getElementById("Qfeedback").style.display="none";
+    // increase run number (whichIsCloser is the last task in each run)
+    exp.curRun = exp.curRun + 1
+
+    if (exp.curRun>exp.maxRun){ // end experiment
+      document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
+    } else if (exp.curRun>8 && exp.curRun<=exp.maxRun){ // inference (late) runs - learn from random pairs, not from a walk on graph
+      lrnPrsObj.trial = 1;
+      learnRandomPairsTask(); // early runs - learn from a random walk on the G.
+    } else if (exp.curRun<9){
+      lrnWlkObj.trial = 1; // start from trial number 1.
+      learnRandomWalkTask();
+    }
+  }
 
 
 </script>

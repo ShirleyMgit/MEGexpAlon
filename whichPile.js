@@ -17,22 +17,21 @@ function whichPile(){// piles task
 	// B. the target is connected to one of the piles by a missing link.
 
 	// here the target cannot appear in any pile
-	document.getElementById("EconSp").style.display="none"
+	document.getElementById("enter2continueMsg_pile").style.display="none"
 	inPisP = -1;
 
 	/* manage display*/
-	document.getElementsByClassName("pileDiv")[0].style.display="block";
-	document.getElementById("EconSp").style.dispaly="none";
-	document.getElementById("isCorRSp").style.display= "none";
-	document.getElementsByClassName("isMiddle")[0].style.display="none";
-	document.getElementById("imCp11").style.display="none";
-	document.getElementById("imCp12").style.display="none";
-	document.getElementById("imCp13").style.display="none";
-	document.getElementById("imCp14").style.display="none";
-	document.getElementById("imCp21").style.display="none";
-	document.getElementById("imCp22").style.display="none";
-	document.getElementById("imCp23").style.display="none";
-	document.getElementById("imCp24").style.display="none";
+	document.getElementById("pileDiv").style.display="block";
+	document.getElementById("enter2continueMsg_pile").style.dispaly="none";
+	document.getElementById("isCorrectMsg_pile").style.display= "none";
+	document.getElementById("pile1Img1").style.display="none";
+	document.getElementById("pile1Img2").style.display="none";
+	document.getElementById("pile1Img3").style.display="none";
+	document.getElementById("pile1Img4").style.display="none";
+	document.getElementById("pile2Img1").style.display="none";
+	document.getElementById("pile2Img2").style.display="none";
+	document.getElementById("pile2Img3").style.display="none";
+	document.getElementById("pile2Img4").style.display="none";
 
 	pileObj.trial = pileObj.trial+1;// count trials
 
@@ -54,11 +53,11 @@ function whichPile(){// piles task
 	inPp13=detNextPicGenAnoP2(inPp12,inPp11,transMat);
 	inPp23=detNextPicGenAnoP2(inPp22,inPp21,transMat);
 
-	document.getElementById("imCp11").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp11];//the first picture 1 pile
-	document.getElementById("imCp21").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp21];//the first picture 2 pile
+	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp11];//the first picture 1 pile
+	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp21];//the first picture 2 pile
 
-	document.getElementById("imCp12").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp12];//the 2 picture 1 pile
-	document.getElementById("imCp22").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp22];//the 2 picture 2 pile
+	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp12];//the 2 picture 1 pile
+	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp22];//the 2 picture 2 pile
 
 
 	// Alon: CHECK THIS WHILE LOOP WORKS CORRECTLY!
@@ -84,12 +83,12 @@ function whichPile(){// piles task
 		}
 	}
 
-	document.getElementById("imCp13").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp13];//the 3 picture 1 pile
-	document.getElementById("imCp23").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp23];//the 3 picture 2 pile
+	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp13];//the 3 picture 1 pile
+	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp23];//the 3 picture 2 pile
 	var all1pile = [inPp11,inPp12,inPp13];
 	var all2pile = [inPp21,inPp22,inPp23];
-	document.getElementById("imCp14").src = "/MEG/images/whitePic.jpg";
-	document.getElementById("imCp24").src = "/MEG/images/whitePic.jpg";
+	document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";
+	document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";
 
 	var ran1 = Math.random();
 
@@ -111,14 +110,14 @@ function whichPile(){// piles task
 
 
 		/* display cards in piles*/
-		setTimeout(function(){ document.getElementById("imCp11").style.display="inline"; }, 500);
-		setTimeout(function(){ document.getElementById("imCp12").style.display="inline";}, 1200);
-		setTimeout(function(){ document.getElementById("imCp13").style.display="inline"; }, 1900);
-		setTimeout(function(){ document.getElementById("imCp14").style.display="inline";}, 2800);
-		setTimeout(function(){ document.getElementById("imCp21").style.display="inline"; }, 3500);
-		setTimeout(function(){ document.getElementById("imCp22").style.display="inline";}, 4200);
-		setTimeout(function(){ document.getElementById("imCp23").style.display="inline"; }, 4900);
-		setTimeout(function(){ document.getElementById("imCp24").style.display="inline";}, 5900);
+		setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline"; }, 500);
+		setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";}, 1200);
+		setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline"; }, 1900);
+		setTimeout(function(){ document.getElementById("pile1Img4").style.display="inline";}, 2800);
+		setTimeout(function(){ document.getElementById("pile2Img1").style.display="inline"; }, 3500);
+		setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";}, 4200);
+		setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline"; }, 4900);
+		setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";}, 5900);
 		setTimeout(function(){flagSp = 1;flag12MV=-1;}, 6500);//added flag12MV=-1 just to make sure, from some reason it got stack on2
 		if (pileObj.trial>minTr){
 			setTimeout(function(){if(isNestDis==0){document.getElementById("nextSp").disabled=false;}},6505);
@@ -132,12 +131,12 @@ function whichPileAns(ansP){// check particpants answer
 	var corP;
 	var  trialime=new Date();
 	var RTp=calResponseTime(trialime,thisLast);
-	document.getElementById("EconSp").style.dispaly="inline";
+	document.getElementById("enter2continueMsg_pile").style.dispaly="inline";
 	if(ansP==wP){
 		ncoinT = ncoinT+1;
 		ncoin = ncoin+1;
-		document.getElementById("isCorRSp").style.color= "blue";
-		document.getElementById("isCorRSp").innerHTML = "Correct!";
+		document.getElementById("isCorrectMsg_pile").style.color= "blue";
+		document.getElementById("isCorrectMsg_pile").innerHTML = "Correct!";
 		corP = 1;
 		if (flagC==0){
 			plotCircle(document.getElementById("myCanvas"),y,"blue",x);
@@ -153,8 +152,8 @@ function whichPileAns(ansP){// check particpants answer
 		}
 
 		ncoin = ncoin-1;
-		document.getElementById("isCorRSp").style.color= "red";
-		document.getElementById("isCorRSp").innerHTML = "NOT Correct!";
+		document.getElementById("isCorrectMsg_pile").style.color= "red";
+		document.getElementById("isCorrectMsg_pile").innerHTML = "NOT Correct!";
 		clearCircle(document.getElementById("myCanvas"),y,x);
 		ncolCrc = ncolCrc-1;
 		corP = 0;
@@ -169,20 +168,20 @@ function whichPileAns(ansP){// check particpants answer
 		x = x-dx;
 		y = 0;
 	}
-	document.getElementById("isCorRSp").style.display= "inline";
+	document.getElementById("isCorrectMsg_pile").style.display= "inline";
 	if (wP==1){// put the picture in the correct pile
-		document.getElementById("imCp14").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 1 pile
-		document.getElementById("imCp24").src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
+		document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 1 pile
+		document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
 	}else{
 		if(wP==2){
-			document.getElementById("imCp14").src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
-			document.getElementById("imCp24").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 2 pile
+			document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
+			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 2 pile
 		}else{
-			document.getElementById("imCp14").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
-			document.getElementById("imCp24").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
+			document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
+			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
 		}
 	}
-	document.getElementById("EconSp").style.display="inline"
+	document.getElementById("enter2continueMsg_pile").style.display="inline"
 	save2pileTable(corP,RTp);// save data into the piles table in sql
 	flagSp = 0;
 	if (pileObj.trial>=maxPile){// if the number of trials exceeded the maximum per block move to next part
