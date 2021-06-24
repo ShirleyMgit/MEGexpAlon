@@ -1,156 +1,137 @@
 // pick one neighbour randomely
-function detNextPicGenA(transMat,node){ //fixed for corrected Ar
-	var nNghbrs = transMat[node].length;
-	var randNghbrInd = Math.floor(nNghbrs*Math.random());
-	var nxtNode=transMat[node][randNghbrInd];
-	return nxtNode;
+function findRandNghbr(transMat,node){ // previously called detNextPicGenA
+	var out=transMat[node][Math.floor(transMat[node].length*Math.random())];
+	return out;
 }
 
-// Return neighbour of in1 whidh is not p2
-function detNextPicGenAnoP2(in1,p2,transMat){
+function findRandNghbrExcept(transMat,n1,n2){ // previously called detNextPicGenAnoP2
+	// returns a neighbour of node n1 which is not node n2 */
 
-	/*returns a neibor of in1 which is not p2*/
-	var nbI = transMat[in1].length;
-	var j,nbInew=[];
-	for(j=0;j<nbI;j++){
-		if(transMat[in1][j]!=p2){
-			nbInew.push(transMat[in1][j]);
+	var iNghbr,validNghbrs=[];
+	for(iNghbr=0;iNghbr<transMat[n1].length;iNghbr++){ // loop over neighbours of n1
+		if(transMat[n1][iNghbr]!=n2){
+			validNghbrs.push(transMat[n1][iNghbr]);
 		}
 	}
-	var nin = Math.floor((nbI-1)*Math.random());
-	var nxtNodeInd=nbInew[nin];
-	return nxtNodeInd;
+	var out=validNghbrs[Math.floor((validNghbrs.length)*Math.random())];
+	return out;
 }
 
-function isAneighbor(in1,in2,transMat){
-	/*is in1 in2 neighbors? return 0 - not a neighbor or 1 - is a neibor*/
-	var nbI = transMat[in1].length;//number of neighbourse of that node
-	var j,isN;
-	isN = 0;
-	for(j=0;j<nbI;j++){
-		if(transMat[in1][j]==in2){
-			isN=1;
+function isAneighbor(transMat,n1,n2){
+	/*is n1 n2 neighbors? return 0 - not a neighbor or 1 - is a neibor*/
+	var iNghbrN1,isNghbr;
+	isNghbr = 0;
+	for(iNghbrN1=0;iNghbrN1<transMat[n1].length;iNghbrN1++){
+		if(transMat[n1][iNghbrN1]==n2){
+			isNghbr=1;
 			break;
 		}
 	}
-	return isN;
+	return isNghbr;
 }
 
-
-function detNextPicGenAnoP2Gen(in1,in0){
-	/*This function select a neiboughr of in1 which is not a neighbor of in0.*/
-	var nbI = G.transMat[in1].length;
-	var nbI0 = G.transMat[in0].length;
-	var flagN=0;
-	var j,j2,nbInew=[];
-	for(j=0;j<nbI;j++){
-		flagN=0;
-		for(j2=0;j2<nbI0;j2++){
-			if(G.transMat[in1][j]==G.transMat[in0][j2]){
-				flagN=1;
+	function findRandNghbrExceptNghbrOf(transMat,n1,n2){ // previously called detNextPicGenAnoP2Gen
+	/*This function select a neighbour of n1 which is not n2 or a neighbour of n2.*/
+	// note this is using the FULL GRAPH transition matrix (G.transMat)
+	var flagCurrentNodeIsNghbrOfN2=0;
+	var iNghbrN1,iNghbrN2,validNghbrs=[];
+	for(iNghbrN1=0;iNghbrN1<transMat[n1].length;iNghbrN1++){ // loop over node n1 nghbrs
+		flagCurrentNodeIsNghbrOfN2=0;
+		for(iNghbrN2=0;iNghbrN2<transMat[n2].length;iNghbrN2++){ // loop over node n2 nghbrs
+			if(transMat[n1][iNghbrN1]==transMat[n2][iNghbrN2]){
+				flagCurrentNodeIsNghbrOfN2=1;
 			}
 		}
-		if(G.transMat[in1][j]!=in0&&flagN==0){
-			nbInew.push(G.transMat[in1][j]);
+		if(transMat[n1][iNghbrN1]!=n2 && flagCurrentNodeIsNghbrOfN2==0){
+			validNghbrs.push(transMat[in1][iNghbrN1]);
 		}
 	}
-	var lenN = nbInew.length;
-	var nin = Math.floor(lenN*Math.random());
-	return nbInew[nin];
+	// randomly choose one of the valid nghbrs.
+	return validNghbrs[Math.floor(validNghbrs.length*Math.random())];
 }
 
-function detNextPicExA2(in0,transMat){
-	//This function chose 2 different neighbours of in0, Ar is the array of neighbours indexes, Math.random() is a random number between 0-1
-	var nbI = transMat[in0];//the neighbourse of that node
-	var nb=[];
-	var j,in1;
-	var leb=nbI.length;
-	var nn1=Math.floor(leb*Math.random());
-	in1=nbI[nn1];
-	for (j=0;j<leb;j++){
-		if(nbI[j]!=in1){
-			nb.push(nbI[j]);
+function findRandTwoNghbrs(transMat,n1){ // previously called detNextPicExA2
+
+	var validNghbrs=[];
+	// choose one random nghbr of n1
+	var out1=transMat[n1][Math.floor(transMat[n1].length*Math.random()];
+	// choose another nghbr of n1 that is not out1
+	var iNghbrN1;
+	for (iNghbrN1=0;iNghbrN1<leb;iNghbrN1++){
+		if(transMat[n1][iNghbrN1]!=out1){
+			validNghbrs.push(transMat[n1][iNghbrN1]); // all nghbrs of n1 that are not out1
 		}
 	}
-	var nbl = nb.length;//nb.length-1;// I think that was a mistake
-	var nf=Math.floor(nbl*Math.random());
-	var nin = nf;
-	var in2=nb[nin];
-
-	return [in1,in2];;
+	var out2=validNghbrs[Math.floor(nb.length*Math.random())];
+	return [out1,out2];;
 }
 
-function detNextPicExAnoR(in0,transMat,inR,inL){//fixes for corrected Ar
-	//This function chose 2 different neighbours of in0, Ar is the array of neighbours indexes, Math.random() is a random number between 0-1
-	var nbI = transMat[in0];//the neighbourse of that node
-	var nbnoR=[];
-	var nb=[];
-	var j,in1;
-	var leb=nbI.length;
-	for(j=0;j<leb;j++){
-		if(leb>3){
-			if(nbI[j]!=inR&&nbI[j]!=inL){
-				nbnoR.push(nbI[j]);
+function findRandTwoNghbrs_exceptPreviousOptionsIfPossible(transMat,n1,prev1,prev2){ // previously called detNextPicExAnoR
+	// used in taskNavig. Find random two neighbours of n1. If there are 4 or more neighbors,
+	// make sure not to select the nodes that were available in the previous trial (prev1 and prev2).
+	// if there are 3 or less neighbors, just choose randomely (i.e. at least one of the outputs
+	// will be either prev1 or prev2).
+
+	var validNghbrs=[]; validNghbrs2 = [];
+	var iNghbr; iValidNghbrsN1;
+	for(iNghbr=0;iNghbr<transMat[n1].length;iNghbr++){ // loop over nghbrs of n1
+		// if there are at least 2 nghbrs that were not used in the last trial, push only these to validNghbrs
+		if(transMat[n1].length>3){
+			if(transMat[n1][iNghbr]!=prev1 && transMat[n1][iNghbr]!=prev2){
+				validNghbrs.push(transMat[n1][iNghbr]);
 			}
+		// if there are only 2 or 3 neighbors (i.e. there are 0 or 1 nghbrs that were not used in the last trial),
+		// push all nghbrs (including the ones from previous trial) to validNghbrs
 		}else{
-			nbnoR.push(nbI[j]);
+			validNghbrs.push(transMat[n1][iNghbr]);
 		}
 	}
-	var nn1;
-	if(leb>3){
-		leb2 = leb-2;
-	}else{
-		leb2 = leb;
-	}
-	nn1=Math.floor((leb2)*Math.random());
-	in1=nbnoR[nn1];
-	for (j=0;j<leb2;j++){
-		if(nbnoR[j]!=in1){
-			nb.push(nbnoR[j]);
+	// randomly choose one of the valid nghbrs for one of the outputs
+	var out1=validNghbrs[Math.floor(validNghbrs.length*Math.random())];
+	// make sure the second output is not the same as the first output
+	for (iValidNghbrsN1=0;iValidNghbrsN1<validNghbrs.length;iValidNghbrsN1++){
+		if(validNghbrs[iValidNghbrsN1]!=out1){
+			validNghbrs2.push(validNghbrs[iValidNghbrsN1]);
 		}
 	}
-	var nbl = nb.length;//nb.length-1;// I think that was a mistake
-	var nf=Math.floor(nbl*Math.random());
-	if (Math.random()==1){
-		nf = nf-1;
-	}
-	var nin = nf;
-	var in2=nb[nin];
-
-	return [in1,in2];;
+	var out2=validNghbrs2[Math.floor(validNghbrs2.length*Math.random())];
+	return [out1,out2];;
 }
 
-function detNextPicGenAnoP1P2P3inBoth(transMat,allPile1,allPile2,DistFull){//fixed for corrected Ar
-	/*This function finds the next forth picture in Hamiltonian path - good for all structures*/
-	var in23 = allPile2[2];
-	var in22 = allPile2[1];
-	var in21 = allPile2[0];
-	var in13 = allPile1[2];
-	var in12 = allPile1[1];
-	var in11 = allPile1[0];
+function find4thNodeOfPile(transMat,pileA,pileB,distFull){
+	// Find a 4th node to match pileA (i.e. which is a neighbour of the third node in pileA
+  // according to transmat. Note that transmat is G.transMatMiss for the runs with
+	// missing links). Ensure this node is:
+	// 1. not in pileA or pileB, and
+	// 2. Is not connecrted on the full graph to the last (third) node pileB
+	// (i.e. it is also NOT connected to the third node of pileB by a missing link)
 
-	// Alon: find all neighbours of in13 that are not in any of the piles.
-	// then, also check it is not a neighbour of the other pile on the full graph.. something like this
+	// declare nodes in the piles, for less clumsy notation later
+	var nA1 = pileA[0];
+	var nA2 = pileA[1];
+	var nA3 = pileA[2];
+	var nB1 = pileB[0];
+	var nB2 = pileB[1];
+	var nB3 = pileB[2];
 
-
-	var nbI = transMat[in13].length;
-	var j,nbInew=[];
-	for(j=0;j<nbI;j++){
-		if(transMat[in13][j]!=in12&&transMat[in13][j]!=in11&&transMat[in13][j]!=in21&&transMat[in13][j]!=in22&&transMat[in13][j]!=in23&&DistFull[transMat[in13][j]][in23]>1){// the last inequality makes sure that the pictures is not connected to the other pile with a missing link
-			nbInew.push(transMat[in13][j]);
+	var j, validNghbrs_nA3=[], x;
+	for(j=0;j<transMat[nA3].length;j++){ //loop neighbours of nA3
+		x = transMat[nA3][j]; // x is the current candidate neighbour of nA3
+		if (x!=nA2 && x!=nA1 && x!=nB1 && x!=nB2 && x!=nB3 // check the current neighbour of nA3 is not in any of the piles
+			&& distFull[x][n23]>1){ // the last inequality makes sure that the current neighbour of nA3 is not connected to the last node of pileB with a missing link
+			validNghbrs_nA3.push(x);
 		}
 	}
-	var nbInL = nbInew.length;
-	var nin = Math.floor((nbInL)*Math.random());
-	var nxp;
-	if (nbInew.length>0){
-		nxp=nbInew[nin];
+	var nA4; // the 4th node of pile A - the desired output of the function.
+	// if there are several valid neighbours of nA3, randomely choose one.
+	if (validNghbrs_nA3.length>0){
+		nA4=validNghbrs_nA3[Math.floor((validNghbrs_nA3.length)*Math.random())];
+	// if there are no valid neighbours of n13, return -1.
 	}else{
-		nxp=-1;
+		nA4=-1;
 	}
-	return nxp;
+	return nA4;
 }
-
 
 function findTargGen(dS,inP,distMat){
 	var Dinp = distMat[inP];

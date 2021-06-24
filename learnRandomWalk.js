@@ -72,7 +72,7 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
   //increase trial. increase after saving because we initialised at trial 1
   lrnWlkObj.trial = lrnWlkObj.trial+1;
   lrnWlkObj.nodeNumImgOld = lrnWlkObj.nodeNumImgNew;
-  lrnWlkObj.nodeNumImgNew=detNextPicGenA(G.transMat,lrnWlkObj.nodeNumImgNew);// next picture index
+  lrnWlkObj.nodeNumImgNew=findRandNghbr(G.transMat,lrnWlkObj.nodeNumImgNew);// next picture index
   document.getElementById("lrnWlk_imgOld").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgOld];// old picture
   document.getElementById("lrnWlk_imgNew").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew];// next picture
   lrnWlkObj.imgPresentTime = new Date();

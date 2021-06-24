@@ -26,9 +26,9 @@ function isItMiddle(nn){// is it in the middle task
 	ism = Math.floor(Math.random() * (G.nNodes));
 
 	if(exp.curMap>1){
-		[ism1p,ism2p ]=detNextPicExA2(ism,G.transMatMiss);
+		[ism1p,ism2p ]=findRandTwoNghbrs(G.transMatMiss,ism);
 	}else{
-		[ism1p,ism2p ]=detNextPicExA2(ism,G.transMat);
+		[ism1p,ism2p ]=findRandTwoNghbrs(G.transMat,ism);
 	}
 
 	var ismnew=ism;

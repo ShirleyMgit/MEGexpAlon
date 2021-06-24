@@ -68,14 +68,12 @@ function startNavigTask(dS){ // formerly called startTask
 
   /* indexes cards/pictures to choose from*/
   do{
-    ran1 = Math.random();
-    in1L=detNextPicGenA(ran1,Ar,inP);
+    in1L=findRandNghbr(Ar,inP);
   }
   while(in1L==tar1)
 
   do{
-    ran1 = Math.random();
-    in1R=detNextPicGenA(ran1,Ar,inP);
+    in1R=findRandNghbr(Ar,inP);
   }
   while((in1L==in1R)||(in1R==tar1))
 
@@ -163,7 +161,7 @@ function conExpT(cpic){// check subject choices
 
   inLlast = in1L;
   inRlast = in1R;
-  [in1L,in1R]=detNextPicExAnoR(inP,ran1,Ar,inRlast,inLlast);//find next indexes for options
+  [in1L,in1R]=findRandTwoNghbrs_exceptPreviousOptionsIfPossible(Ar,inP,inRlast,inLlast);//find next indexes for options
 
   /* taking/adding coins (should appear just in the first block - otherwise they learn good and bed choices (- like a non-first order relation)*/
   // Alon & Shirley: need to write something here for changing the score, in the meantime I commented out what was before

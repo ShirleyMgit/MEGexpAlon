@@ -13,12 +13,12 @@ function whichPile(){// piles task
 	// 1. There are two types of questions:
 	// A. no missing link questions are involved - need to check that the target is
 	// not in one of the piles and that it is not connected to the other pile on the full graph.
-	// This is what detNextPicGenAnoP1P2P3inBoth does.
+	// This is what find4thNodeOfPile does.
 	// B. the target is connected to one of the piles by a missing link.
 
 	// here the target cannot appear in any pile
 	document.getElementById("enter2continueMsg_pile").style.display="none"
-	inPisP = -1;
+	pileObj.targetNode = -1;
 
 	/* manage display*/
 	document.getElementById("pileDiv").style.display="block";
@@ -35,12 +35,6 @@ function whichPile(){// piles task
 
 	pileObj.trial = pileObj.trial+1;// count trials
 
-	/* choose sequences (piles) pictures*/
-	inPp11 = Math.floor(Math.random() * (G.nNodes));
-	inPp21 = Math.floor(Math.random() * (G.nNodes));
-	while(inPp11==inPp21){
-		inPp21 = Math.floor(Math.random() * (G.nNodes));
-	}
 	// set the (local) transition matrix to work with from the global G obj - either the full or missing links matrix.
 	var transMat;
 	if (exp.curRun<9){
@@ -48,33 +42,39 @@ function whichPile(){// piles task
 	}else{
 		transMat = G.transMatMiss;
 	}
-	inPp12=detNextPicGenA(transMat,inPp11);
-	inPp22=detNextPicGenA(transMat,inPp21);
-	inPp13=detNextPicGenAnoP2(inPp12,inPp11,transMat);
-	inPp23=detNextPicGenAnoP2(inPp22,inPp21,transMat);
 
-	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp11];//the first picture 1 pile
-	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp21];//the first picture 2 pile
+	/* build piles (sequences of nodes)*/
 
-	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp12];//the 2 picture 1 pile
-	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp22];//the 2 picture 2 pile
+	// Randomely sample the first node of each pile
+	pileObj.pile1Img1 = Math.floor(Math.random() * (G.nNodes));
+	pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
+	// ensure first nodes of both piles are not the same
+	while(pileObj.pile1Img1==pileObj.pile2Img1){
+		pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
+	}
+
+	pileObj.pile1Img2=findRandNghbr(transMat,pileObj.pile1Img1);
+	pileObj.pile2Img2=findRandNghbr(transMat,pileObj.pile2Img1);
+	pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
+	pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
+
+	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];//the first picture 1 pile
+	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];//the first picture 2 pile
+
+	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];//the 2 picture 1 pile
+	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];//the 2 picture 2 pile
 
 
 	// Alon: CHECK THIS WHILE LOOP WORKS CORRECTLY!
 	//  this while loop is for checking that the last image in the two piles is
-	// not the same. If it is, sample another image from the neighbours of the second
-	// image, if there isn't another neighbour, start over.
-	while (inPp23==inPp13){
-		var A22L;
-		var A12L;
-		A22L = transMat[inPp22].length;
-		A12L = transMat[inPp12].length;
-		if (A22L >1){
-			inPp23=detNextPicGenAnoP2(Math.random(),inPp22,inPp21,transMat);
-
+	// not the same. If it is, sample another image from the neighbours of (one of the piles's) second
+	// image. if there isn't another neighbour of the second image in both piles, start over to sample new piles.
+	while (pileObj.pile2Img3==pileObj.pile1Img3){
+		if (transMat[pileObj.pile2Img2].length>1){
+			pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
 		}else{
-			if (A12L>1){
-				inPp13=detNextPicGenAnoP2(Math.random(),inPp12,inPp11,transMat);
+			if (transMat[pileObj.pile1Img2].length>1){
+				pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
 
 			}else{
 				pileObj.trial=pileObj.trial-1;
@@ -83,33 +83,34 @@ function whichPile(){// piles task
 		}
 	}
 
-	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp13];//the 3 picture 1 pile
-	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[inPp23];//the 3 picture 2 pile
-	var all1pile = [inPp11,inPp12,inPp13];
-	var all2pile = [inPp21,inPp22,inPp23];
+	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];//the 3 picture 1 pile
+	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];//the 3 picture 2 pile
+	var pile1all = [pileObj.pile1Img1,pileObj.pile1Img2,pileObj.pile1Img3];
+	var pile2all = [pileObj.pile2Img1,pileObj.pile2Img2,pileObj.pile2Img3];
 	document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";
 	document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";
 
-	var ran1 = Math.random();
-
-	if(ran1<0.5){// find the question picture - should make sure the other pile has no missing link with it.
-		inPisP=detNextPicGenAnoP1P2P3inBoth(transMat,all1pile,all2pile,G.distMat);
-		wP = 1; // wp: which pile is the correct answer
+	// Randomly choose if the correct answer will be pile1 or pile2, and then find a suitable target node for the that pile.
+	// a suitable target is a neighbour of the third image of the the pile which is
+	// 1. not in any of the piles; 2. not connected on the full graph to the other pile
+	if(Math.random()<0.5){
+		pileObj.targetNode=find4thNodeOfPile(transMat,pile1all,pile2all,G.distMat);
+		pileObj.correctPile = 1;
 	}else{
-		inPisP=detNextPicGenAnoP1P2P3inBoth(transMat,all2pile,all1pile,G.distMat);
-		wP = 2;
+		pileObj.targetNode=find4thNodeOfPile(transMat,pile2all,pile1all,G.distMat);
+		pileObj.correctPile = 2;
 
 	}
 
-	if (inPisP==-1){ // inPisP returns -1 if it didn't manage to find a neighbour of the third image which is not in any of the piles.
+	//  if didn't manage to find suitable target node, run again to find new piles and target
+	if (pileObj.targetNode==-1){
 		pileObj.trial=pileObj.trial-1;
 		whichPile();
 	}else{
+		// display target image
+		document.getElementById("pileTarget").src=exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];
 
-		document.getElementById("pileTarget").src=exp.pathToImgDir + exp.imgFileNamesArr[inPisP];
-
-
-		/* display cards in piles*/
+		/* display images in piles*/
 		setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline"; }, 500);
 		setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";}, 1200);
 		setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline"; }, 1900);
@@ -118,11 +119,7 @@ function whichPile(){// piles task
 		setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";}, 4200);
 		setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline"; }, 4900);
 		setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";}, 5900);
-		setTimeout(function(){flagSp = 1;flag12MV=-1;}, 6500);//added flag12MV=-1 just to make sure, from some reason it got stack on2
-		if (pileObj.trial>minTr){
-			setTimeout(function(){if(isNestDis==0){document.getElementById("nextSp").disabled=false;}},6505);
 
-		}
 		thisLast=new Date();
 	}
 }
@@ -132,7 +129,7 @@ function whichPileAns(ansP){// check particpants answer
 	var  trialime=new Date();
 	var RTp=calResponseTime(trialime,thisLast);
 	document.getElementById("enter2continueMsg_pile").style.dispaly="inline";
-	if(ansP==wP){
+	if(ansP==pileObj.correctPile){
 		ncoinT = ncoinT+1;
 		ncoin = ncoin+1;
 		document.getElementById("isCorrectMsg_pile").style.color= "blue";
@@ -169,22 +166,22 @@ function whichPileAns(ansP){// check particpants answer
 		y = 0;
 	}
 	document.getElementById("isCorrectMsg_pile").style.display= "inline";
-	if (wP==1){// put the picture in the correct pile
-		document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 1 pile
+	if (pileObj.correctPile==1){// put the picture in the correct pile
+		document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture 1 pile
 		document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
 	}else{
-		if(wP==2){
+		if(pileObj.correctPile==2){
 			document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
-			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture 2 pile
+			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture 2 pile
 		}else{
-			document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
-			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[inPisP];//the 4 picture both pile
+			document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture both pile
+			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture both pile
 		}
 	}
 	document.getElementById("enter2continueMsg_pile").style.display="inline"
 	save2pileTable(corP,RTp);// save data into the piles table in sql
 	flagSp = 0;
-	if (pileObj.trial>=maxPile){// if the number of trials exceeded the maximum per block move to next part
+	if (pileObj.trial>=pileObj.maxTrial){// if the number of trials exceeded the maximum per block move to next part
 		writeRresSp();
 	}
 }

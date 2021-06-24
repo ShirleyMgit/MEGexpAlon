@@ -107,7 +107,6 @@
     </div>
   </div>
   <p id="enter2continueMsg_pile" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continoue</p>
-  <button type="button" id="nextSp" onclick="writeRresSp()">Next Step</button>
 
   <!--is middle task-->
   <div class="isMiddle">
@@ -217,6 +216,8 @@
   lrnPrsObj.maxTrial = 150;
 
   let pileObj = new partObj
+  pileObj.maxTrial = 15;
+
   let middleObj = new partObj
   let navigObj = new partObj
   // maximum number of steps allowed in navigation. Previously called maxTask.
@@ -243,9 +244,7 @@
   /*max displays during the learning phase in each block*/
 
   var maxIsM=15;//10;
-  var maxPile = 15;
 
-  var pileAr;
   var dS;//the initial distance in the navigation task
   /*File Name*/
   var writeFile;
@@ -257,7 +256,6 @@
   var flagC=0,y = 425,dy=0.9*sz;//cirlce height
   var x = -5,dx=sz*2+5;
   var y0 = y;//intial hight for the cycles
-  var minTr = 0;//minimum trial to activate the "next" button
   var nSD = 2;//number of trials in which distance is given
   var nall=50;//number of pictures in the directory;
   var nstruct = 2;//number of different map with the same structure
@@ -300,7 +298,6 @@
     document.getElementById("endLearnWalkButton").disabled=true;
     document.getElementById("skipR").disabled=true;
     document.getElementById("nextIsM").disabled=true;
-    document.getElementById("nextSp").disabled=true;
   }
   /*trial variable*/
   var totalStep = 0;

@@ -38,9 +38,9 @@ function conExpPair(){
 
   lrnPrsObj.nodeNumImg1 = Math.floor(Math.random() * (G.nNodes-1));
   if (exp.curRun<9){
-    lrnPrsObj.nodeNumImg2=detNextPicGenA(G.transMat,lrnPrsObj.nodeNumImg1);// no missing links
+    lrnPrsObj.nodeNumImg2=findRandNghbr(G.transMat,lrnPrsObj.nodeNumImg1);// no missing links
   }else{
-    lrnPrsObj.nodeNumImg2=detNextPicGenA(G.transMatMiss,lrnPrsObj.nodeNumImg1);// with missing links
+    lrnPrsObj.nodeNumImg2=findRandNghbr(G.transMatMiss,lrnPrsObj.nodeNumImg1);// with missing links
   }
   /* the 2 pictures*/
   document.getElementById("lrnPrs_img1").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnPrsObj.nodeNumImg1];
