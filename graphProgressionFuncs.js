@@ -51,10 +51,9 @@ function isAneighbor(transMat,n1,n2){
 }
 
 function findRandTwoNghbrs(transMat,n1){ // previously called detNextPicExA2
-
 	var validNghbrs=[];
 	// choose one random nghbr of n1
-	var out1=transMat[n1][Math.floor(transMat[n1].length*Math.random()];
+	var out1=transMat[n1][Math.floor(transMat[n1].length*Math.random())];
 	// choose another nghbr of n1 that is not out1
 	var iNghbrN1;
 	for (iNghbrN1=0;iNghbrN1<leb;iNghbrN1++){
@@ -118,7 +117,7 @@ function find4thNodeOfPile(transMat,pileA,pileB,distFull){
 	for(j=0;j<transMat[nA3].length;j++){ //loop neighbours of nA3
 		x = transMat[nA3][j]; // x is the current candidate neighbour of nA3
 		if (x!=nA2 && x!=nA1 && x!=nB1 && x!=nB2 && x!=nB3 // check the current neighbour of nA3 is not in any of the piles
-			&& distFull[x][n23]>1){ // the last inequality makes sure that the current neighbour of nA3 is not connected to the last node of pileB with a missing link
+			&& distFull[x][nB3]>1){ // the last inequality makes sure that the current neighbour of nA3 is not connected to the last node of pileB with a missing link
 			validNghbrs_nA3.push(x);
 		}
 	}

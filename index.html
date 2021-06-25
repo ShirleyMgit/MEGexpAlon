@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
+
   <title>Memory Experiment</title>
 
   <!--CSS style-->
-  <link rel="stylesheet" type="text/css" href="firstExp9.css">
+  <link rel="stylesheet" type="text/css" href="myCSS.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
   <!--required libraries-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -26,158 +29,165 @@
 </head>
 
 <body>
-  <!-- Alon: delete canvas once all coin-related code is deleted -->
-  <canvas id="myCanvas" width="450" height="450" ></canvas>
 
-  <!--start-->
-  <!--subject details:-->
-  <div id="startDiv">
-    <p><b>Welcome</b><br>please enter your details.</p>
-    Prolific subject ID (or your full name if you don't have a subject ID):<br> <input type="text" id="subjectId" value="" ><br><br>
-    <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
-    for tables for this subject, and if they don't exist, create them.-->
-    <button onclick="initMapsAndSetDisplay()" style="background-color:MediumOrchid "><b>Click when ready to start</b></button>
-    <p>The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
-  </div>
+  <div id="regForm">
 
-  <!--task description:-->
+    <!-- Alon: delete canvas once all coin-related code is deleted -->
+    <canvas id="myCanvas" width="450" height="450" ></canvas>
 
-  <div class="globalInstructions">
-    <p>
-      <b>Task description</b>:<br> We are playing a card memory game. Each picture is a card. <br>
-      The task is divided into rounds, on each rounds there are 5 parts. <br>
-      Today you will learn two pictures sets. <br>
-      The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br>
-      If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br>
-      In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>
-      Follow the instruction on each part of the game.
-    </p>
-    <button type="button" id="startTaskButton" onclick="choosePart()">Start Task</button>
-  </div>
-
-  <!-- Passive learning from consecutive pairs of stimuli (random walk) -->
-
-  <div id="learnRandomWalk" class="center" >
-    <p id="instructions_learnRandomWalk">
-      Try to remember the associations between the pictures that appears one after the other.<br>
-      A picture can be associated to more than one/two pictures.
-      <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br>
-      Press enter to see the next card."
-    </p>
-    <div id="lrnWlkImagesDiv" class="center">
-      <img id="lrnWlk_imgOld"> <img id="lrnWlk_imgNew">
+    <!--start-->
+    <!--subject details:-->
+    <div id="startDiv" align="center" class="tab">
+      <h1>Welcome<br></h1>
+      <p>please enter your details.</p><br>
+      <p>Prolific subject ID (or your full name if you don't have a subject ID):</p><br>
+      <input type="text" id="subjectId" value="" ><br><br>
+      <!--when pressing "click when ready to start", call initMapsAndSetDisplay() [] which will look
+      for tables for this subject, and if they don't exist, create them.-->
+      <button onclick="initMapsAndSetDisplay()"><b>Click when ready to start</b></button>
+      <p>The task will start soon<br>(please do not refresh the page - this can take up to 20 seconds).</p>
     </div>
-    <p id = "newM"></p>
-    <button type="button" id = "endLearnWalkButton" onclick="endAllTrials_learnRandomWalk()">Next Part</button>
-  </div>
 
-  <!--Passive learning from random (non-consecutive) pairs of stimuli-->
+    <!--task description:-->
 
-  <div id="learnRandomPairs">
-    <div><p class="center" id="instructions_learnRandomPairs">Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br>
-      Press enter to see the next card.</p>
-      <div id="lrnPrsImagesDiv" class="center">
-        <img id="lrnPrs_img1"><img id="lrnPrs_img2">
+    <div id="globalInstructions" class="tab">
+      <h1>Task description:<br></h1>
+      <p>
+        We are playing a card memory game. Each picture is a card. <br>
+        The task is divided into rounds, on each rounds there are 5 parts. <br>
+        Today you will learn two pictures sets. <br>
+        The first part is a learning phase. If the pictures are from a new set of pictures, a red message will appear on the screen. <br>
+        If the pictures belong to the same pictures sets as in the previouse round of games there will be a green message. <br>
+        In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>
+        Follow the instruction on each part of the game.
+      </p>
+      <button type="button" id="startTaskButton" onclick="choosePart()">Start</button>
+    </div>
+
+    <!-- Passive learning from consecutive pairs of stimuli (random walk) -->
+
+    <div id="learnRandomWalk"  class="tab" >
+      <p id="instructions_learnRandomWalk">
+        Try to remember the associations between the pictures that appears one after the other.<br>
+        A picture can be associated to more than one/two pictures.
+        <br> Say 'in your head' a sentence that connects the 2 pictures, it will help you to remember the associations. <br>
+        Press enter to see the next card."
+      </p>
+      <div id="lrnWlkImagesDiv" align="center">
+        <img id="lrnWlk_imgOld"> <img id="lrnWlk_imgNew">
+      </div>
+      <p id = "newM"></p>
+      <button type="button" id="endLearnWalkButton" align="center"
+      onclick="endAllTrials_learnRandomWalk()">Next Part</button>
+    </div>
+
+    <!--Passive learning from random (non-consecutive) pairs of stimuli-->
+
+    <div id="learnRandomPairs" class="tab">
+      <div><p align="center" id="instructions_learnRandomPairs">Try to remember the associations between the pair of pictures. successive pairs are not related. It will help you during the next parts of the game.<br>
+        Press enter to see the next card.</p>
+        <div id="lrnPrsImagesDiv" align="center">
+          <img id="lrnPrs_img1"><img id="lrnPrs_img2">
+        </div>
+      </div>
+      <div>
+        <p id="threeDots_learnRandomPairs">...</p>
+        <p id = "newMP"></p>
       </div>
     </div>
-    <div>
-      <p id="threeDots_learnRandomPairs">...</p>
-      <p id = "newMP"></p>
+
+
+    <!--pile task-->
+
+    <div id="pileDiv" class="tab">
+      <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
+      <img id="pileTarget">
+      <center><div><p id="isCorrectMsg_pile" style="position:relative; bottom:60px; left:200px;"></p><p id="enter2continueMsg_pile" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
+      <div id="pile1" align="center">
+        <img id="pile1Img1"><p></p>
+        <img id="pile1Img2"><p></p>
+        <img id="pile1Img3"><p></p>
+        <img id="pile1Img4">
+      </div>
+      <div id="pile2" align="center">
+        <img id="pile2Img1"><p></p>
+        <img id="pile2Img2"><p></p>
+        <img id="pile2Img3"><p></p>
+        <img id="pile2Img4">
+      </div>
+      <p id="enter2continueMsg_pile" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continue</p>
     </div>
-  </div>
+
+      <!--is middle task-->
+      <div id="isMiddle" class="tab">
+        <center><p style="font-size: 22px">Can the card in the middle appear between the following first and third cards?</br> A card can appear in the middle only if it is associated to the 2 cards<br> Whether the first and third cards are associated to one another or not is not important. <br> <b>press y/n</b></p></center>
+        <center><div id="im1d"><p>third card</p><img id="im1"></div>
+          <div id="im2d"><p>first card</p><img id="im2"></div>
+        </center>
+        <center><p id="im3cor" style="font-size: 18px; color:red"></p></center>
+        <center><p id="im3con">Press <b>Enter</b> to continoue</p></center>
+        <center><div id="im3div"><p id="im3p"><br>Intermediate Card?</p><img id="im3"></div></center>
+
+        <button type="button" id="nextIsM" ;
+        onclick="writeResp()">Next Step</button>
+      </div>
+
+      <!-- Navigation Task:-->
+
+      <div id="navig" class="tab">
+
+        <!--  define instructions block -->
+        <p align="center" id="instructionsT"> </p><p id="instructionsT2"> </p>
+
+        <center><p id="dispPc">press ENTER to continue</p></center>
+        <center><p id="skip">press ENTER to skip</p></center>
+        <center><div id="tarPid"><p id="targetPic"></p><img id="tarPt"></div></center>
+        <center><div id="cPic"><p id="startPic"></p><img id="currPt"></div></center>
+        <center><div id="picT">
+
+          <img id="chPic1"/>
+          <img id="chPic2"/>
+
+        </div> </center>
 
 
-  <!--pile task-->
+        <center> <div class="endTask"><p id="endExpReachT"></p>
+          <button type="button" id = "conBot"
+          onclick="contT(1)">
+          click here to continue to next session</button>
+          <button type="button" id = "endBot"
+          onclick="endAllTrials_navig(1)">
+          click to Finish</button>
+        </div></center>
+      </div>
 
-  <div id="pileDiv" class="center">
-    <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
-    <img id="pileTarget">
-    <center><div><p id="isCorrectMsg_pile" style="position:relative; bottom:60px; left:200px;"></p><p id="enter2continueMsg_pile" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
-    <div id="pile1" class="center">
-      <img id="pile1Img1"><p></p>
-      <img id="pile1Img2"><p></p>
-      <img id="pile1Img3"><p></p>
-      <img id="pile1Img4"><p></p>
+      <center><p id="endThanksT"></p></center>
+      <div id="LbotT" ></div> <div id="RbotT"></div>
+
+      <!-- Which is closer (previously called Where to Go or distnce estimation task)-->
+
+      <div id="whichIsCloser"  class="tab">
+
+        <!--  define instructions block -->
+        <p class="center" id="instructionsQ"> </p>
+
+        <center><div id="tarPidQ"><p id="targetPicQ"></p><img id="tarPQ"></div></center>
+
+        <center><div id="im1Q"><p>CARD 1</p><img id="Q1"></div></center>
+        <center><div id="im2Q"><p>CARD 2</p><img id="Q2"></div></center>
+
+
+        <center><p id="iqcor" style="font-size: 20px; color:red"></p></center>
+        <center><p id="iqcon">Press <b>Enter</b> to continue</p></center>
+
+      </div>
+
+      <div id="whichIsCloser_feedback" align="center" class="tab">
+        <p id="Qfeedback"></p>
+        <button type="button" id="nextBlock"
+        onclick="chooseNewRunLearningTaskOrEndExp()">Continue</button>
+      </div>
     </div>
-    <div id="pile2" class="center">
-      <img id="pile2Img1"><p></p>
-      <img id="pile2Img2"><p></p>
-      <img id="pile2Img3"><p></p>
-      <img id="pile2Img4">
-    </div>
-  </div>
-  <p id="enter2continueMsg_pile" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continoue</p>
-
-  <!--is middle task-->
-  <div class="isMiddle">
-    <center><p style="font-size: 22px">Can the card in the middle appear between the following first and third cards?</br> A card can appear in the middle only if it is associated to the 2 cards<br> Whether the first and third cards are associated to one another or not is not important. <br> <b>press y/n</b></p></center>
-    <center><div id="im1d"><p>third card</p><img id="im1"></div>
-      <div id="im2d"><p>first card</p><img id="im2"></div>
-    </center>
-    <center><p id="im3cor" style="font-size: 18px; color:red"></p></center>
-    <center><p id="im3con">Press <b>Enter</b> to continoue</p></center>
-    <center><div id="im3div"><p id="im3p"><br>Intermediate Card?</p><img id="im3"></div></center>
-
-    <button type="button" id="nextIsM" ;
-    onclick="writeResp()">Next Step</button>
-  </div>
-
-  <!-- Navigation Task:-->
-
-  <div class="navig">
-
-    <!--  define instructions block -->
-    <p class="center" id="instructionsT"> </p><p id="instructionsT2"> </p>
-
-    <center><p id="dispPc">press ENTER to continue</p></center>
-    <center><p id="skip">press ENTER to skip</p></center>
-    <center><div id="tarPid"><p id="targetPic"></p><img id="tarPt"></div></center>
-    <center><div id="cPic"><p id="startPic"></p><img id="currPt"></div></center>
-    <center><div id="picT">
-
-      <img id="chPic1"/>
-      <img id="chPic2"/>
-
-    </div> </center>
-
-
-    <center> <div class="endTask"><p id="endExpReachT"></p>
-      <button type="button" id = "conBot"
-      onclick="contT(1)">
-      click here to continue to next session</button>
-      <button type="button" id = "endBot"
-      onclick="endAllTrials_navig(1)">
-      click to Finish</button>
-    </div></center>
-  </div>
-
-  <center><p id="endThanksT"></p></center>
-  <div id="LbotT" ></div> <div id="RbotT"></div>
-
-  <!-- Which is closer (previously called Where to Go or distnce estimation task)-->
-
-  <div class="whichIsCloser">
-
-    <!--  define instructions block -->
-    <p class="center" id="instructionsQ"> </p>
-
-    <center><div id="tarPidQ"><p id="targetPicQ"></p><img id="tarPQ"></div></center>
-
-    <center><div id="im1Q"><p>CARD 1</p><img id="Q1"></div></center>
-    <center><div id="im2Q"><p>CARD 2</p><img id="Q2"></div></center>
-
-
-    <center><p id="iqcor" style="font-size: 20px; color:red"></p></center>
-    <center><p id="iqcon">Press <b>Enter</b> to continue</p></center>
-
-  </div>
-
-  <center><div class="whichIsCloser_feedback">
-    <p id="Qfeedback"></p>
-    <button type="button" id="nextBlock"
-    onclick="chooseNewRunLearningTaskOrEndExp()">Continue</button>
-  </div></center>
-
 
 
   <!-- **********************   begin javascript script   ********************-->
@@ -198,6 +208,7 @@
   exp.imgFileNamesArr=[]; // the pictures from directory array
   exp.totalScore = 0; // total points earned.
   exp.maxNumNodes=36; // maximal number of nodes/pictures in an array (map)
+  exp.nImgsInDir = 50; // total number of images in imgDir
 
   // parts (tasks) objects - these will be useful to have better control over global variables
 
@@ -257,7 +268,6 @@
   var x = -5,dx=sz*2+5;
   var y0 = y;//intial hight for the cycles
   var nSD = 2;//number of trials in which distance is given
-  var nall=50;//number of pictures in the directory;
   var nstruct = 2;//number of different map with the same structure
   var nnT;//which structure should be used
   var twait=500;
@@ -303,24 +313,13 @@
   var totalStep = 0;
   var in1R,in1L,inP,tar1,nSt,rowT,colT;
 
-  /*make display elements unseen*/
-  document.getElementById("cPic").style.display="none";
-  document.getElementById("tarPid").style.display="none";
-  document.getElementsByClassName("whichIsCloser")[0].style.display="none";
-  document.getElementsByClassName("navig")[0].style.display="none";
-  document.getElementsByClassName("globalInstructions")[0].style.display="none";
-  document.getElementById("learnRandomWalk").style.display="none";
-  document.getElementById("learnRandomPairs").style.display="none";
-  document.getElementsByClassName("isMiddle")[0].style.display="none";
-  document.getElementById("pileDiv").style.display="none";
-  document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
-  document.getElementById("Qfeedback").style.display="none";
-
   var ndis = 1;
   /*array pictures objects - maps*/
   var nmap=1;
 
   function initMapsAndSetDisplay(){ // the first function to be called, formerly called starDisc()
+    /*create/retrive MAPS and save in sql table*/
+
     /* subject first name*/
     var subjectId0 = document.getElementById("subjectId").value;
     if(subjectId0.endsWith("\n")||subjectId0.endsWith(" ")){
@@ -329,61 +328,47 @@
       exp.subjectId = subjectId0;
     }
 
-    /*create/retrive MAPS and save in sql table*/
-    var j1,j2,j3;
-    var nodeStr, imgFileName; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current G. their tags are the indeces of the file names in exp.imgFileNamesArr
-    var nmmax,nodeNum;
-    nmmax = exp.maxMap;
-    var nn,vn=[]; // vn: vector of numbers.
-    var vn01=[];
-    var vn1=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
-    for (j3=1;j3<=nall;j3++){
-      vn01.push(j3); // vn01 is a vector 1:nall
-    }
-    nn = nall;// nall is the number of pictures in the directory
-
-    // sample without replacement indeces for pictures, store in vn1
-    for (j3=0;j3<=exp.maxNumNodes;j3++){ // exp.maxNumNodes is the length of the largest map of the experiment
-      // get a random index between 1 and nall, and populate vn1 with it
-      np0 = Math.floor(Math.random() * (nn));
-      vn1.push(vn01[np0]);
-      // discard the used random index
-      vn01.splice(np0, 1);
-      nn = nn-1;
-    }
-    nn = exp.maxNumNodes;
+    var j1,j2;
+    var nodeStr, imgFileName, nodeNum; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current G. their tags are the indeces of the file names in exp.imgFileNamesArr
+    var nImgStillUnassigned,vn=[]; // vn: vector of numbers.
+    var randNodeVecTmp=[];
+    var randNodesVec=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
 
     // check if the images array already exists. If it does, return it in an array .
     // If it doesn't, return -1
     exp.imgFileNamesArr = checkIfSubjectMapExists(exp.subjectId);
-    // If images array does not exist, create it (randomely assign images files to G.nodes - i.e. the emissions matrix)
     if (exp.imgFileNamesArr[0]==-1){ // does not exists
+      // If images array does not exist, create it (randomely assign images files to G.nodes - i.e. the emissions matrix)
       exp.imgFileNamesArr=[];
-      for (j1=0; j1<exp.maxNumNodes;j1++){
-        nn = nn-1;
-        nodeNum = j1+1;
+      for (j1=1;j1<=exp.nImgsInDir;j1++){
+        randNodeVecTmp.push(j1); // randNodeVecTmp is a vector 1:exp.nImgsInDir
+      }
+      nImgStillUnassigned = exp.nImgsInDir;// exp.nImgsInDir is the number of pictures in the directory
+      // sample without replacement indeces for pictures, store in randNodesVec
+      for (j1=0;j1<=exp.maxNumNodes;j1++){ // exp.maxNumNodes is the length of the largest map of the experiment
+        // get a random index between 1 and exp.nImgsInDir, and populate randNodesVec with it
+        np0 = Math.floor(Math.random() * (nImgStillUnassigned));
+        randNodesVec.push(randNodeVecTmp[np0]);
+        // discard the used random index
+        randNodeVecTmp.splice(np0, 1);
+        nImgStillUnassigned = nImgStillUnassigned-1;
+      }
+      // populate exp.imgFileNamesArr with img file names corresponding to randNodesVec
+      for (j2=0; j2<exp.maxNumNodes;j2++){
+        nodeNum = j2+1;
         nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
-        imgFileName = "pic" + vn1[j1].toString() + ".jpg"
+        imgFileName = "pic" + randNodesVec[j2].toString() + ".jpg"
         exp.imgFileNamesArr.push(imgFileName);
-        // save to SQL. vn1[j1] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
+        // save to SQL. randNodesVec[j2] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
         save2imagesFilesTable(imgFileName,nodeStr); // in ajaxFunctions.js
-        // discard the number already used
-        vn.splice(np0, 1);
       }
     }
-    if (vn.length>0){ // Alon: I don't really understand why you need to do this - you don't use vn again.
-      clear1dArr(vn);
-    }
-
     save2subjectDetailsAndStartTimeTable();
 
     /* change display */
     document.getElementById("startDiv").style.display="none";
-    document.getElementsByClassName("globalInstructions")[0].style.display="inline";
+    document.getElementById("globalInstructions").style.display="inline";
     document.getElementById("startTaskButton").style.display="inline";
-    document.getElementsByClassName("endTask")[0].style.display="none";
-    document.getElementById("picT").style.display="inline";
-    document.getElementById("targetPic").innerHTML="your target is:<br> ";
   }
 
   function checkIfSubjectMapExists(){
@@ -424,10 +409,8 @@
 
     var maxRunsPerTask = maxArr(runNumOfLastTrialSaved2table); // this is where the subject stopped
 
-    /* change display*/
-    document.getElementsByClassName("isMiddle")[0].style.display="none"; // hide isMiddle html elements
-    document.getElementsByClassName("navig")[0].style.display="none"; // hide navigation task html elements
-    document.getElementsByClassName("globalInstructions")[0].style.display="none"; // hide global instructions html elements
+    // hide previous tab
+    document.getElementById("globalInstructions").style.display="none"; // hide global instructions html elements
 
     // if there are no completed trials of learnRandomWalk yet, start intiialise variables and start learnRandomWalk task.
     // this is what will usually happen when a subject first starts the experiment.
@@ -512,8 +495,8 @@
   }
   function chooseNewRunLearningTaskOrEndExp(){ // formerly called chooseCoverStaff
     // Stop display of previous part
-    document.getElementsByClassName("whichIsCloser")[0].style.display="none";
-    document.getElementsByClassName("whichIsCloser_feedback")[0].style.display="none";
+    document.getElementById("whichIsCloser").style.display="none";
+    document.getElementById("whichIsCloser_feedback").style.display="none";
     document.getElementById("Qfeedback").style.display="none";
     // increase run number (whichIsCloser is the last task in each run)
     exp.curRun = exp.curRun + 1

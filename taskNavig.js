@@ -19,6 +19,8 @@ function startNavigTask(dS){ // formerly called startTask
   flagT = 1;
   flagTr=1;//can get an answer
   nRunsNavig = nRunsNavig+1;
+  document.getElementById("picT").style.display="inline";
+  document.getElementById("targetPic").innerHTML="your target is:<br> ";
   document.getElementsByClassName("isMiddle")[0].style.display="none";
   document.getElementsByClassName("pileDiv")[0].style.display="none";
   document.getElementById("skip").style.display="inline";
