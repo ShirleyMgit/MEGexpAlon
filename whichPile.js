@@ -17,21 +17,30 @@ function whichPile(){// piles task
 	// B. the target is connected to one of the piles by a missing link.
 
 	// here the target cannot appear in any pile
-	document.getElementById("enter2continueMsg_pile").style.display="none"
 	pileObj.targetNode = -1;
 
 	/* manage display*/
-	document.getElementById("pileDiv").style.display="block";
+	document.getElementById("pilesTab").style.display="block";
 	document.getElementById("enter2continueMsg_pile").style.dispaly="none";
 	document.getElementById("isCorrectMsg_pile").style.display= "none";
-	document.getElementById("pile1Img1").style.display="none";
-	document.getElementById("pile1Img2").style.display="none";
-	document.getElementById("pile1Img3").style.display="none";
-	document.getElementById("pile1Img4").style.display="none";
-	document.getElementById("pile2Img1").style.display="none";
-	document.getElementById("pile2Img2").style.display="none";
-	document.getElementById("pile2Img3").style.display="none";
-	document.getElementById("pile2Img4").style.display="none";
+
+	// display empty piles
+	document.getElementById("pile1Img1").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile1Img2").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile1Img3").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile1Img4").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile2Img1").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile2Img2").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile2Img3").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile2Img4").src="/MEG/images/whitePic.jpg";
+	document.getElementById("pile1Img1").style.display="inline";
+	document.getElementById("pile1Img2").style.display="inline";
+	document.getElementById("pile1Img3").style.display="inline";
+	document.getElementById("pile1Img4").style.display="inline";
+	document.getElementById("pile2Img1").style.display="inline";
+	document.getElementById("pile2Img2").style.display="inline";
+	document.getElementById("pile2Img3").style.display="inline";
+	document.getElementById("pile2Img4").style.display="inline";
 
 	pileObj.trial = pileObj.trial+1;// count trials
 
@@ -58,12 +67,6 @@ function whichPile(){// piles task
 	pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
 	pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
 
-	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];//the first picture 1 pile
-	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];//the first picture 2 pile
-
-	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];//the 2 picture 1 pile
-	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];//the 2 picture 2 pile
-
 
 	// Alon: CHECK THIS WHILE LOOP WORKS CORRECTLY!
 	//  this while loop is for checking that the last image in the two piles is
@@ -83,12 +86,8 @@ function whichPile(){// piles task
 		}
 	}
 
-	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];//the 3 picture 1 pile
-	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];//the 3 picture 2 pile
 	var pile1all = [pileObj.pile1Img1,pileObj.pile1Img2,pileObj.pile1Img3];
 	var pile2all = [pileObj.pile2Img1,pileObj.pile2Img2,pileObj.pile2Img3];
-	document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";
-	document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";
 
 	// Randomly choose if the correct answer will be pile1 or pile2, and then find a suitable target node for the that pile.
 	// a suitable target is a neighbour of the third image of the the pile which is
@@ -111,14 +110,36 @@ function whichPile(){// piles task
 		document.getElementById("pileTarget").src=exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];
 
 		/* display images in piles*/
-		setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline"; }, 500);
-		setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";}, 1200);
-		setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline"; }, 1900);
-		setTimeout(function(){ document.getElementById("pile1Img4").style.display="inline";}, 2800);
-		setTimeout(function(){ document.getElementById("pile2Img1").style.display="inline"; }, 3500);
-		setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";}, 4200);
-		setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline"; }, 4900);
-		setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";}, 5900);
+
+
+		//the 3 picture 1 pile
+		//the 3 picture 2 pile
+
+
+
+
+		setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline";
+		document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];},500);
+		setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";
+		document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];}, 1200);
+		setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline";
+		document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];},
+	 	1900);
+		setTimeout(function(){ document.getElementById("pile1Img4").style.display="inline";
+		document.getElementById("pile1Img4").src = "/MEG/images/questionMark.jpeg"},
+		2800);
+		setTimeout(function(){ document.getElementById("pile2Img1").style.display="inline";
+		document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];},
+		3500);
+		setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";
+		document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];},
+		4200);
+		setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline";
+		document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];},
+	 	4900);
+		setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";
+		document.getElementById("pile2Img4").src = "/MEG/images/questionMark.jpeg"},
+		5900);
 
 		thisLast=new Date();
 	}

@@ -99,23 +99,29 @@
 
     <!--pile task-->
 
-    <div id="pileDiv" class="tab">
+    <div id="pilesTab" class="tab">
       <p id="pileIns">The following card will appear in one of the 2 piles,<br> it can appear in the pile if it is associated to the last card that appears on the pile. <br>A card cannot appear twice on the same pile.<br> Can the card appear on the first or second pile? (click 1, 2 or 3 for both)</p>
       <img id="pileTarget">
-      <center><div><p id="isCorrectMsg_pile" style="position:relative; bottom:60px; left:200px;"></p><p id="enter2continueMsg_pile" style="position:relative; bottom:40px; left:70px; font-size:14px;">press ENTER to continoue</p></div></center>
-      <div id="pile1" align="center">
-        <img id="pile1Img1"><p></p>
-        <img id="pile1Img2"><p></p>
-        <img id="pile1Img3"><p></p>
-        <img id="pile1Img4">
+      <div id="pilesImgsDiv">
+        <div id="pile1">
+          <p class="pileName">Pile 1</p>
+          <img id="pile1Img1"><p></p>
+          <img id="pile1Img2"><p></p>
+          <img id="pile1Img3"><p></p>
+          <img id="pile1Img4">
+        </div>
+        <div id="pile2">
+          <p class="pileName">Pile 2</p>
+          <img id="pile2Img1"><p></p>
+          <img id="pile2Img2"><p></p>
+          <img id="pile2Img3"><p></p>
+          <img id="pile2Img4">
+        </div>
       </div>
-      <div id="pile2" align="center">
-        <img id="pile2Img1"><p></p>
-        <img id="pile2Img2"><p></p>
-        <img id="pile2Img3"><p></p>
-        <img id="pile2Img4">
+      <div align="center">
+        <p id="isCorrectMsg_pile" ></p>
+        <p id="enter2continueMsg_pile">press ENTER to continue</p>
       </div>
-      <p id="enter2continueMsg_pile" style="position:absolute; bottom:200px; left:200px;" >press <b>Enter<b> to continue</p>
     </div>
 
       <!--is middle task-->
