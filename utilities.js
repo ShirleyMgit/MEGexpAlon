@@ -1,14 +1,4 @@
 /* other functions*/
-// for each new cluster a function that calculates the distace should be added
-
-function clear1dArr(inputAr){// clear array
-	var len = inputAr.length;
-	var jn;
-	for (jn=0;jn<len;jn++){
-		inputAr.pop();
-	}
-	return inputAr;
-}
 
 function maxArr(points){//find maximum of array
 	points.sort(function(a, b){return a - b});
@@ -72,13 +62,6 @@ function calResponseTime(thisTimef,lastTime){
 function myTimeout(a){
 }
 
-function clearCanvas(myCanvas,x,y){
-	var ctx = myCanvas.getContext("2d");
-	ctx.globalCompositeOperation = 'destination-out';
-	ctx.beginPath();
-	ctx.clearRect(0, 0, x, y);
-	ctx.fill();
-}
 
 function checkKeyT(e) {// subject key choice to functions responses
 	if (e.keyCode == '13'&&flagIsM==-1&&flagSp==2&&flagSs==-1&&flagQ==1){//enter
@@ -123,21 +106,6 @@ function checkKeyT(e) {// subject key choice to functions responses
 		if (e.keyCode == '13'&&flagIsM==-1&&flagSs==1&&flagSp==2){
 			flagSs=0;
 			dispPic();
-		}
-	}
-
-	if(flagSp==0&&e.keyCode=='13'&&flagIsM==-1){// for piles task
-		whichPile(0);
-	}
-	if(flagSp==1&&flagIsM==-1&&flagTr==1){
-		if(e.keyCode=='49'){
-			whichPileAns(1);
-		}
-		if(e.keyCode=='50'){
-			whichPileAns(2);
-		}
-		if(e.keyCode=='51'){
-			whichPileAns(3);
 		}
 	}
 }

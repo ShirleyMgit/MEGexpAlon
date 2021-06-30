@@ -85,7 +85,6 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
 
 /* end learnRandomWalk task part*/
 function endAllTrials_learnRandomWalk(){
-  corR=0;
   document.getElementById("learnRandomWalk").style.display="none";
   pileObj.trial = 1; // initialise Piles task to trial 1
   whichPile();

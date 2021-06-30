@@ -21,7 +21,7 @@ $rt = stripslashes(htmlspecialchars($_POST['rt']));
 // prepare SQL statement
 $stmt = $db->prepare("INSERT INTO learnRandomWalkTable (subjectId, run, map, trial, node,imgFile, rt) VALUE(?,?,?,?,?,?,?)");//I also insert the time
 // bind parameters to statement
-$stmt->bind_param("siiiiis", $subjectId, $run,$map,$trial,$node,$imgFile,$rt);//s=string, i=integer, d=double
+$stmt->bind_param("siiiiid", $subjectId, $run,$map,$trial,$node,$imgFile,$rt);//s=string, i=integer, d=double
 // execute statement (save row to table)
 $stmt->execute();
 $err = $stmt->errno ;

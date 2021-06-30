@@ -119,7 +119,6 @@
         </div>
       </div>
       <div align="center">
-        <p id="isCorrectMsg_pile" ></p>
         <p id="enter2continueMsg_pile">press ENTER to continue</p>
       </div>
     </div>
@@ -208,6 +207,7 @@
   // completed x, exp.curRun = x+1. Starts counting from 1, not 0.
   exp.curRun = 0;
   exp.mapsVec = [0,0,0,0,1,1,1,1,2,2,2,2,2,2,2]; //defines the map of each run, 0&1 training, 2 - inference
+  exp.missLinkMapNum = 2; // the map where we start using missing links.
   exp.maxRun = exp.mapsVec.length;
   exp.curMap = -1; // current map
   exp.maxMap = 3; // number of maps
@@ -234,6 +234,8 @@
 
   let pileObj = new partObj
   pileObj.maxTrial = 15;
+  // number of missing link trials (only relevant for late runs)
+  pileObj.nMissLinkTrials = 2
 
   let middleObj = new partObj
   let navigObj = new partObj
@@ -270,9 +272,7 @@
   var presntFile;
   /*general parameters*/
   var sz = 20;//cycle size
-  var flagC=0,y = 425,dy=0.9*sz;//cirlce height
-  var x = -5,dx=sz*2+5;
-  var y0 = y;//intial hight for the cycles
+  var flagC=0
   var nSD = 2;//number of trials in which distance is given
   var nstruct = 2;//number of different map with the same structure
   var nnT;//which structure should be used
@@ -453,7 +453,7 @@
           chooseNewRunLearningTaskOrEndExp(0) // 0 is for starting from trial 0.
         }
       } else if (runNumOfLastTrialSaved2table[3]==maxRunsPerTask){ // last recorded trial was of Navigation task
-        if(exp.curRun<9){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
+        if (exp.mapsVec[exp.curRun]!=exp.missLinkMapNum){ // Navigation task only happens in the first 8 runs because from run 9 onwards we only learn from pairs and selected piles.
           cds = TaskdS(exp.subjectId); // TaskdS: find the last initial distnace in navigation task.
           if (cds == maxdS){ // is navigation taks has completed, go to whichIsCloser task.
             numQ=0;
@@ -472,9 +472,9 @@
         if(nrep<maxIsM){ // if isItMiddle was not completed, start from the last trial
           isItMiddle(0); //***** Alon: what is the 0 here? shouldn't it be nrep (num of trials completed)? in the function it's called "nn"
         } else { // itMiddle was completed go to the next task
-          if(exp.curRun<9){
+          if (exp.mapsVec[exp.curRun]!=exp.missLinkMapNum { // using the full transMat, no missing links
             startNavigTask(2);
-          }else{
+          }else{ // there are missing links
             startWhichIsCloser(0);
           }
         }
@@ -489,10 +489,10 @@
         }
       } else if(runNumOfLastTrialSaved2table[0]==maxRunsPerTask) { // last recorded trial was of learning task
         exp.totalScore=getScore("whichIsCloserTable"); // there's no score change in the learning phase so get score from the last task of the previous run
-        if (exp.curRun>8) {
+        if (exp.mapsVec[exp.curRun]==exp.missLinkMapNum) { // with missing links
           thisTC = getTrialNumFromTable("learnRandomPairsTable");
           learnRandomPairsTask(thisTC);// learning from pairs
-        } else {
+        } else { // no missing links
           thisTC = getTrialNumFromTable("learnRandomWalkTable");
           learnRandomWalkTask(thisTC); //learning from random walk (consecutive pairs)
         }
@@ -509,12 +509,12 @@
 
     if (exp.curRun>exp.maxRun){ // end experiment
       document.getElementById("endThanksT").innerHTML = "Thank you,Experiment Finished";
-    } else if (exp.curRun>8 && exp.curRun<=exp.maxRun){ // inference (late) runs - learn from random pairs, not from a walk on graph
-      lrnPrsObj.trial = 1;
-      learnRandomPairsTask(); // early runs - learn from a random walk on the G.
-    } else if (exp.curRun<9){
+    } else if (exp.mapsVec[exp.curRun]!=exp.missLinkMapNum){ // early runs - learn from a random walk on the G.
       lrnWlkObj.trial = 1; // start from trial number 1.
       learnRandomWalkTask();
+    } else       // inference (late) runs - learn from random pairs, not from a walk on graph
+      lrnPrsObj.trial = 1;
+      learnRandomPairsTask();
     }
   }
 

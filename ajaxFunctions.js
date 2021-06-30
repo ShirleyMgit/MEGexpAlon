@@ -64,50 +64,6 @@ function getScore(tableName){// check the number of points that was earned until
 	return score;
 }
 
-function calCorQ(tableName,name){// sum over the number of correct answers as save in the column 'isCorr'
-	var sumCor=0;
-	var j;
-	var xhttp;
-	xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var myData = JSON.parse(this.responseText);
-			var len = myData.length;
-			if (len>0){
-				for(j=0;j<len;j++){
-					sumCor+=Number(myData[j].isCorr);
-				}
-			}
-		}
-	};
-	xhttp.open("GET", "findIscor.php?tableN="+tableName+"&Fname="+name+"&run="+exp.curRun, false);
-	xhttp.send();
-	return sumCor;
-}
-
-
-function TaskdS(name){// check what was the initial distance between initial picture and target in the last time participant played the navigation task
-	var cds;
-	var xhttp;
-	var tableName = "navigTable";
-	xhttp = new XMLHttpRequest();
-	xhttp.onreadystatechange = function() {
-		if (this.readyState == 4 && this.status == 200) {
-			var myData = JSON.parse(this.responseText);
-			var len = myData.length;
-			if (len>0){
-				cds = Number(myData[len-1]);
-			}else{
-				cds=0;
-			}
-		}
-	};
-	xhttp.open("GET", "find_dSnewWB.php?tableN="+tableName+"&Fname="+name, false);
-	xhttp.send();
-
-	return cds;
-}
-
 /*save variable into sql table*/
 function save2imagesFilesTable(imgFileName,nodeNumber){ // save in sql table
 	$.ajax({
@@ -167,6 +123,25 @@ function save2learnRandomPairTable(subjectId,Tnum,npic1,npic2,rt,c,TableName){
 	return ans;
 }
 
+
+function save2pilesTable(){//inMv12,cim1,cim2,prC
+	$.ajax({
+		type:'POST',
+		url: 'save2pilesTable.php',//'save2pileTable.php',
+		data: {subjectId: exp.subjectId, run: exp.curRun, map:exp.curMap, trial:pileObj.trial,
+    pile1Img1:pileObj.pile1Img1,pile1Img2:pileObj.pile1Img2,pile1Img3:pileObj.pile1Img3,
+		pile2Img1:pileObj.pile2Img1,pile2Img2:pileObj.pile2Img2,pile2Img3:pileObj.pile2Img3,
+		targetNode: pileObj.targetNode,response: pileObj.response,correctPile: pileObj.correctPile, answeredCorrectly: pileObj.answeredCorrectly,
+		totalScore: exp.totalScore,rt:pileObj.rt); // save data into the piles table in sql
+
+			cPile:corP,isO:isinOther,inQ:inPisP,wP:wP,RT:RTp,totalScore:exp.totalScore},
+		async: false,
+		dataType:'json',
+		success: function(ans) {
+		}
+	});
+}
+
 function save2navigTable(Tchoice,fnGood,fnGoodInD,corTask,RTt){//inMv12,cim1,cim2,prC: save things into task table
 	$.ajax({
 		type:'POST',
@@ -203,14 +178,47 @@ function save2isMiddleTable(nrep,RTm,corA){
 	});
 }
 
-function save2isInPileTable(corP,RTp){//inMv12,cim1,cim2,prC
-	$.ajax({
-		type:'POST',
-		url: 'save2isInPileTable.php',//'save2pileTable.php',
-		data: {name: subjectId, run: exp.curRun,map:exp.curMap,nP:thisT,cPile:corP,isO:isinOther,in11:inPp11,in12:inPp12,in13:inPp13,in21:inPp21,in22:inPp22,in23:inPp23,inQ:inPisP,wP:wP,RT:RTp,totalScore:exp.totalScore},
-		async: false,
-		dataType:'json',
-		success: function(ans) {
+
+function calCorQ(tableName,name){// sum over the number of correct answers as save in the column 'isCorr'
+	var sumCor=0;
+	var j;
+	var xhttp;
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var myData = JSON.parse(this.responseText);
+			var len = myData.length;
+			if (len>0){
+				for(j=0;j<len;j++){
+					sumCor+=Number(myData[j].isCorr);
+				}
+			}
 		}
-	});
+	};
+	xhttp.open("GET", "findIscor.php?tableN="+tableName+"&Fname="+name+"&run="+exp.curRun, false);
+	xhttp.send();
+	return sumCor;
+}
+
+
+function TaskdS(name){// check what was the initial distance between initial picture and target in the last time participant played the navigation task
+	var cds;
+	var xhttp;
+	var tableName = "navigTable";
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			var myData = JSON.parse(this.responseText);
+			var len = myData.length;
+			if (len>0){
+				cds = Number(myData[len-1]);
+			}else{
+				cds=0;
+			}
+		}
+	};
+	xhttp.open("GET", "find_dSnewWB.php?tableN="+tableName+"&Fname="+name, false);
+	xhttp.send();
+
+	return cds;
 }

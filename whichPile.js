@@ -1,4 +1,25 @@
-function whichPile(){// piles task
+function pilesTask(){
+	// set the (local) transition matrix to work with from the global G obj - either the full or missing links matrix.
+	var transMat, i;
+	pileObj.missLinkTrials = []
+	if (exp.mapsVec[exp.curRun]!=exp.missLinkMapNum){ // early runs
+		transMat = G.transMat;
+	}else{ // late runs - choose trials that will have a missing link
+		transMat = G.transMatMiss;
+		// keep track of which missing link nodes have already been used in missing link
+		// trials - to make sure we don'tsample the same missing link twice.
+		pileObj.missLinkNodes = G.nodesWithMIssLink;
+		pileObj.whichLinkIsMiss = G.whichLinkIsMiss;
+		// choose trials to probe missing links
+		for (i=0;i<=pileObj.nMissLinkTrials;i++){
+			pileObj.missLinkTrials.push(Math.floor(Math.random() * pileObj.maxTrial))
+		}
+
+	}
+}
+
+
+function pilesTrial(){// piles task
 
 	// *** *** change so that:
 	// 1. have an option of "no pile is correct"
@@ -16,13 +37,24 @@ function whichPile(){// piles task
 	// This is what find4thNodeOfPile does.
 	// B. the target is connected to one of the piles by a missing link.
 
-	// here the target cannot appear in any pile
+	// initialise
+
+	pileObj.trial = pileObj.trial+1; // count trials
+
 	pileObj.targetNode = -1;
+	pileObj.pile1Img1 = "";
+	pileObj.pile1Img2 = "";
+	pileObj.pile1Img3 = "";
+	pileObj.pile1Img4 = "";
+	pileObj.pile2Img1 = "";
+	pileObj.pile2Img2 = "";
+	pileObj.pile2Img3 = "";
+	pileObj.pile2Img4 = "";
+
 
 	/* manage display*/
 	document.getElementById("pilesTab").style.display="block";
 	document.getElementById("enter2continueMsg_pile").style.dispaly="none";
-	document.getElementById("isCorrectMsg_pile").style.display= "none";
 
 	// display empty piles
 	document.getElementById("pile1Img1").src="/MEG/images/whitePic.jpg";
@@ -42,172 +74,182 @@ function whichPile(){// piles task
 	document.getElementById("pile2Img3").style.display="inline";
 	document.getElementById("pile2Img4").style.display="inline";
 
-	pileObj.trial = pileObj.trial+1;// count trials
-
-	// set the (local) transition matrix to work with from the global G obj - either the full or missing links matrix.
-	var transMat;
-	if (exp.curRun<9){
-		transMat = G.transMat;
-	}else{
-		transMat = G.transMatMiss;
-	}
-
 	/* build piles (sequences of nodes)*/
 
-	// Randomely sample the first node of each pile
-	pileObj.pile1Img1 = Math.floor(Math.random() * (G.nNodes));
-	pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
-	// ensure first nodes of both piles are not the same
-	while(pileObj.pile1Img1==pileObj.pile2Img1){
-		pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
-	}
+	// if we are in trials where we use missing links (only in the late runs)
+	if (pileObj.missLinkTrials.includes(pileObj.trial)){
+		pileObj.curTrialIsMissLink = true;
+		// choose target - must be a node with a missing links
+		var indOfTargetInMissLinkNodes = Math.floor(Math.random() * (pileObj.missLinkNodesToUse.length))
+		pileObj.targetNode = pileObj.missLinkNodes[indOfTargetInMissLinkNodes]
 
-	pileObj.pile1Img2=findRandNghbr(transMat,pileObj.pile1Img1);
-	pileObj.pile2Img2=findRandNghbr(transMat,pileObj.pile2Img1);
-	pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
-	pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
+		// choose which pile will be correct - which pile will have a node with missing link
+		if(Math.random()<0.5){ // pile 1 is correct
+			pileObj.correctPile = 1;
+			// 3rd image in pile must be the one connected with a missing link to target
+			pileObj.pile1Img3 = pileObj.whichLinkIsMiss[indOfTargetInMissLinkNodes][0]
+			pileObj.pile1Img2=findRandNghbr(transMat,pileObj.pile1Img3);
+			pileObj.pile1Img1=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img3);
 
+			pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
+			// ensure first nodes of both piles are not the same
+			while(pileObj.pile1Img1==pileObj.pile2Img1){
+				pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
+			}
+			pileObj.pile2Img2=findRandNghbr(transMat,pileObj.pile2Img1);
 
-	// Alon: CHECK THIS WHILE LOOP WORKS CORRECTLY!
-	//  this while loop is for checking that the last image in the two piles is
-	// not the same. If it is, sample another image from the neighbours of (one of the piles's) second
-	// image. if there isn't another neighbour of the second image in both piles, start over to sample new piles.
-	while (pileObj.pile2Img3==pileObj.pile1Img3){
-		if (transMat[pileObj.pile2Img2].length>1){
+			// ensure 3rd image in the non-target pile is not connected on the full graph to the target
 			pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
-		}else{
-			if (transMat[pileObj.pile1Img2].length>1){
-				pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
+			while (G.transmat[pileObj.targetNode].includes(pileObj.pile2Img3)){
+				pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
+			}
+		}	else { // all as before except switching pile 1 and pile 2
+			pileObj.curTrialIsMissLink = false;
+			pileObj.correctPile = 2;
+			// 3rd image in pile must be the one connected with a missing link to target
+			pileObj.pile2Img3 = pileObj.whichLinkIsMiss[indOfTargetInMissLinkNodes][0]
+			pileObj.pile2Img2=findRandNghbr(transMat,pileObj.pile2Img3);
+			pileObj.pile2Img1=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img3);
 
-			}else{
-				pileObj.trial=pileObj.trial-1;
-				whichPile();
+			pileObj.pile1Img1 = Math.floor(Math.random() * (G.nNodes));
+			// ensure first nodes of both piles are not the same
+			while(pileObj.pile2Img1==pileObj.pile1Img1){
+				pileObj.pile1Img1 = Math.floor(Math.random() * (G.nNodes));
+			}
+			pileObj.pile1Img2=findRandNghbr(transMat,pileObj.pile1Img1);
+
+			// ensure 3rd image in the non-target pile is not connected on the full graph to the target
+			pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
+			while (G.transmat[pileObj.targetNode].includes(pileObj.pile1Img3)){
+				pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
 			}
 		}
-	}
+		// don't use the same target node in the next missing link trials (note that the same link can be used - in the opposite direction)
+		pileObj.missLinkNodes.splice(indOfTargetInMissLinkNodes,1)
+		pileObj.whichLinkIsMiss.splice(indOfTargetInMissLinkNodes,1)
 
-	var pile1all = [pileObj.pile1Img1,pileObj.pile1Img2,pileObj.pile1Img3];
-	var pile2all = [pileObj.pile2Img1,pileObj.pile2Img2,pileObj.pile2Img3];
+		displayPiles();
 
-	// Randomly choose if the correct answer will be pile1 or pile2, and then find a suitable target node for the that pile.
-	// a suitable target is a neighbour of the third image of the the pile which is
-	// 1. not in any of the piles; 2. not connected on the full graph to the other pile
-	if(Math.random()<0.5){
-		pileObj.targetNode=find4thNodeOfPile(transMat,pile1all,pile2all,G.distMat);
-		pileObj.correctPile = 1;
-	}else{
-		pileObj.targetNode=find4thNodeOfPile(transMat,pile2all,pile1all,G.distMat);
-		pileObj.correctPile = 2;
+	// all other trials (most trials - no missing links)
+	} else {
+		// Randomely sample the first node of each pile
+		pileObj.pile1Img1 = Math.floor(Math.random() * (G.nNodes));
+		pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
+		// ensure first nodes of both piles are not the same
+		while(pileObj.pile1Img1==pileObj.pile2Img1){
+			pileObj.pile2Img1 = Math.floor(Math.random() * (G.nNodes));
+		}
 
-	}
-
-	//  if didn't manage to find suitable target node, run again to find new piles and target
-	if (pileObj.targetNode==-1){
-		pileObj.trial=pileObj.trial-1;
-		whichPile();
-	}else{
-		// display target image
-		document.getElementById("pileTarget").src=exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];
-
-		/* display images in piles*/
+		pileObj.pile1Img2=findRandNghbr(transMat,pileObj.pile1Img1);
+		pileObj.pile2Img2=findRandNghbr(transMat,pileObj.pile2Img1);
+		pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
+		pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
 
 
-		//the 3 picture 1 pile
-		//the 3 picture 2 pile
+		//  this while loop is for checking that the last image in the two piles is
+		// not the same. If it is, sample another image from the neighbours of (one of the piles's) second
+		// image. if there isn't another neighbour of the second image in both piles, start over to sample new piles.
+		while (pileObj.pile2Img3==pileObj.pile1Img3){
+			if (transMat[pileObj.pile2Img2].length>1){
+				pileObj.pile2Img3=findRandNghbrExcept(transMat,pileObj.pile2Img2,pileObj.pile2Img1);
+			}else{
+				if (transMat[pileObj.pile1Img2].length>1){
+					pileObj.pile1Img3=findRandNghbrExcept(transMat,pileObj.pile1Img2,pileObj.pile1Img1);
 
+				}else{
+					pileObj.trial=pileObj.trial-1;
+					pilesTrial();
+				}
+			}
+		}
 
+		var pile1all = [pileObj.pile1Img1,pileObj.pile1Img2,pileObj.pile1Img3];
+		var pile2all = [pileObj.pile2Img1,pileObj.pile2Img2,pileObj.pile2Img3];
 
+		// Randomly choose if the correct answer will be pile1 or pile2, and then find a suitable target node for the that pile.
+		// a suitable target is a neighbour of the third image of the the pile which is
+		// 1. not in any of the piles; 2. not connected on the full graph to the other pile
+		if(Math.random()<0.5){
+			pileObj.targetNode=find4thNodeOfPile(transMat,pile1all,pile2all,G.distMat);
+			pileObj.correctPile = 1;
+		}else{
+			pileObj.targetNode=find4thNodeOfPile(transMat,pile2all,pile1all,G.distMat);
+			pileObj.correctPile = 2;
 
-		setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline";
-		document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];},500);
-		setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";
-		document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];}, 1200);
-		setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline";
-		document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];},
-	 	1900);
-		setTimeout(function(){ document.getElementById("pile1Img4").style.display="inline";
-		document.getElementById("pile1Img4").src = "/MEG/images/questionMark.jpeg"},
-		2800);
-		setTimeout(function(){ document.getElementById("pile2Img1").style.display="inline";
-		document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];},
-		3500);
-		setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";
-		document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];},
-		4200);
-		setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline";
-		document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];},
-	 	4900);
-		setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";
-		document.getElementById("pile2Img4").src = "/MEG/images/questionMark.jpeg"},
-		5900);
+		}
 
-		thisLast=new Date();
+		//  if didn't manage to find suitable target node, run again to find new piles and target
+		if (pileObj.targetNode==-1){
+			pileObj.trial=pileObj.trial-1;
+			pilesTrial();
+		}else{
+			displayPiles();
+		}
 	}
 }
 
-function whichPileAns(ansP){// check particpants answer
-	var corP;
-	var  trialime=new Date();
-	var RTp=calResponseTime(trialime,thisLast);
-	document.getElementById("enter2continueMsg_pile").style.dispaly="inline";
-	if(ansP==pileObj.correctPile){
-		ncoinT = ncoinT+1;
-		ncoin = ncoin+1;
-		document.getElementById("isCorrectMsg_pile").style.color= "blue";
-		document.getElementById("isCorrectMsg_pile").innerHTML = "Correct!";
-		corP = 1;
-		if (flagC==0){
-			plotCircle(document.getElementById("myCanvas"),y,"blue",x);
-		}else{
-			replotCircle(document.getElementById("myCanvas"),y,x);
-		}
-		y = y-dy;
+function displayPiles(){
+	// display target image
+	document.getElementById("pileTarget").src=exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];
 
-	}else{
-		if (ncoinT>0){
-			y = y+dy;
-			ncoinT = ncoinT-1;
-		}
+	/* display images in piles*/
+	setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline";
+	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];},500);
+	setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";
+	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];}, 1200);
+	setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline";
+	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];},
+	1900);
+	setTimeout(function(){ document.getElementById("pile1Img4").style.display="inline";
+	document.getElementById("pile1Img4").src = "/MEG/images/questionMark.jpeg"},
+	2800);
+	setTimeout(function(){ document.getElementById("pile2Img1").style.display="inline";
+	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];},
+	3500);
+	setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";
+	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];},
+	4200);
+	setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline";
+	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];},
+	4900);
+	setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";
+	document.getElementById("pile2Img4").src = "/MEG/images/questionMark.jpeg"},
+	5900);
 
-		ncoin = ncoin-1;
-		document.getElementById("isCorrectMsg_pile").style.color= "red";
-		document.getElementById("isCorrectMsg_pile").innerHTML = "NOT Correct!";
-		clearCircle(document.getElementById("myCanvas"),y,x);
-		ncolCrc = ncolCrc-1;
-		corP = 0;
+	pileObj.lastImgPresentTime = new Date();
+	document.onkeydown = checkKey_piles;
+}
+
+function conExp_piles(ans){// check particpants answer
+	pileObj.response = ans;
+	var  buttonPressTime = new Date();
+	pileObj.rt = calResponseTime(buttonPressTime,pileObj.lastImgPresentTime);
+	if(ans==pileObj.correctPile){
+		pileObj.answeredCorrectly = 1;
+	} else {
+		pileObj.answeredCorrectly = 0;
 	}
-	document.getElementById("ncoinP").style.display="inline";
-	document.getElementById("ncoinP").innerHTML=ncoin+" coins";
-	if(y<=0){
-		x = x+dx;
-		y = y0;
-	}
-	if(y>y0&&ncolCrc>1){
-		x = x-dx;
-		y = 0;
-	}
-	document.getElementById("isCorrectMsg_pile").style.display= "inline";
-	if (pileObj.correctPile==1){// put the picture in the correct pile
-		document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture 1 pile
-		document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";;//the 4 picture 1 pile
-	}else{
-		if(pileObj.correctPile==2){
-			document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";//the 4 picture 1 pile
-			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture 2 pile
-		}else{
-			document.getElementById("pile1Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture both pile
-			document.getElementById("pile2Img4").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];//the 4 picture both pile
-		}
-	}
+
 	document.getElementById("enter2continueMsg_pile").style.display="inline"
-	save2pileTable(corP,RTp);// save data into the piles table in sql
-	flagSp = 0;
+	save2pileTable(); // save data into the piles table in sql
 	if (pileObj.trial>=pileObj.maxTrial){// if the number of trials exceeded the maximum per block move to next part
-		writeRresSp();
+		isItMiddle(1);
 	}
 }
 
-function writeRresSp(){// move to is it in the middle part
-	flagSp=2;
-	isItMiddle(1);
+
+/////////// Alon: need to sort this!!
+function checkKey_piles(e){}
+	if(e.keyCode=='13'){// for piles task
+		pilesTrial();
+	}
+	if(e.keyCode=='48'){
+		conExp_piles(0);
+	}
+	if(e.keyCode=='49'){
+		conExp_piles(1);
+	}
+	if(e.keyCode=='50'){
+		conExp_piles(2);
+	}
 }
