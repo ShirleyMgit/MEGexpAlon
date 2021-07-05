@@ -1,7 +1,9 @@
 function defineGraph(){// create transition structures and define pictures set
+	// show "please wait" message
+	document.getElementById("retrieveExpDet").style.display="inline";
+
 	switch(exp.curMap){//structure
 		case(0):
-			exp.pathToImgDir = "/MEG/images/set1reg/"; // pictures directory
 			G.nCol = 6;
 			G.nRow = 6;
 			G.nNodes=G.nCol*G.nRow; // previously called np
@@ -10,20 +12,23 @@ function defineGraph(){// create transition structures and define pictures set
 			G.nCol = 5;
 			G.nRow = 5;
 			G.nNodes=G.nCol*G.nRow;
-			exp.pathToImgDir = "/MEG/images/set2reg/"; // pictures directory
 		break;
 		case(2):
 			G.nCol = 4;
 			G.nRow = 4;
 			G.nNodes=G.nCol*G.nRow;
-			exp.pathToImgDir = "/MEG/images/set3reg/"; // pictures directory
 			/* missing links staff*/
 			G.nodesWithMissLink = [1,5,7,11,9,10]; // missing links nodes. Previously called vnmis.
 			G.whichLinkIsMiss = [[5],[1],[11],[7],[10],[9]]; // the other nodes on the missing links/edges - corresponds to G.nodesWithMIssLink
 		break;
 	}
-	createAr();// create the transition matrix in 'typeAr' structural form
+	createTransMat();// create the transition matrix in 'typeAr' structural form
 	G.distMat = calDistAdjMat(G.transMat);// calculate distance matrix
+
+	// initialise emission matrix - which nodes correspond to which stimuli
+	initEmissionMat()
+
+	document.getElementById("retrieveExpDet").style.display="none";
 }
 
 
@@ -104,24 +109,21 @@ function calDistAdjMat(transMat){
 }
 
 
-function createAr(){
+function createTransMat(){
 	/* create transition matrix according to structural form (typeAr)*/
 	/* maxCov is the number of pictures in eacah plock of the learning phase*/
 	switch(G.arrayType){
+		case("recA"):
+			G.transMat=createTransMatRect();
+		break;
 		case("HexA"):
-			G.nNghbrs = 6;// number of neibours
 			G.transMat=createHexNonPer();// non periodic Hexagonal structure
 		break;
 		case("clA"):
-			G.nNghbrs = 6;// number of neibours
 			G.transMat=createA2Acluster(G.nNodes,nc);// community structure
 		break;
-		case("recA"):
-			G.nNghbrs = 4; // number of neighbours
-			G.transMat=createTransMatRect();
-		break;
 	}
-	if(exp.curMap==2){
+	if(exp.curMap==exp.missLinkMapNum){
 		G.transMatMiss = deleteMissLinks(G.transMat,G.nodesWithMissLink,G.whichLinkIsMiss); // Still need to write a function for the missing links questions (whichIsCloser)
 		G.distMatMiss = calDistAdjMat(G.transMatMiss);
 	}
@@ -249,4 +251,75 @@ function deleteMissLinks(transMat,nodesWithMissLink,whichLinkIsMiss){// general 
     }
   }
   return transMatMiss;
+}
+
+
+// if needed, initialise exp.imgFileNamesArr
+function initEmissionMat() {
+	var j1,j2;
+	var nodeStr, imgFileName, nodeNum; // nodeStr will be the names of the columns in SQL table ("node" + nodeNum), storing the file names of images in their order in he current G. their tags are the indeces of the file names in exp.imgFileNamesArr
+	var nImgStillUnassigned,vn=[]; // vn: vector of numbers.
+	var randNodeVecTmp=[];
+	var randNodesVec=[]; // this will be a vector with the filename numbers of images (e.g. 11 for the image of the file pic11.jpeg), in a random order
+
+	// check if the images array already exists. If it does, return it in an array .
+	// If it doesn't, return -1
+	exp.pathToImgDir="/MEG/images/set" + exp.curMap.toString() + "/";
+	exp.imgFileNamesArr = checkIfSubjectMapExists();
+	if (exp.imgFileNamesArr[0]==-1){ // does not exists
+		// If images array does not exist, create it (randomely assign images files to G.nodes - i.e. the emissions matrix)
+		exp.imgFileNamesArr=[];
+		for (j1=1;j1<=exp.nImgsInDir;j1++){
+			randNodeVecTmp.push(j1); // randNodeVecTmp is a vector 1:exp.nImgsInDir
+		}
+		nImgStillUnassigned = exp.nImgsInDir;// exp.nImgsInDir is the number of pictures in the directory
+		// sample without replacement indeces for pictures, store in randNodesVec
+		for (j1=0;j1<=exp.maxNumNodes;j1++){ // exp.maxNumNodes is the length of the largest map of the experiment
+			// get a random index between 1 and exp.nImgsInDir, and populate randNodesVec with it
+			np0 = Math.floor(Math.random() * (nImgStillUnassigned));
+			randNodesVec.push(randNodeVecTmp[np0]);
+			// discard the used random index
+			randNodeVecTmp.splice(np0, 1);
+			nImgStillUnassigned = nImgStillUnassigned-1;
+		}
+		// initialise string to build mySQL command
+		var sqlStr1 = "INSERT INTO imagesFilesTable (subjectId, map";
+		var sqlStr2 = "VALUES " + "('" + exp.subjectId + "', " + exp.curMap.toString();
+		// populate exp.imgFileNamesArr with img file names corresponding to randNodesVec
+		for (j2=0; j2<exp.maxNumNodes;j2++){
+			nodeNum = j2+1;
+			nodeStr = "node" + nodeNum; // these will be the names of the columns in the SQL table, where the img files will be filled.
+			imgFileName = "pic" + randNodesVec[j2].toString() + ".jpg"
+			exp.imgFileNamesArr.push(imgFileName);
+			sqlStr1 = sqlStr1 + ", " + nodeStr;
+			sqlStr2 = sqlStr2 + ", '" + imgFileName + "'"
+		}
+		var sqlStr = sqlStr1 + ") " + sqlStr2 + ")";
+		// save to SQL. randNodesVec[j2] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
+		save2imagesFilesTable(sqlStr); // in ajaxFunctions.js
+	}
+}
+
+function checkIfSubjectMapExists(){
+	var map=[]; // map is an array mapping image files to node numbers - exp.imgFileNamesArr
+	var j;
+	var xhttp;
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			// if map exists, it is returned in a JSON str. if not, an empty str is returned.
+			var data = JSON.parse(this.responseText);
+			if(data.length==0){ //if map does not exist
+				map[0]=-1;
+			}else{ // if exists, build map array
+				// loop through images. Start at 1 because the first column in data[0] is subjectId.
+				for(j=1;j<=exp.maxNumNodes;j++){
+					map[j-1]=data[0][j]; // data[0] is a single row of SQL table, j indexes it.
+				}
+			}
+		}
+	};
+	xhttp.open("GET", "checkIfSubjectMapExists.php?subjectId=" + exp.subjectId + "&&map=" + exp.curMap, false);
+	xhttp.send();
+	return map;
 }

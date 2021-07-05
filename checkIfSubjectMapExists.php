@@ -14,9 +14,10 @@ if ($conn->connect_error) {
 
 mysqli_select_db($conn,"alonbara_meg");
 //input:
-$subjectId = $_GET['q'];
+$subjectId = $_GET['subjectId'];
+$map = $_GET['map'];
 
-$sql = "SELECT * FROM imagesFilesTable WHERE subjectId = '$subjectId'";
+$sql = "SELECT * FROM imagesFilesTable WHERE subjectId = '$subjectId' AND map=$map";
 
 $result = mysqli_query($conn,$sql);
 

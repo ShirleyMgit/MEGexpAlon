@@ -14,14 +14,16 @@ $subjectId = stripslashes(htmlspecialchars($_POST['subjectId']));
 $run = stripslashes(htmlspecialchars($_POST['run']));
 $map = stripslashes(htmlspecialchars($_POST['map']));
 $trial = stripslashes(htmlspecialchars($_POST['trial']));
-$node = stripslashes(htmlspecialchars($_POST['node']));
-$imgFile = stripslashes(htmlspecialchars($_POST['imgFile']));
+$nodeNumImgOld= stripslashes(htmlspecialchars($_POST['nodeNumImgOld']));
+$imgFileOld= stripslashes(htmlspecialchars($_POST['imgFileOld']));
+$nodeNumImgNew= stripslashes(htmlspecialchars($_POST['nodeNumImgNew']));
+$imgFileNew= stripslashes(htmlspecialchars($_POST['imgFileNew']));
 $rt = stripslashes(htmlspecialchars($_POST['rt']));
 
 // prepare SQL statement
-$stmt = $db->prepare("INSERT INTO learnRandomWalkTable (subjectId, run, map, trial, node,imgFile, rt) VALUE(?,?,?,?,?,?,?)");//I also insert the time
+$stmt = $db->prepare("INSERT INTO learnRandomWalkTable (subjectId, run, map, trial, nodeNumImgOld, imgFileOld, nodeNumImgNew, imgFileNew, rt) VALUE(?,?,?,?,?,?,?,?,?)");//I also insert the time
 // bind parameters to statement
-$stmt->bind_param("siiiiid", $subjectId, $run,$map,$trial,$node,$imgFile,$rt);//s=string, i=integer, d=double
+$stmt->bind_param("siiiisisd", $subjectId, $run,$map,$trial,$nodeNumImgOld,$imgFileOld,$nodeNumImgNew,$imgFileNew,$rt);//s=string, i=integer, d=double
 // execute statement (save row to table)
 $stmt->execute();
 $err = $stmt->errno ;

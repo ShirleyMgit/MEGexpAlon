@@ -10,13 +10,11 @@ if (mysqli_connect_errno()) {
   exit();
 }
 //for security reasons we remove slashes from the inputs
-$Fname = stripslashes(htmlspecialchars($_POST['subjectId']));
-$hour = stripslashes(htmlspecialchars($_POST['tc']));
-$day= stripslashes(htmlspecialchars($_POST['dc']));
-$month= stripslashes(htmlspecialchars($_POST['mc']));
+$subjectId = stripslashes(htmlspecialchars($_POST['subjectId']));
+$d = stripslashes(htmlspecialchars($_POST['d']));
 
-$stmt = $db->prepare("INSERT INTO subjectDetailsAndStartTimeTable (subjectId, hour, day, month) VALUE(?,?,?,?)");// I also insert the hour (note I call it hur - time is a reserved keyword!)
-$stmt->bind_param("siii", $Fname,$hour,$day,$month);//s=string, i=integer, d=double
+$stmt = $db->prepare("INSERT INTO subjectDetailsAndStartTimeTable (subjectId, d) VALUE(?,?)");// I also insert the timeStr (note I call it hur - time is a reserved keyword!)
+$stmt->bind_param("ss", $subjectId,$d);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(

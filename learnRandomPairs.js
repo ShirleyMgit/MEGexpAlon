@@ -75,5 +75,5 @@ function endAllTrials_learnRandomPairs(){
 
   allLearnRandomPair.style.display="none";
   pileObj.trial = 1; // initialise Piles task to trial 1
-  whichPile();
+  initPilesTask();
 }

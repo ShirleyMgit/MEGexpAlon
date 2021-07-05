@@ -65,28 +65,28 @@ function getScore(tableName){// check the number of points that was earned until
 }
 
 /*save variable into sql table*/
-function save2imagesFilesTable(imgFileName,nodeNumber){ // save in sql table
-	$.ajax({
-		type:'POST',
-		url: 'save2imagesFilesTable.php',
-		data: {subjectId: exp.subjectId, imgFileName: imgFileName, nodeNumber:nodeNumber},
-		async: false,
-		dataType:'json'
-	});
+function save2imagesFilesTable(sqlStr){ // save in sql table
+	console.log("ajaxFunctions: " + sqlStr)
+	var xhttp;
+	xhttp = new XMLHttpRequest();
+	xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			 console.log("xhttp:" + this.responseText);
+		}
+	};
+	xhttp.open("POST", "save2imagesFilesTable.php", true);
+	xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	xhttp.send("sqlStr="+sqlStr);
 }
 
+
 function save2subjectDetailsAndStartTimeTable(){//
-	var d1 = new Date();
-	var m = d1.getMonth()+1;
-	var dd = d1.getDate();//it was getDat()+1 until12/4/17 and was chaged to getDate
-	var h = d1.getHours()+1;
-	var min = d1.getMinutes()+1;
-	var t = h*60+min;
+	var d = new Date();
 	$.ajax({
 		type:'POST',
 		url: 'save2subjectDetailsAndStartTimeTable.php',
-		data: {subjectId:exp.subjectId,tc:t,dc:dd,mc:m},
-		async: false,
+		data: {subjectId:exp.subjectId,d:d},
+		async: true,
 		dataType:'json',
 		success: function() {
 		}
@@ -94,13 +94,14 @@ function save2subjectDetailsAndStartTimeTable(){//
 
 }
 
-function save2learnRandomWalkTable(subjectId, run, map, trial, node, imgFile, rt){// previously -  saveDataDBnotU: save to cover table
+function save2learnRandomWalkTable(subjectId, run, map, trial, nodeNumImgOld, imgFileOld, nodeNumImgNew, imgFileNew, rt){// previously -  saveDataDBnotU: save to cover table
 	var ans=-1;
 	$.ajax({
 		type:'POST',
 		url: 'save2learnRandomWalkTable.php',
-		data: {subjectId: subjectId, run:run, map:map, trial:trial, node:node, imgFile:imgFile, rt:rt},
-		async: false,
+		data: {subjectId: subjectId, run:run, map:map, trial:trial, nodeNumImgOld:nodeNumImgOld, imgFileOld:imgFileOld,
+			nodeNumImgNew:nodeNumImgNew, imgFileNew:imgFileNew, rt:rt},
+		async: true,
 		dataType:'json',
 		success: function(ans) {
 		}
@@ -115,7 +116,7 @@ function save2learnRandomPairTable(subjectId,Tnum,npic1,npic2,rt,c,TableName){
 		type:'POST',
 		url: 'save2learnRandomPairs.php',
 		data: {name: subjectId, run: Tnum,map:exp.curMap,picN1:npic1,picN2:npic2,RTv:rt,tableN:TableName},
-		async: false,
+		async: true,
 		dataType:'json',
 		success: function(ans) {
 		}
@@ -132,10 +133,8 @@ function save2pilesTable(){//inMv12,cim1,cim2,prC
     pile1Img1:pileObj.pile1Img1,pile1Img2:pileObj.pile1Img2,pile1Img3:pileObj.pile1Img3,
 		pile2Img1:pileObj.pile2Img1,pile2Img2:pileObj.pile2Img2,pile2Img3:pileObj.pile2Img3,
 		targetNode: pileObj.targetNode,response: pileObj.response,correctPile: pileObj.correctPile, answeredCorrectly: pileObj.answeredCorrectly,
-		totalScore: exp.totalScore,rt:pileObj.rt); // save data into the piles table in sql
-
-			cPile:corP,isO:isinOther,inQ:inPisP,wP:wP,RT:RTp,totalScore:exp.totalScore},
-		async: false,
+		totalScore: exp.totalScore,rt:pileObj.rt}, // save data into the piles table in sql
+		async: true,
 		dataType:'json',
 		success: function(ans) {
 		}

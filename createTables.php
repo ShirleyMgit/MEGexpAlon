@@ -15,6 +15,7 @@ if ($conn->connect_error) {
 // sql to create table imagesFilesTable
 $sql = "CREATE TABLE imagesFilesTable (
   subjectId TEXT,
+  map INT,
   node1 TEXT,
   node2 TEXT,
   node3 TEXT,
@@ -76,10 +77,7 @@ if ($conn->query($sql) === TRUE) {
 // sql to create table subjectDetailsAndStartTimeTable
 $sql = "CREATE TABLE subjectDetailsAndStartTimeTable (
   subjectId TEXT,
-  hour INT,
-  day INT,
-  month INT
-
+  d TEXT
 )";
 
 if ($conn->query($sql) === TRUE) {
@@ -95,10 +93,11 @@ $sql = "CREATE TABLE learnRandomWalkTable (
   run INT,
   map INT,
   trial INT,
-  node INT,
-  imgFile TEXT,
+  nodeNumImgOld INT,
+  imgFileOld TEXT,
+  nodeNumImgNew INT,
+  imgFileNew TEXT,
   rt FLOAT(5,3)
-
 )";
 
 if ($conn->query($sql) === TRUE) {

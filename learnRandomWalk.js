@@ -49,7 +49,7 @@ function learnRandomWalkTask(){// learning phase
 */
 
   // set up first two images (different from the rest of pairs because the first image is blank)
-  lrnWlkObj.nodeNumImgOld = []
+  lrnWlkObj.nodeNumImgOld = -1;
   lrnWlkObj.nodeNumImgNew = Math.floor(Math.random() * (G.nNodes-1)); //first image index // G.nNodes is size of map (number of states/nodes)
   document.getElementById("lrnWlk_imgNew").src = exp.pathToImgDir + exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew];// first image
   document.getElementById("lrnWlk_imgOld").src = exp.pathToImgDir + '../whitePic.jpg' // first "old" image
@@ -68,7 +68,7 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
   var buttonPressTime = new Date();
   var rt = calResponseTime(buttonPressTime,lrnWlkObj.imgPresentTime);// response time
   // save to sql table
-  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, lrnWlkObj.trial,lrnWlkObj.nodeNumImgOld,lrnWlkObj.nodeNumImgNew,exp.imgFileNamesArr[lrnWlkObj.nodeNumImg1],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
+  save2learnRandomWalkTable(exp.subjectId,exp.curRun, exp.curMap, lrnWlkObj.trial,lrnWlkObj.nodeNumImgOld,exp.imgFileNamesArr[lrnWlkObj.nodeNumImgOld],lrnWlkObj.nodeNumImgNew,exp.imgFileNamesArr[lrnWlkObj.nodeNumImgNew],rt);// save data into table in sql -  I don't have 'cor' as I have deleted it - can clean more
   //increase trial. increase after saving because we initialised at trial 1
   lrnWlkObj.trial = lrnWlkObj.trial+1;
   lrnWlkObj.nodeNumImgOld = lrnWlkObj.nodeNumImgNew;
@@ -87,5 +87,5 @@ function conExp_learnWalk(){// continue experiment: check subject response time 
 function endAllTrials_learnRandomWalk(){
   document.getElementById("learnRandomWalk").style.display="none";
   pileObj.trial = 1; // initialise Piles task to trial 1
-  whichPile();
+  initPilesTask();
 }
