@@ -123,12 +123,13 @@ $sql = "CREATE TABLE pilesTable (
   response INT,
   correctPile INT,
   answeredCorrectly INT,
+  runScore INT,
   totalScore INT,
   rt FLOAT(5,3)
 )";
 
 if ($conn->query($sql) === TRUE) {
-  echo "Table learnRandomWalkTable created successfully";
+  echo "Table pilesTable created successfully";
 } else {
   echo "Error creating table: " . $conn->error;
 }

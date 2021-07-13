@@ -4,50 +4,6 @@ function learnRandomWalkTask(){// learning phase
   document.onkeydown = checkKey_learnWalk; // Alon: moved this from "clearCanvas". not sure why there's no () at the end, but left it as it was.
   document.getElementById("learnRandomWalk").style.display="inline";
 
-/*
-  // Alon: change all this so that it'll be one map per day. On day 3 have a map with missing links.
-
-  if(exp.curRun>(exp.maxRun)){
-    document.getElementById("newM").style.color="blue";
-    document.getElementById("newM").innerHTML="new pictures set <br> experiment ended - thanks!";
-  }
-
-  document.getElementById("newM").style.color="green";
-  document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
-
-  //if(exp.curMap!=exp.lastMap&&exp.lastMap!=-1){
-  if(exp.curMap!=exp.lastMap){
-
-    document.getElementById("newM").style.color="red";
-    document.getElementById("newM").innerHTML="new pictures set <br> take few minutes to rest";
-
-    switch(exp.curRun){// display new/same picture sets message
-      case 9:
-      document.getElementById("newM").style.color="Blue";
-      document.getElementById("newM").innerHTML="new pictures set <br> End Day 1";
-      break;
-      case 17:
-      document.getElementById("newM").style.color="Blue";
-      document.getElementById("newM").innerHTML="new pictures set <br> End Day 2";
-      break;
-      case 25:
-      document.getElementById("newM").style.color="Blue";
-      document.getElementById("newM").innerHTML="new pictures set <br> End Day 3";
-      break;
-      case 33:
-      document.getElementById("newM").style.color="Blue";
-      document.getElementById("newM").innerHTML="new pictures set <br> End Day 3";
-      break;
-      default:
-      document.getElementById("newM").style.color="red";
-      document.getElementById("newM").innerHTML="new pictures set <br> take few minutes to rest";
-    }
-  }else{
-    document.getElementById("newM").style.color="green";
-    document.getElementById("newM").innerHTML="Same pictures set, same game - new trial";
-  }
-*/
-
   // set up first two images (different from the rest of pairs because the first image is blank)
   lrnWlkObj.nodeNumImgOld = -1;
   lrnWlkObj.nodeNumImgNew = Math.floor(Math.random() * (G.nNodes-1)); //first image index // G.nNodes is size of map (number of states/nodes)

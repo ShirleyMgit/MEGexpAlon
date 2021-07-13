@@ -31,19 +31,32 @@ img {
 }
 
 button {
-  background-color: #5733FF;
   color: #ffffff;
   border: none;
-  padding: 5px 5px;
   min-width: 120px;
-  margin: 2px 2px;
-  font-size: 17px;
+  margin: 20px 2px;
+  font-size: 20px;
   font-family: Raleway;
   cursor: pointer;
 }
 
 button:hover {
   opacity: 0.8;
+}
+
+.buttonAnswer {
+  background-color: #0276FD;
+  padding: 5px 5px;
+}
+
+.buttonNextTrial {
+  background-color: #50C878;
+  padding: 10px 10px;
+}
+
+.buttonNextGame {
+  background-color: #C70039;
+  padding: 20px 20px;
 }
 
 .wrapper {
@@ -57,6 +70,10 @@ button:hover {
 
 .center {
   text-align: center;
+}
+.score {
+  font-size: 28px;
+  color: #C70039
 }
 div.qBut{
   display: inline-block;
@@ -102,7 +119,6 @@ div.endTask{
   height: 100px;
   border: 5px solid gray;
   right: 120px;
-  top: 20px;
 }
 
 
@@ -151,7 +167,7 @@ div.endTask{
 
 .pileName {
   padding-left: 20px;
-  font-family: Cursive;  
+  font-family: Cursive;
 }
 
 #pile1{

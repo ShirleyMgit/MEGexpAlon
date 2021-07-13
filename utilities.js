@@ -132,3 +132,18 @@ function multiplyMatrices(m1, m2) {//Not My Code
 	}
 	return result;
 }
+
+function preloadImages(imageArray) {
+	// counter
+	var i = 0;
+	// create object
+	var images = new Array();
+
+	// preload
+	for(i=0; i<imageArray.length; i++)
+	{
+		images[i] = new Image();
+		images[i].src = exp.pathToImgDir + imageArray[i];
+	}
+	console.log("preloaded images")
+}

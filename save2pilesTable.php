@@ -22,11 +22,12 @@ $targetNode = stripslashes(htmlspecialchars($_POST['targetNode']));
 $response= stripslashes(htmlspecialchars($_POST['response']));
 $correctPile = stripslashes(htmlspecialchars($_POST['correctPile']));
 $answeredCorrectly = stripslashes(htmlspecialchars($_POST['answeredCorrectly']));
+$runScore = stripslashes(htmlspecialchars($_POST['runScore']));
 $totalScore = stripslashes(htmlspecialchars($_POST['totalScore']));
 $rt = stripslashes(htmlspecialchars($_POST['rt']));
 
 $stmt = $db->prepare("INSERT INTO pilesTable VALUE(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");//I also insert the time
-$stmt->bind_param("siiiiiiiiiiiiiid", $subjectId,$run,$map,$trial,$pic11,$pic12,$pic13,$pic21,$pic22,$pic23,$targetNode,$response,$correctPile,$answeredCorrectly,$totalScore,$rt);//s=string, i=integer, d=double
+$stmt->bind_param("siiiiiiiiiiiiiiid", $subjectId,$run,$map,$trial,$pic11,$pic12,$pic13,$pic21,$pic22,$pic23,$targetNode,$response,$correctPile,$answeredCorrectly,$runScore,$totalScore,$rt);//s=string, i=integer, d=double
 $stmt->execute();
 $err = $stmt->errno ;
 $data[] = array(

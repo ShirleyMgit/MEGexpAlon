@@ -1,6 +1,5 @@
 function defineGraph(){// create transition structures and define pictures set
 	// show "please wait" message
-	document.getElementById("retrieveExpDet").style.display="inline";
 
 	switch(exp.curMap){//structure
 		case(0):
@@ -27,8 +26,6 @@ function defineGraph(){// create transition structures and define pictures set
 
 	// initialise emission matrix - which nodes correspond to which stimuli
 	initEmissionMat()
-
-	document.getElementById("retrieveExpDet").style.display="none";
 }
 
 
@@ -207,46 +204,43 @@ function createTransMatRect() { // previously called createArect
 
 
 function deleteMissLinks(transMat,nodesWithMissLink,whichLinkIsMiss){// general function to introduce missing link
-  // vmis: the nodes that have missink links
-  // vCmiss: the nodes that are connected to the nodes in vmis which their link should be deleted
-  var s=0,b,iNode,iMissNode,k,flag,flag2;
+  var iNode,iMissNode,iOrigNghbr,k,iNghbrNotMiss,flag,flag2;
 	var nNghbrs, nNghbrsOrigAr; // number of neighbours of a node, after/before deleteing missing links
   var transMatMiss=[[]];
   for(iNode=0;iNode<G.nNodes;iNode++){ // go over nodes/states
-    flag =0;
-    for(iMissNode=s;iMissNode<nodesWithMissLink.length;iMissNode++){
-      if(iNode==nodesWithMissLink[iMissNode]){
-        flag = 1;
-        s = iMissNode;
-        break;
-      }
-    }
-    nNghbrsOrigAr = transMat[iNode].length;// number of neighbours in the original array
-    if (flag==0){// no missing link - copy neighbours
-      nNghbrs = nNghbrsOrigAr;
-      transMatMiss[iNode].push( new Array(nNghbrs));
-      for (j=0;j<nNghbrs;j++){
-        transMatMiss[iNode][j] = transMat[iNode][j];
-      }
-    }else{// there are missing links
-      nNghbrs = nNghbrsOrigAr-whichLinkIsMiss[c].length;
-      transMatMiss[iNode].push( new Array(nNghbrs));
-      b=0;
-      for (j=0;j<nNghbrsOrigAr;j++){
-        flag2 = 0;
-        for(k=0;k<whichLinkIsMiss[iMissNode].length;k++){// check if node Arp[a][j] is a miising neighbour, if it is make flag2 equal 1
-          if (transMat[iNode][j]==whichLinkIsMiss[c][k]){
-            flag2 = 1;
-          }
-        }
-        if (flag2==0){// add the links that remain
-          transMatMiss[iNode][b] = transMat[iNode][j];
-          b = b+1;
-        }
-      }
-
-    }
-    if(iNode<G.nNodes-1){
+    flag=0;
+		for(iMissNode=0;iMissNode<nodesWithMissLink.length;iMissNode++){
+			// if current node is a node with missing link, flag and assign to "s" its index in "nodesWithMissLink"
+			if(iNode==nodesWithMissLink[iMissNode]){
+				flag = 1;
+				break;
+			}
+		}
+		nNghbrsOrigAr = transMat[iNode].length;// number of neighbours in the original array
+		if (flag==0){// node has no missing link - copy neighbours
+			nNghbrs = nNghbrsOrigAr;
+			transMatMiss[iNode].push( new Array(nNghbrs));
+			for (iOrigNghbr=0;iOrigNghbr<nNghbrs;iOrigNghbr++){
+				transMatMiss[iNode][iOrigNghbr] = transMat[iNode][iOrigNghbr];
+			}
+			// node has missing links
+		}else{
+			nNghbrs = nNghbrsOrigAr-whichLinkIsMiss[iMissNode].length;
+			transMatMiss[iNode].push( new Array(nNghbrs));
+			iNghbrNotMiss=0;
+			// loop over all neighbors of node (including missing links)
+			for (iOrigNghbr=0;iOrigNghbr<nNghbrsOrigAr;iOrigNghbr++){
+				// loop over missin links of node (unlikely there will be more than one, but keeping the function general)
+				for(k=0;k<whichLinkIsMiss[iMissNode].length;k++){
+					// only include neighbors from non-missing links in transMatMiss
+					if (transMat[iNode][iOrigNghbr]!=whichLinkIsMiss[iMissNode][k]){
+						transMatMiss[iNode][iNghbrNotMiss] = transMat[iNode][iOrigNghbr];
+						iNghbrNotMiss = iNghbrNotMiss+1;
+					}
+				}
+			}
+		}
+		if(iNode<G.nNodes-1){
       transMatMiss.push([]);
     }
   }
@@ -298,6 +292,9 @@ function initEmissionMat() {
 		// save to SQL. randNodesVec[j2] is the filenameTag saved in the images folders, e.g. "pic" + filenameTag + ".jpg"
 		save2imagesFilesTable(sqlStr); // in ajaxFunctions.js
 	}
+	//
+	preloadImages(exp.imgFileNamesArr)
+	preloadImages(["../questionMark.jpeg","../whitePic.jpg"])
 }
 
 function checkIfSubjectMapExists(){
@@ -312,9 +309,9 @@ function checkIfSubjectMapExists(){
 			if(data.length==0){ //if map does not exist
 				map[0]=-1;
 			}else{ // if exists, build map array
-				// loop through images. Start at 1 because the first column in data[0] is subjectId.
-				for(j=1;j<=exp.maxNumNodes;j++){
-					map[j-1]=data[0][j]; // data[0] is a single row of SQL table, j indexes it.
+				// loop through images.
+				for(j=0;j<exp.maxNumNodes;j++){
+					map[j]=data[0][j+2]; // data[0] is a single row of SQL table, j indexes it. Start columns at 2 because the first column in data[0] is subjectId and the second is map
 				}
 			}
 		}

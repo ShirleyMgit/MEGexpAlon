@@ -44,11 +44,7 @@
       <input type="text" id="subjectId" value="" ><br><br>
       <!--when pressing "click when ready to start", call initExp() [] which will look
       for tables for this subject, and if they don't exist, create them.-->
-      <button onclick="initExp()"><b>Click when ready to start</b></button>
-    </div>
-    <div id="retrieveExpDet" align="center" class="tab">
-      <h1>Building experiment - please wait</h1></br>
-      <p>This can take up to 20 seconds - please do not refresh the page!</p>
+      <button class="button buttonNextGame" onclick="initExp()"><b>Click when ready to start</b></button>
     </div>
 
     <!--task description:-->
@@ -64,7 +60,7 @@
         In each step you can lose/win coins. In some of the games you can see the coins you got on the right side of the screen.<br>
         Follow the instruction on each part of the game.
       </p>
-      <button type="button" id="startTaskButton" onclick="choosePart()">Start</button>
+      <button class="button buttonNextGame" id="startTaskButton" onclick="choosePart()">Start</button>
     </div>
 
     <!-- Passive learning from consecutive pairs of stimuli (random walk) -->
@@ -79,7 +75,7 @@
       <div id="lrnWlkImagesDiv" align="center">
         <img id="lrnWlk_imgOld"> <img id="lrnWlk_imgNew">
       </div>
-      <button type="button" id="endLearnWalkButton" align="center"
+      <button class="button buttonNextGame" id="endLearnWalkButton" align="center"
       onclick="endAllTrials_learnRandomWalk()">Next Part</button>
     </div>
 
@@ -94,10 +90,8 @@
       </div>
       <div>
         <p id="threeDots_learnRandomPairs">...</p>
-        <p id = "newMP"></p>
       </div>
     </div>
-
 
     <!--pile task-->
 
@@ -120,10 +114,24 @@
           <img id="pile2Img4">
         </div>
       </div>
-      <div align="center">
-        <p id="enter2continueMsg_pile">press ENTER to continue</p>
+      <div id="pilesButtonsDiv" align="center">
+        <button class="button buttonAnswer" id="buttonPile1" align="center" onclick="conExp_piles(1)">Pile 1</button>
+        <button class="button buttonAnswer" id="buttonPile0" align="center" onclick="conExp_piles(0)">Neither</button>
+        <button class="button buttonAnswer" id="buttonPile2" align="center" onclick="conExp_piles(2)">Pile 2</button>
+      </div>
+      <div id="pilesNextTrialDiv" align="center">
+        <p>Your answer was recorded.</p>
+        <button class="button buttonNextTrial" id="pilesNextTrialButton" onclick="pilesTrial()" align="center">Next trial</button>
       </div>
     </div>
+
+    <div id="pilesScoreTab" class="tab" align="center">
+        <h1>End of "Which Pile of cards?" game.</h1>
+        <p>In this game you have earned <span id="pilesRunScore" class="score"></span> out of <span id="pilesMaxScore" class="score"></span> points.</p>
+        <p>Your total score is <span id="totalScore" class="score"></span>.</p>
+        <button class="button buttonNextGame" id="endPilesButton" onclick="pilesNextGame()">Next game</button>
+    </div>
+
 
       <!--is middle task-->
       <div id="isMiddle" class="tab">
@@ -238,6 +246,8 @@
   pileObj.maxTrial = 15;
   // number of missing link trials (only relevant for late runs)
   pileObj.nMissLinkTrials = 2
+  // number of trials where the target is not connected to either pile.
+  pileObj.nNoRightAnsTrials = 2;
 
   let middleObj = new partObj
   let navigObj = new partObj
@@ -369,7 +379,6 @@
 
   }
 
-
   // Alon: check if can converge learnRandomWalkTable learnRandomPairsTable to one table
 
   function choosePart(){ // find the task's part in which particpants played with before taking a break. This is only called at the beginning of the session.
@@ -466,7 +475,6 @@
       learnRandomPairsTask();
     }
   }
-
 
 </script>
 

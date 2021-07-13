@@ -17,6 +17,7 @@ function findRandNghbrExcept(transMat,n1,n2){ // previously called detNextPicGen
 	return out;
 }
 
+
 function isAneighbor(transMat,n1,n2){
 	/*is n1 n2 neighbors? return 0 - not a neighbor or 1 - is a neibor*/
 	var iNghbrN1,isNghbr;
@@ -132,13 +133,27 @@ function find4thNodeOfPile(transMat,pileA,pileB,distFull){
 	return nA4;
 }
 
+function find4thNodeAwayFromPile(transMat,pileA,pileB){
+	var target = Math.floor(Math.random() * (G.nNodes));
+	var isNghbrPileANode3 = isAneighbor(transMat,pileA[2],target)
+	var isNghbrPileBNode3 = isAneighbor(transMat,pileB[2],target)
+	while (target==pileA[0] || target==pileA[1] || target==pileA[2] ||
+	target==pileB[0] || target==pileB[1] || target==pileB[2] ||
+	isNghbrPileANode3 || isNghbrPileBNode3 ) {
+		target = Math.floor(Math.random() * (G.nNodes));
+	}
+	return target
+}
+
+
+
 function findTargGen(dS,inP,distMat){
 	var Dinp = distMat[inP];
 	var DdS =[];
 	var j,lenS=0;
 	for(j=0;j<G.nNodes;j++){
 		if(Dinp[j]==dS){
-			DdS.push(j);
+			DdS.push(j); // all nodes with the wanted distance (dS) from inP
 			lenS = lenS+1;
 		}
 	}

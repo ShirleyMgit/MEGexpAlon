@@ -66,12 +66,11 @@ function getScore(tableName){// check the number of points that was earned until
 
 /*save variable into sql table*/
 function save2imagesFilesTable(sqlStr){ // save in sql table
-	console.log("ajaxFunctions: " + sqlStr)
 	var xhttp;
 	xhttp = new XMLHttpRequest();
 	xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			 console.log("xhttp:" + this.responseText);
+			 console.log("wrote new map:" + this.responseText);
 		}
 	};
 	xhttp.open("POST", "save2imagesFilesTable.php", true);
@@ -133,7 +132,7 @@ function save2pilesTable(){//inMv12,cim1,cim2,prC
     pile1Img1:pileObj.pile1Img1,pile1Img2:pileObj.pile1Img2,pile1Img3:pileObj.pile1Img3,
 		pile2Img1:pileObj.pile2Img1,pile2Img2:pileObj.pile2Img2,pile2Img3:pileObj.pile2Img3,
 		targetNode: pileObj.targetNode,response: pileObj.response,correctPile: pileObj.correctPile, answeredCorrectly: pileObj.answeredCorrectly,
-		totalScore: exp.totalScore,rt:pileObj.rt}, // save data into the piles table in sql
+		runScore:pileObj.runScore, totalScore: exp.totalScore,rt:pileObj.rt}, // save data into the piles table in sql
 		async: true,
 		dataType:'json',
 		success: function(ans) {

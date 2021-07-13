@@ -1,8 +1,18 @@
 function initPilesTask(){
-	// set the (local) transition matrix to work with from the global G obj - either the full or missing links matrix.
+	var i;
 
-	pileObj.missLinkTrials = []
+	pileObj.runScore = 0;
+
+	// choose trials where the target will not be connected to either pile.
+	pileObj.noRightAnsTrials = [];
+	for (i=0;i<pileObj.nNoRightAnsTrials;i++){
+		pileObj.noRightAnsTrials.push(Math.floor(Math.random() * pileObj.maxTrial))
+	}
+	pileObj.missLinkTrials = [];
+
+	// set the (local) transition matrix to work with from the global G obj - either the full or missing links matrix.
 	if (exp.mapsVec[exp.curRun]!=exp.missLinkMapNum){ // early runs
+		// transition matrix is the full matrix - no missing links
 		pileObj.transMat = G.transMat;
 	}else{ // late runs - choose trials that will have a missing link
 		pileObj.transMat = G.transMatMiss;
@@ -11,9 +21,16 @@ function initPilesTask(){
 		pileObj.missLinkNodes = G.nodesWithMIssLink;
 		pileObj.whichLinkIsMiss = G.whichLinkIsMiss;
 		// choose trials to probe missing links
-		var i;
+		var tmpMissLinkTrial // variable to store trial number - to check it hasn't been sampled yet
 		for (i=0;i<=pileObj.nMissLinkTrials;i++){
-			pileObj.missLinkTrials.push(Math.floor(Math.random() * pileObj.maxTrial))
+			// pick a random trial
+			tmpMissLinkTrial = Math.floor(Math.random() * pileObj.maxTrial)
+			// check this rtial hasn't yet been picked - either as a missing link
+			// trial or a noRightAns trial. If it was already picked, resample.
+			while (pileObj.missLinkTrials.includes(tmpMissLinkTrial) || pileObj.noRightAnsTrials.includes(tmpMissLinkTrial)) {
+				tmpMissLinkTrial = Math.floor(Math.random() * pileObj.maxTrial)
+			}
+			pileObj.missLinkTrials.push(tmpMissLinkTrial)
 		}
 
 	}
@@ -32,7 +49,7 @@ function pilesTrial(){// piles task
 	// the full graph, but ishould choose "no-pile" if they don't know,
 	// 5. Get rid of "both piles" option
 
-  // Things to think about when choosing the piles and target images:
+	// Things to think about when choosing the piles and target images:
 	// 1. There are two types of questions:
 	// A. no missing link questions are involved - need to check that the target is
 	// not in one of the piles and that it is not connected to the other pile on the full graph.
@@ -41,7 +58,7 @@ function pilesTrial(){// piles task
 
 	// initialise
 
-	pileObj.trial = pileObj.trial+1; // count trials
+	pileObj.answerAvailableFlag = false;
 
 	pileObj.targetNode = -1;
 	pileObj.pile1Img1 = "";
@@ -56,31 +73,24 @@ function pilesTrial(){// piles task
 
 	/* manage display*/
 	document.getElementById("pilesTab").style.display="block";
-	document.getElementById("enter2continueMsg_pile").style.dispaly="none";
+	document.getElementById("pilesButtonsDiv").style.display="none";
+	document.getElementById("pilesNextTrialDiv").style.display="none";
 
 	// display empty piles
-	document.getElementById("pile1Img1").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile1Img2").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile1Img3").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile1Img4").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile2Img1").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile2Img2").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile2Img3").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile2Img4").src="/MEG/images/whitePic.jpg";
-	document.getElementById("pile1Img1").style.display="inline";
-	document.getElementById("pile1Img2").style.display="inline";
-	document.getElementById("pile1Img3").style.display="inline";
-	document.getElementById("pile1Img4").style.display="inline";
-	document.getElementById("pile2Img1").style.display="inline";
-	document.getElementById("pile2Img2").style.display="inline";
-	document.getElementById("pile2Img3").style.display="inline";
-	document.getElementById("pile2Img4").style.display="inline";
+	document.getElementById("pile1Img1").style.visibility="hidden";
+	document.getElementById("pile1Img2").style.visibility="hidden";
+	document.getElementById("pile1Img3").style.visibility="hidden";
+	document.getElementById("pile1Img4").style.visibility="hidden";
+	document.getElementById("pile2Img1").style.visibility="hidden";
+	document.getElementById("pile2Img2").style.visibility="hidden";
+	document.getElementById("pile2Img3").style.visibility="hidden";
+	document.getElementById("pile2Img4").style.visibility="hidden";
+
 
 	/* build piles (sequences of nodes)*/
 
 	// if we are in trials where we use missing links (only in the late runs)
 	if (pileObj.missLinkTrials.includes(pileObj.trial)){
-		pileObj.curTrialIsMissLink = true;
 		// choose target - must be a node with a missing links
 		var indOfTargetInMissLinkNodes = Math.floor(Math.random() * (pileObj.missLinkNodesToUse.length))
 		pileObj.targetNode = pileObj.missLinkNodes[indOfTargetInMissLinkNodes]
@@ -106,7 +116,6 @@ function pilesTrial(){// piles task
 				pileObj.pile2Img3=findRandNghbrExcept(pileObj.transMat,pileObj.pile2Img2,pileObj.pile2Img1);
 			}
 		}	else { // all as before except switching pile 1 and pile 2
-			pileObj.curTrialIsMissLink = false;
 			pileObj.correctPile = 2;
 			// 3rd image in pile must be the one connected with a missing link to target
 			pileObj.pile2Img3 = pileObj.whichLinkIsMiss[indOfTargetInMissLinkNodes][0]
@@ -168,23 +177,31 @@ function pilesTrial(){// piles task
 		var pile1all = [pileObj.pile1Img1,pileObj.pile1Img2,pileObj.pile1Img3];
 		var pile2all = [pileObj.pile2Img1,pileObj.pile2Img2,pileObj.pile2Img3];
 
-		// Randomly choose if the correct answer will be pile1 or pile2, and then find a suitable target node for the that pile.
-		// a suitable target is a neighbour of the third image of the the pile which is
-		// 1. not in any of the piles; 2. not connected on the full graph to the other pile
-		if(Math.random()<0.5){
-			pileObj.targetNode=find4thNodeOfPile(pileObj.transMat,pile1all,pile2all,G.distMat);
-			pileObj.correctPile = 1;
-		}else{
-			pileObj.targetNode=find4thNodeOfPile(pileObj.transMat,pile2all,pile1all,G.distMat);
-			pileObj.correctPile = 2;
+		// find target (4th node)
 
+		// trials where the correct answer is "neither"
+		if (pileObj.noRightAnsTrials.includes(pileObj.trial)){
+			pileObj.correctPile = 0;
+			pileObj.targetNode=find4thNodeAwayFromPile(pileObj.transMat,pile1all,pile2all)
+
+			// all other trials
+		} else {
+			// Randomly choose if the correct answer will be pile1 or pile2, and then find a suitable target node for the that pile.
+			// a suitable target is a neighbour of the third image of the the pile which is
+			// 1. not in any of the piles; 2. not connected on the full graph to the other pile
+			if(Math.random()<0.5){
+				pileObj.targetNode=find4thNodeOfPile(pileObj.transMat,pile1all,pile2all,G.distMat);
+				pileObj.correctPile = 1;
+			}else{
+				pileObj.targetNode=find4thNodeOfPile(pileObj.transMat,pile2all,pile1all,G.distMat);
+				pileObj.correctPile = 2;
+			}
 		}
-
 		//  if didn't manage to find suitable target node, run again to find new piles and target
 		if (pileObj.targetNode==-1){
 			pileObj.trial=pileObj.trial-1;
 			pilesTrial();
-		}else{
+		} else {
 			displayPiles();
 		}
 	}
@@ -193,65 +210,80 @@ function pilesTrial(){// piles task
 function displayPiles(){
 	// display target image
 	document.getElementById("pileTarget").src=exp.pathToImgDir + exp.imgFileNamesArr[pileObj.targetNode];
+	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];
+	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];
+	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];
+	document.getElementById("pile1Img4").src = "/MEG/images/whitePic.jpg";
+	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];
+	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];
+	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];
+	document.getElementById("pile2Img4").src = "/MEG/images/whitePic.jpg";
 
 	/* display images in piles*/
-	setTimeout(function(){ document.getElementById("pile1Img1").style.display="inline";
-	document.getElementById("pile1Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img1];},500);
-	setTimeout(function(){ document.getElementById("pile1Img2").style.display="inline";
-	document.getElementById("pile1Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img2];}, 1200);
-	setTimeout(function(){ document.getElementById("pile1Img3").style.display="inline";
-	document.getElementById("pile1Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile1Img3];},
-	1900);
-	setTimeout(function(){ document.getElementById("pile1Img4").style.display="inline";
-	document.getElementById("pile1Img4").src = "/MEG/images/questionMark.jpeg"},
-	2800);
-	setTimeout(function(){ document.getElementById("pile2Img1").style.display="inline";
-	document.getElementById("pile2Img1").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img1];},
-	3500);
-	setTimeout(function(){ document.getElementById("pile2Img2").style.display="inline";
-	document.getElementById("pile2Img2").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img2];},
-	4200);
-	setTimeout(function(){ document.getElementById("pile2Img3").style.display="inline";
-	document.getElementById("pile2Img3").src = exp.pathToImgDir + exp.imgFileNamesArr[pileObj.pile2Img3];},
-	4900);
-	setTimeout(function(){ document.getElementById("pile2Img4").style.display="inline";
-	document.getElementById("pile2Img4").src = "/MEG/images/questionMark.jpeg"},
-	5900);
+	setTimeout(function(){
+		document.getElementById("pile1Img1").style.visibility="visible";},
+		1000);
+	setTimeout(function(){
+		document.getElementById("pile1Img2").style.visibility="visible";},
+		1600);
+	setTimeout(function(){
+		document.getElementById("pile1Img3").style.visibility="visible";},
+		2200);
+	setTimeout(function(){
+		document.getElementById("pile1Img4").style.visibility="visible";},
+		2800);
+	setTimeout(function(){
+		document.getElementById("pile2Img1").style.visibility="visible";},
+		3800);
+	setTimeout(function(){
+		document.getElementById("pile2Img2").style.visibility="visible";},
+		4400);
+	setTimeout(function(){
+		document.getElementById("pile2Img3").style.visibility="visible";},
+		5000);
+	setTimeout(function(){
+		document.getElementById("pile2Img4").style.visibility="visible";
+		answerAvailableFlag = true;},5600);
 
 	pileObj.lastImgPresentTime = new Date();
-	document.onkeydown = checkKey_piles;
+
+	setTimeout(function(){ document.getElementById("pilesButtonsDiv").style.display="block"},
+	7000);
 }
 
 function conExp_piles(ans){// check particpants answer
+	pileObj.trial = pileObj.trial+1; // count trials
+	document.getElementById("pilesButtonsDiv").style.display="none";
+	document.getElementById("pilesNextTrialDiv").style.display="inline";
 	pileObj.response = ans;
 	var  buttonPressTime = new Date();
 	pileObj.rt = calResponseTime(buttonPressTime,pileObj.lastImgPresentTime);
 	if(ans==pileObj.correctPile){
 		pileObj.answeredCorrectly = 1;
+		pileObj.runScore = pileObj.runScore+1;
 	} else {
 		pileObj.answeredCorrectly = 0;
 	}
 
-	document.getElementById("enter2continueMsg_pile").style.display="inline"
 	save2pilesTable(); // save data into the piles table in sql
 	if (pileObj.trial>=pileObj.maxTrial){// if the number of trials exceeded the maximum per block move to next part
-		isItMiddle(1);
+		endPilesTask()
 	}
 }
 
 
-/////////// Alon: need to sort this!!
-function checkKey_piles(e){
-	if(e.keyCode=='13'){// for piles task
-		pilesTrial();
-	}
-	if(e.keyCode=='48'){
-		conExp_piles(0);
-	}
-	if(e.keyCode=='49'){
-		conExp_piles(1);
-	}
-	if(e.keyCode=='50'){
-		conExp_piles(2);
-	}
+function endPilesTask (){
+	exp.totalScore = exp.totalScore + pileObj.runScore;
+	document.getElementById("pilesTab").style.display="none";
+	document.getElementById("pilesRunScore").innerHTML=pileObj.runScore;
+	document.getElementById("totalScore").innerHTML=exp.totalScore;
+		document.getElementById("pilesMaxScore").innerHTML=pileObj.maxTrial;
+	document.getElementById("pilesScoreTab").style.display="inline";
+
+	// from here participant will press the "Next Game" butotn to move to pilesNextGame
+}
+
+function pilesNextGame(){
+	document.getElementById("pilesScoreTab").style.display="none";
+	isItMiddle()
 }

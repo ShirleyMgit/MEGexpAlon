@@ -1,14 +1,12 @@
 /*navigation task functions*/
 
-
+// dS is the initial distance - 2,3,4 for each trial of navigation. Check
 function startNavigTask(dS){ // formerly called startTask
   setTimeout(function(){flagT=1}, 500);
   inLlast = -1;
   inRlast = -1;
   document.getElementById("conBot").disabled=true;
   ndS=dS;
-  y = y0;
-  x = 0;
   nthis = 0;
   clearCanvas(document.getElementById("myCanvas"),300,450);
   ncoinT=0;
@@ -52,9 +50,9 @@ function startNavigTask(dS){ // formerly called startTask
   var j1,j2;
   inP = Math.floor(Math.random() * (G.nNodes));//current picture index
   tar1 = findTargGen(dS,inP,G.distMat);//target picture index
-  nSt = G.distMat[tar1][inP];
+  nSt = G.distMat[tar1][inP]; // CURRENT distance between target and current Pic
 
-
+  // in the first run, showing them in each round what their current distance is, to explain the game
   if (exp.curRun==1){
     document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+dS;
   }else{
@@ -69,15 +67,15 @@ function startNavigTask(dS){ // formerly called startTask
   document.getElementById("currPt").src=exp.pathToImgDir + exp.imgFileNamesArr[inP];
 
   /* indexes cards/pictures to choose from*/
-  do{
-    in1L=findRandNghbr(Ar,inP);
-  }
-  while(in1L==tar1)
 
-  do{
-    in1R=findRandNghbr(Ar,inP);
-  }
-  while((in1L==in1R)||(in1R==tar1))
+  // change so to use findRandTwoNghbrs_exceptPreviousOptionsIfPossible to make sure
+  // in1L and in1R are not the same as target or in1
+
+  in1L=findRandNghbr(Ar,inP);
+  //
+  in1R=findRandNghbrExcept(Ar,inP,in1L);
+
+
 
   inLlast = in1L;
   inRlast = in1R;
@@ -93,6 +91,7 @@ function startNavigTask(dS){ // formerly called startTask
   timeLast = new Date();
 }
 
+// cpic is the choice
 function conExpT(cpic){// check subject choices
   flagTr=1;
   nthis= nthis+1;// number of current trial steps
@@ -120,11 +119,13 @@ function conExpT(cpic){// check subject choices
   nStR = G.distMat[tar1][in1R];// number of steps from the second choice
 
   LastnSt = nSt;
+
+  // how many available correct choices were there. Can delete this (calculate at analysis)
   if((nStR>LastnSt&&nStL>LastnSt)||(nStR<LastnSt&&nStL>=LastnSt)||(nStR>=LastnSt&&nStL<LastnSt)){
     nGood=1;
   }else{
     if(nStR==LastnSt&&nStL==LastnSt){
-      nGood=3;
+      nGood=3; // both choices and pressing enter were all good options.
     }else{
       nGood=2;
     }
@@ -158,6 +159,8 @@ function conExpT(cpic){// check subject choices
     document.getElementById("skip").style.display="none";
     document.getElementById("conBot").disabled=false;
     totalStep = totalStep +c;
+    // not sure need this return - they move toi the next trial using a button,
+    // this return is here just to make sure the current function doesn't do anything else.
     return;
   }
 
@@ -165,69 +168,28 @@ function conExpT(cpic){// check subject choices
   inRlast = in1R;
   [in1L,in1R]=findRandTwoNghbrs_exceptPreviousOptionsIfPossible(Ar,inP,inRlast,inLlast);//find next indexes for options
 
-  /* taking/adding coins (should appear just in the first block - otherwise they learn good and bed choices (- like a non-first order relation)*/
-  // Alon & Shirley: need to write something here for changing the score, in the meantime I commented out what was before
-  if((nSt<LastnSt)||(nSt==LastnSt&&nStR>LastnSt&&nStL>LastnSt)||(nStR>LastnSt&&nStL>LastnSt&&cpic==0)){//CHECKING IF IT WAS A GOOD CHOICE, staying at the same distance is a good choice if it is the only avialable choice
-    // ncoin = ncoin+1;
-    // ncoinT = ncoinT+1;
-    // corTask = 1;
-    // if (nthis<80){
-    //   if (flagC==0){
-    //     plotCircle(document.getElementById("myCanvas"),y,"blue",x);
-    //   }else{
-    //     replotCircle(document.getElementById("myCanvas"),y,x);
-    //   }
-    //   y = y-dy;
-    // }
 
+  // Alon & Shirley: need to write something here for displaying the score when we want it to be displayed. in the meantime it's commented out.
+
+
+  save2navigTable(Tchoice,nGood,-2,corTask,RTt);// save choces etc into the sql table
+  c = c+1;
+
+  var tlap = Math.floor((Math.random() * 1000) + 750);
+  setTimeout(myTimeout, tlap,3);
+
+  document.getElementById("chPic2").style.display="none";
+  document.getElementById("chPic1").style.display="none";
+  document.getElementById("chPic2").src = exp.pathToImgDir + exp.imgFileNamesArr[in1R];
+  document.getElementById("chPic1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1L];
+  if (exp.curRun==1){
+    document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
   }else{
-    //   if (ncoinT>0){
-    //     y = y+dy;
-    //     ncoinT = ncoinT-1;
-    //   }
-    //   ncoin = ncoin-1;
-    //   clearCircle(document.getElementById("myCanvas"),y,x);
-    //   ncolCrc = ncolCrc-1;
-    //   corTask = 0;
-    // }
-
-    // Alon & Shirley: need to write something here for displaying the score when we want it to be displayed. in the meantime it's commented out.
-    if (exp.curRun==1){
-      // document.getElementById("ncoinP").style.display="inline";
-      document.getElementById("myCanvas").style.display="inline"
-      // document.getElementById("ncoinP").innerHTML=ncoin+" coins";
-    }else{
-      // document.getElementById("ncoinP").style.display="none";
-      document.getElementById("myCanvas").style.display="none";
-    }
-    if(y<=0){
-      x = x+dx;
-      y = y0;
-    }
-    if(y>y0&&ncolCrc>1){
-      x = x-dx;
-      y = 0;
-    }
-    save2navigTable(Tchoice,nGood,-2,corTask,RTt);// save choces etc into the sql table
-    c = c+1;
-
-    var tlap = Math.floor((Math.random() * 1000) + 750);
-    setTimeout(myTimeout, tlap,3);
-
-    document.getElementById("chPic2").style.display="none";
-    document.getElementById("chPic1").style.display="none";
-    document.getElementById("chPic2").src = exp.pathToImgDir + exp.imgFileNamesArr[in1R];
-    document.getElementById("chPic1").src = exp.pathToImgDir + exp.imgFileNamesArr[in1L];
-    if (exp.curRun==1){
-      document.getElementById("startPic").innerHTML="Your current card:<br>number steps to target is: <b>"+nSt;
-    }else{
-      document.getElementById("startPic").innerHTML="Your current card:<br>";
-    }
-    flagTr=1;
-
-    timeLast = new Date();
-
+    document.getElementById("startPic").innerHTML="Your current card:<br>";
   }
+  flagTr=1;
+
+  timeLast = new Date();
 }
 function dispPic(){
   document.getElementById("chPic2").style.display="inline";
@@ -242,7 +204,7 @@ function contT(docon){
     document.getElementById("skip").style.display="none";
 
     if (ndS<maxdS){
-      startNavigTask(ndS+1);
+      startNavigTask(ndS+1); // ndS is number of navigation trials
     }else{
       document.getElementsByClassName("navig")[0].style.display="none";
       document.getElementById("conBot").disabled=false;
